@@ -1,9 +1,11 @@
 import './sass/main.scss';
-import TestDialogButton from './capacitor/dialog/TestDialogButton';
+import TestDialog from './capacitor/dialog/TestDialog';
+import TestCamera from './capacitor/camera/TestCamera';
 function App() {
   return (
     <div>
-      <TestDialogButton />
+      <TestDialog />
+      <TestCamera />
     </div>
   );
 }
