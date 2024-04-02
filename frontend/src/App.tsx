@@ -3,6 +3,7 @@ import TestDialog from './capacitor/dialog/TestDialog';
 import TestCamera from './capacitor/camera/TestCamera';
 import TestGeolocation from './capacitor/geolocalisation/testGeoloc';
 import TestNotification from './capacitor/notification/testNotif';
+import TestVibreur from './capacitor/vibration/testVibreur';
 function App() {
   return (
     <div>
@@ -10,6 +11,7 @@ function App() {
       <TestCamera />
       <TestGeolocation />
       <TestNotification />
+      <TestVibreur />
     </div>
   );
 }
