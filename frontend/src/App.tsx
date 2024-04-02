@@ -1,7 +1,10 @@
 import './sass/main.scss';
-
+import TestDialogButton from './capacitor/dialog/TestDialogButton';
 function App() {
-  return <></>;
+  return (
+    <div>
+      <TestDialogButton />
+    </div>
+  );
 }
-
 export default App;
