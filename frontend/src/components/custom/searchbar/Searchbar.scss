@@ -1,0 +1,39 @@
+@import "../../../sass/variables";
+
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    .input-wrapper {
+        display: flex;
+        padding: 12px;
+        height: 40px;
+        align-items: center;
+        gap: 6px;
+        flex: 1 0 0;
+        align-self: stretch;
+        border-radius: 8px;
+        border: 1px solid $color_black_10;
+        background-color: $color_white;
+        color: $color_black_25;
+        font-family: $font;
+        font-size: 12px;
+    }
+    .filter-wrapper {
+        display: flex;
+        width: 40px;
+        height: 40px;
+        padding: 5px 10px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border-radius: 8px;
+        border: 1px solid $color_black_10;
+        background-color: $color_white;
+        svg {
+            color: $color_black_25;
+        }
+    }
+}

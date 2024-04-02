@@ -17,3 +17,14 @@ body {
   font-family: $font;
   font-size: clamp(15px, 0.75vw, 18px);
 }
+
+.page-wrapper {
+  display: flex;
+  padding: 20px;
+  min-height: 100vh;
+  width: 100vw;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  padding-bottom: 80px;
+}
