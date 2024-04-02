@@ -1,11 +1,25 @@
+@import "../../../sass/variables";
+
 .calendrier {
-    .logo-wrapper {
+    .date-wrapper {
         display: flex;
-        justify-content: center;
         align-items: center;
-        align-self: stretch;
-        #calendrier-logo {
-            width: 100px;
+        justify-content: space-between;
+        width: 100%;
+        .date-element {
+            font-weight: 600;
+            padding: 10px 12px;
+            border-radius: 10px;
+            background-color: transparent;
+            color: $color_black_100;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+        }
+        .selected {
+            background-color: $color_blue;
+            color: $color_white;
         }
     }
 }

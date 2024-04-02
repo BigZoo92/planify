@@ -4,12 +4,14 @@
     position: fixed;
     bottom: 0;
     left: 0;
+    z-index: 999;
     display: flex;
     width: 100%;
     background-color: $color_white;
     height: 60px;
     align-items: center;
     border: 1px solid $color_black_25;
+    border-radius: 20px 20px 0 0;
 
     .nav-links {
         display: grid;
@@ -17,43 +19,31 @@
         justify-items: center;
         width: 100%;
         position: relative;
-
         li {
-            position: relative;
-            
+            display: flex;
+            justify-content: center;
+            align-items: center;
             a {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
                 color: $color_black_100;
-
+            }
+            .active {
+                position: relative;
+                color: $color_blue;
                 svg {
                     color: inherit;
                 }
-            }
 
-            .dot {
-                position: absolute;
-                bottom: -10px;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 5px;
-                height: 5px;
-                background-color: $color_blue;
-                border-radius: 50%;
-                display: none;
-            }
-        }
-
-        .active {
-
-            svg {
-                color: $color_blue;
-            }
-
-            .dot {
-                display: block;
+                &:after {
+                    content: "";
+                    position: absolute;
+                    bottom: -5px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 5px;
+                    height: 5px;
+                    background-color: $color_blue;
+                    border-radius: 50%;
+                }
             }
         }
     }
