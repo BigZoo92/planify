@@ -1,5 +1,5 @@
 import { testDialog } from './fonctionDialog';
-const TestDialogButton = () => {
+const TestDialog = () => {
     const handleClick = async () => {
       const result = await testDialog();
       console.log(result);
@@ -8,4 +8,4 @@ const TestDialogButton = () => {
       <button onClick={handleClick}>Tester Dialog</button>
     );
   };
-export default TestDialogButton;
+export default TestDialog;

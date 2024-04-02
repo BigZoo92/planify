@@ -1,4 +1,3 @@
-// fonctionDialog.ts
 import { Dialog } from '@capacitor/dialog';
 export async function testDialog() {
   try {
