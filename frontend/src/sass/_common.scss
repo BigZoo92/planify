@@ -21,10 +21,19 @@ body {
 .page-wrapper {
   display: flex;
   padding: 20px;
-  min-height: 100vh;
+  height: 100vh;
+  overflow-y: scroll;
   width: 100vw;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  padding-bottom: 80px;
+  .logo-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: stretch;
+    #calendrier-logo {
+      width: 100px;
+    }
+  }
 }

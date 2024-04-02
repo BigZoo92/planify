@@ -7,18 +7,24 @@ $color_black_25: rgba(12, 12, 12, 0.25);
 $color_black_10: rgba(12, 12, 12, 0.1);
 $color_white: #FAFAFA;
 $color_blue: #5BC0BE;
+$color_blue_light: #84D2D0;
 $color_yellow: #FFCD2E;
 $color_purple: #8155FF;
 $color_pink: #FB4A5F;
+$color_pink_light: #FC7A89;
 $color_green: #7DAE7A;
-$color_orange: #E5511F;
+$color_orange: #FF7648;
+$color_orange_light: #FF9872;
 
 $font: "Poppins", sans-serif;
 
 :root {
     --color-white: #{$color_white};
     --color-blue: #{$color_blue};
+    --color-blue-light: #{$color_blue_light};
     --color-orange: #{$color_orange};
+    --color-orange-light: #{$color_orange_light};
     --color-green: #{$color_green};
     --color-pink: #{$color_pink};
+    --color-pink-light: #{$color_pink_light};
 }
