@@ -1,23 +1,20 @@
-import { LocalNotifications } from '@capacitor/local-notifications';
+import { PushNotifications } from '@capacitor/push-notifications';
+import { Capacitor } from '@capacitor/core';
 export async function fonctionNotif() {
-  try {
-    await LocalNotifications.requestPermissions();
-    const notification = await LocalNotifications.schedule({
-      notifications: [
-        {
-          title: "Test Notification",
-          body: "This is a test notification.",
-          id: new Date().getTime(),
-          schedule: { at: new Date(Date.now() + 1000) },
-          sound: undefined,
-          attachments: undefined,
-          actionTypeId: "",
-          extra: null
-        }
-      ]
-    });
-    console.log('Notification scheduled', notification);
-  } catch (e) {
-    console.error('Error scheduling notification', e);
+  if (Capacitor.platform !== 'web') {
+    await PushNotifications.requestPermissions();
+    await PushNotifications.register();
+    PushNotifications.addListener('registration', 
+      (token) => console.log('Push registration success, token: ' + token.value)
+    );
+    PushNotifications.addListener('registrationError', 
+      (error) => console.error('Error on registration: ' + error)
+    );
+    PushNotifications.addListener('pushNotificationReceived', 
+      (notification) => console.log('Push received: ' + JSON.stringify(notification))
+    );
+    PushNotifications.addListener('pushNotificationActionPerformed', 
+      (notification) => console.log('Push action performed: ' + JSON.stringify(notification))
+    );
   }
 }
