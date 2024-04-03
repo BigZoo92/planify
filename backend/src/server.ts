@@ -1,6 +1,7 @@
 import express, { Request, Response, Application } from 'express';
 import dotenv from 'dotenv';
-import { scrapeTestPage } from './scraper';
+import { scrapeTestPage } from './routes/scraper';
+import { parseIcsFile } from './routes/parseIcs';
 
 //For env File
 dotenv.config();
@@ -18,6 +19,10 @@ app.get('/scrape', async (req, res) => {
   res.send(test);
 });
 
+app.get('/ics', async (req, res) => {
+  const test = await parseIcsFile();
+  res.send(test);
+});
 app.listen(port, () => {
   console.log(`Server is Fire at http://localhost:${port}`);
 });
