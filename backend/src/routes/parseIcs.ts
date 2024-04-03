@@ -1,14 +1,24 @@
 import ical from 'node-ical';
 import { promises as fs } from 'fs';
 import path from 'path';
+import z from 'zod'
 
-interface CalendarEvent {
-    summary: string;
-    description?: string;
-    start: Date;
-    end?: Date;
-    location?: string;
-}
+const CalendarEventDataSchema = z.object({
+    group: z.string().nullish(),
+    notes: z.string().nullish(),
+    staff: z.string().nullish(),
+    date: z.string().nullish(),
+});
+
+const CalendarEventSchema = z.object({
+    summary: z.string(),
+    data: CalendarEventDataSchema.nullish(),
+    start: z.string(),
+    end: z.string().nullish(),
+    location: z.string().nullish(),
+});
+
+export type CalendarEvent = z.infer<typeof CalendarEventSchema>
 
 export const parseIcsFile = async(): Promise<CalendarEvent[]> => {
     const filePath = path.join(__dirname, '..', 'assets', 'test.ics');
@@ -23,9 +33,11 @@ export const parseIcsFile = async(): Promise<CalendarEvent[]> => {
                 if (event.type === 'VEVENT') {
                     events.push({
                         summary: event.summary,
-                        description: event.description,
-                        start: event.start,
-                        end: event.end,
+                        data: {
+                            notes: event.description
+                        },
+                        start: event.start.toString(),
+                        end: event.end.toString(),
                         location: event.location,
                     });
                 }
