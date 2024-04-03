@@ -1,5 +1,5 @@
 import { Dialog } from '@capacitor/dialog';
-export async function testDialog() {
+export const testDialog = async () => {
   try {
     await Dialog.alert({
       title: 'Test Dialog',
@@ -9,4 +9,4 @@ export async function testDialog() {
   } catch (error) {
     return `Le plugin Dialog a rencontré une erreur: ${error}`;
   }
-}
+};
