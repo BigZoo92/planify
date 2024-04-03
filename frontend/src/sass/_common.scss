@@ -14,8 +14,15 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  font-family: $font;
   font-size: clamp(15px, 0.75vw, 18px);
+}
+
+body, button, input, textarea {
+  font-family: $font;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-title;
 }
 
 .page-wrapper {
@@ -27,14 +34,17 @@ body {
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  .logo-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-self: stretch;
-    #calendrier-logo {
-      width: 100px;
-    }
+  padding-bottom: 76px;
+  background-color: $color_white_100;
+}
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: stretch;
+  #calendrier-logo {
+    width: 100px;
   }
 }
 

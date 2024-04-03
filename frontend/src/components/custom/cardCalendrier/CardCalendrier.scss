@@ -1,6 +1,6 @@
 @import "../../../sass/variables";
 
-.calendar-wrapper {
+.card-wrapper {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -36,13 +36,11 @@
             gap: 12px;
             height: 100%;
             border-right: 0.5px solid;
-            color: $color_white;
+            color: $color_white_100;
             hr {
-                width: 1px;
                 height: 50px;
-                background-color: $color_white;
                 margin: 0;
-                border: none;
+                border: 0.5px solid $color_white_25;
             }
         }
         .card-description {
@@ -56,7 +54,7 @@
             align-self: stretch;
             z-index: 1;
             text-wrap: balance;
-            color: $color_white;
+            color: $color_white_100;
             h2 {
                 font-family: $font;
                 font-size: 14px;
@@ -78,6 +76,12 @@
                     font-weight: 500;
                 }
             }
+            .card-bottom-texte {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                align-self: stretch;
+            }
             .card-bottom {
                 display: flex;
                 flex-direction: column;
@@ -87,13 +91,7 @@
                 hr {
                     width: 100%;
                     margin: 0;
-                    border: 0.5px solid $color_white;
-                }
-                .card-bottom-texte {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: flex-start;
-                    align-self: stretch;
+                    border: 0.5px solid $color_white_25;
                 }
             }
         }

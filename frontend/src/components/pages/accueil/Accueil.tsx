@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import LogoPlanify from '../../../assets/icons/logo/svg/logo-planify-white.svg';
-import Image from '../../../assets/images/element/image.svg';
-import CalendarCard from '../../custom/cardCalendrier/CardCalendrier';
-import './Accueil.scss';
+import React, { useState, useEffect } from "react";
+import CalendarCard from "../../custom/cardCalendrier/CardCalendrier";
+import "./Accueil.scss";
+import SearchBar from "../../custom/searchbar/Searchbar";
 
 interface AccueilProps {
     coursFictifs: Array<{
@@ -19,54 +18,86 @@ interface AccueilProps {
 }
 
 const Accueil: React.FC<AccueilProps> = ({ coursFictifs }) => {
-    const [prochainCours, setProchainCours] = useState(null);
+    const [prochainsCours, setProchainsCours] = useState([]);
 
     useEffect(() => {
         const maintenant = new Date();
-        const coursProches = coursFictifs
+        const demain = new Date();
+        demain.setDate(maintenant.getDate() + 1);
+        demain.setHours(0, 0, 0, 0);
+
+        const coursDuLendemain = coursFictifs
             .map((cours) => ({
                 ...cours,
                 dateCours: new Date(`${cours.date}T${cours.starttime}`),
             }))
-            .filter((cours) => cours.dateCours > maintenant)
+            .filter((cours) => {
+                const debutJourneeDemain = demain.getTime();
+                const finJourneeDemain = debutJourneeDemain + 86400000;
+                return (
+                    cours.dateCours.getTime() >= debutJourneeDemain &&
+                    cours.dateCours.getTime() < finJourneeDemain
+                );
+            })
             .sort((a, b) => a.dateCours.getTime() - b.dateCours.getTime());
 
-        if (coursProches.length > 0) {
-            setProchainCours(coursProches[0]);
-        }
+        setProchainsCours(coursDuLendemain);
     }, [coursFictifs]);
+
+    const dateActuelle = new Date();
+    const optionsJour = { weekday: "long" };
+    const nomDuJour = dateActuelle.toLocaleDateString("fr-FR", optionsJour);
+    const optionsDate = { day: "2-digit", month: "long" };
+    const dateDuJour = dateActuelle.toLocaleDateString("fr-FR", optionsDate);
+
     return (
         <div className="page-wrapper accueil">
-            <div className="logo-wrapper">
-                <img
-                    id="calendrier-logo"
-                    src={LogoPlanify}
-                    alt="Logo Planify"
-                />
-            </div>
-            <div className="accueil-header-wrapper">
-                <img src={Image} alt="" />
-            </div>
             <div className="accueil-content-wrapper">
-                <h2>Prochains cours</h2>
+                <h1 className="accueil-date">{dateDuJour}</h1>
+                <h2 className="accueil-date-nom">
+                    {nomDuJour.charAt(0).toUpperCase() + nomDuJour.slice(1)}
+                </h2>
+                <div className="meteo-wrapper">
+                    <div className="meteo-infos">
+                        <h2>Météo</h2>
+                        <span>16 °C</span>
+                        <div className="meteo-location">
+                            <h3>Localisation</h3>
+                            <p>Vélizy Villacoublay</p>
+                        </div>
+                    </div>
+                    <div className="meteo-soleil">
+                        <div className="meteo-content">
+                            <h3>Lever du soleil</h3>
+                            <p>05:48</p>
+                        </div>
+                        <div className="meteo-content">
+                            <h3>Coucher du soleil</h3>
+                            <p>19:59</p>
+                        </div>
+                    </div>
+                </div>
+                <SearchBar />
+                <h2>Prochains évènements</h2>
                 <div className="accueil-prochain-wrapper">
-                    {prochainCours ? (
-                        <CalendarCard
-                            key={prochainCours.id}
-                            group={prochainCours.group}
-                            subject={prochainCours.subject}
-                            staff={prochainCours.staff}
-                            classroom={prochainCours.classroom}
-                            date={prochainCours.date}
-                            notes={prochainCours.notes}
-                            starttime={prochainCours.starttime}
-                            endtime={prochainCours.endtime}
-                        />
+                    {prochainsCours.length > 0 ? (
+                        prochainsCours.map((cours) => (
+                            <CalendarCard
+                                key={cours.id}
+                                group={cours.group}
+                                subject={cours.subject}
+                                staff={cours.staff}
+                                classroom={cours.classroom}
+                                date={cours.date}
+                                notes={cours.notes}
+                                starttime={cours.starttime}
+                                endtime={cours.endtime}
+                            />
+                        ))
                     ) : (
-                        <p>Aucun cours à venir.</p>
+                        <p className="cours-absent">Aucun cours à venir.</p>
                     )}
                 </div>
-                <h2>Prochain évènement</h2>
             </div>
         </div>
     );
