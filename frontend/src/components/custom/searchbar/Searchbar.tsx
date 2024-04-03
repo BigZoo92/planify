@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
+import { Sliders } from '@phosphor-icons/react';
 import './SearchBar.scss';
 
 interface SearchBarProps {
@@ -22,21 +23,17 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     };
 
     return (
-        <TextField
-            variant="outlined"
-            value={searchTerm}
-            onChange={handleChange}
-            onKeyPress={handleKeyPress}
-            placeholder="Rechercher..."
-            InputProps={{
-                startAdornment: (
-                    <InputAdornment position="start">
-                        <SearchIcon />
-                    </InputAdornment>
-                ),
-            }}
-            fullWidth
-        />
+        <div className="search-wrapper">
+            {/* <SearchBar onSearch={handleSearch} /> */}
+            <input
+                type="text"
+                placeholder="Rechercher..."
+                className="input-wrapper"
+            />
+            <div className="filter-wrapper">
+                <Sliders size={20} color="currentColor" />
+            </div>
+        </div>
     );
 };
 

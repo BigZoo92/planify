@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import LogoPlanify from '../../../assets/icons/logo/svg/logo-planify-black.svg';
-import { Sliders } from '@phosphor-icons/react';
 import CalendarCard from '../../custom/cardCalendrier/CardCalendrier';
 import './Calendrier.scss';
 import '../../custom/searchbar/Searchbar.scss';
+import SearchBar from '../../custom/searchbar/Searchbar';
 
 interface CalendrierProps {
     coursFictifs: Array<{
@@ -75,31 +75,23 @@ const Calendrier: React.FC<CalendrierProps> = ({ coursFictifs }) => {
                     alt="Logo Planify"
                 />
             </div>
-            <div className="search-wrapper">
-                {/* <SearchBar onSearch={handleSearch} /> */}
-                <input
-                    type="text"
-                    placeholder="Rechercher..."
-                    className="input-wrapper"
-                />
-                <div className="filter-wrapper">
-                    <Sliders size={20} color="currentColor" />
-                </div>
-            </div>
+            <SearchBar />
             <div className="date-wrapper">{renderDateElements()}</div>
-            {filtreCours.map((course) => (
-                <CalendarCard
-                    key={course.id}
-                    group={course.group}
-                    subject={course.subject}
-                    staff={course.staff}
-                    classroom={course.classroom}
-                    date={course.date}
-                    notes={course.notes}
-                    starttime={course.starttime}
-                    endtime={course.endtime}
-                />
-            ))}
+            <div className="calendar-wrapper">
+                {filtreCours.map((course) => (
+                    <CalendarCard
+                        key={course.id}
+                        group={course.group}
+                        subject={course.subject}
+                        staff={course.staff}
+                        classroom={course.classroom}
+                        date={course.date}
+                        notes={course.notes}
+                        starttime={course.starttime}
+                        endtime={course.endtime}
+                    />
+                ))}
+            </div>
         </div>
     );
 };

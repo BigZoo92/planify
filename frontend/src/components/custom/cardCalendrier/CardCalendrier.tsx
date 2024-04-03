@@ -1,7 +1,7 @@
-import React from 'react';
-import './CardCalendrier.scss';
-import Element from '../../../assets/images/element/element.svg';
-import { UsersThree, MapPin, Briefcase } from '@phosphor-icons/react';
+import React from "react";
+import "./CardCalendrier.scss";
+import Element from "../../../assets/images/element/element.svg";
+import { UsersThree, MapPin, Student } from "@phosphor-icons/react";
 
 interface CalendarCardProps {
     group: string;
@@ -16,27 +16,27 @@ interface CalendarCardProps {
 
 const getColor = (subject: string): string => {
     switch (subject) {
-        case 'Portfolio CN':
-            return 'var(--color-blue)';
-        case 'Dév web DWA':
-            return 'var(--color-orange)';
-        case 'Prod. disp. inter. DWA':
-            return 'var(--color-pink)';
+        case "Dispositifs inter DWA":
+            return "var(--color-blue)";
+        case "Dév web DWA":
+            return "var(--color-orange)";
+        case "Prod. disp. inter. DWA":
+            return "var(--color-pink)";
         default:
-            return 'var(--color-white)';
+            return "var(--color-black-25)";
     }
 };
 
 const getAdjustedColor = (subject: string): string => {
     switch (subject) {
-        case 'Portfolio CN':
-            return 'var(--color-blue-light)';
-        case 'Dév web DWA':
-            return 'var(--color-orange-light)';
-        case 'Prod. disp. inter. DWA':
-            return 'var(--color-pink-light)';
+        case "Dispositifs inter DWA":
+            return "var(--color-blue-light)";
+        case "Dév web DWA":
+            return "var(--color-orange-light)";
+        case "Prod. disp. inter. DWA":
+            return "var(--color-pink-light)";
         default:
-            return 'var(--color-white)';
+            return "var(--color-black-25)";
     }
 };
 
@@ -74,27 +74,27 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
         );
 
         const options: Intl.DateTimeFormatOptions = {
-            day: 'numeric',
-            month: 'numeric',
+            day: "numeric",
+            month: "numeric",
         };
-        const formattedDate = courseDay.toLocaleDateString('fr-FR', options);
+        const formattedDate = courseDay.toLocaleDateString("fr-FR", options);
 
         if (courseDay.valueOf() === today.valueOf()) {
             return "Aujourd'hui";
         } else if (courseDay.valueOf() === tomorrow.valueOf()) {
-            return 'Demain';
+            return "Demain";
         } else if (courseDay.valueOf() === nextWeek.valueOf()) {
-            return 'Lundi prochain';
+            return "Lundi prochain";
         } else {
             return formattedDate;
         }
     };
 
     return (
-        <div className="calendar-wrapper">
-            <div className="card-date">
+        <div className="card-wrapper">
+            {/* <div className="card-date">
                 <span>{getReadableDate(date)}</span>
-            </div>
+            </div> */}
             <div className="card-cours" style={{ backgroundColor: setColor }}>
                 <svg
                     width="103"
@@ -121,8 +121,12 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
                 </div>
                 <div className="card-description">
                     <h2 className="card-titre">{subject}</h2>
-                    {notes && <p className="notes">{notes}</p>}
+                    {notes && <p className="notes">Remarques : {notes}</p>}
                     <div className="card-bottom">
+                        <div className="card-texte-wrapper">
+                            <Student size={15} color="currentColor" />
+                            <p>{staff}</p>
+                        </div>
                         <hr />
                         <div className="card-bottom-texte">
                             <div className="card-texte-wrapper">
@@ -130,8 +134,15 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
                                 <p>{group}</p>
                             </div>
                             <div className="card-texte-wrapper">
-                                <MapPin size={15} color="currentColor" />
-                                <p>{classroom}</p>
+                                {classroom && (
+                                    <>
+                                        <MapPin
+                                            size={15}
+                                            color="currentColor"
+                                        />
+                                        <p>{classroom}</p>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>
