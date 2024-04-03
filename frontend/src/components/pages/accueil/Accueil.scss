@@ -21,9 +21,21 @@
         border-radius: 20px 20px 0 0;
         background-color: $color_white;
         padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
         h2 {
             font-size: 24px;
             font-weight: bold;
+        }
+        .accueil-prochain-wrapper {
+            p {
+                background-color: $color_black_10;
+                padding: 8px;
+                border-radius: 8px;
+                border: 1px solid $color_black_25;
+                text-align: center;
+            }
         }
     }
 }

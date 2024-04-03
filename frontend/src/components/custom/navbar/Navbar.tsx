@@ -2,7 +2,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import './Navbar.scss';
-import { Calendar, House, User } from '@phosphor-icons/react';
+import { Calendar, House, User, Plus } from '@phosphor-icons/react';
 
 interface NavbarProps {
     // Props si nécessaire
@@ -18,13 +18,13 @@ const Navbar: React.FC<NavbarProps> = () => {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/test" className={({ isActive }) => isActive ? 'active' : ''}>
-                        <User size={24} />
+                    <NavLink to="/calendrier" className={({ isActive }) => isActive ? 'active' : ''}>
+                        <Calendar size={24} />
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/calendrier" className={({ isActive }) => isActive ? 'active' : ''}>
-                        <Calendar size={24} />
+                    <NavLink to="/new" className="plus-item">
+                        <Plus size={24} />
                     </NavLink>
                 </li>
                 <li>

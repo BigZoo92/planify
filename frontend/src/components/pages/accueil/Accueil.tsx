@@ -49,21 +49,24 @@ const Accueil: React.FC<AccueilProps> = ({ coursFictifs }) => {
             </div>
             <div className="accueil-content-wrapper">
                 <h2>Prochains cours</h2>
-                {prochainCours ? (
-                    <CalendarCard
-                        key={prochainCours.id}
-                        group={prochainCours.group}
-                        subject={prochainCours.subject}
-                        staff={prochainCours.staff}
-                        classroom={prochainCours.classroom}
-                        date={prochainCours.date}
-                        notes={prochainCours.notes}
-                        starttime={prochainCours.starttime}
-                        endtime={prochainCours.endtime}
-                    />
-                ) : (
-                    <p>Aucun cours à venir.</p>
-                )}
+                <div className="accueil-prochain-wrapper">
+                    {prochainCours ? (
+                        <CalendarCard
+                            key={prochainCours.id}
+                            group={prochainCours.group}
+                            subject={prochainCours.subject}
+                            staff={prochainCours.staff}
+                            classroom={prochainCours.classroom}
+                            date={prochainCours.date}
+                            notes={prochainCours.notes}
+                            starttime={prochainCours.starttime}
+                            endtime={prochainCours.endtime}
+                        />
+                    ) : (
+                        <p>Aucun cours à venir.</p>
+                    )}
+                </div>
+                <h2>Prochain évènement</h2>
             </div>
         </div>
     );
