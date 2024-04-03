@@ -37,3 +37,39 @@ body {
     }
   }
 }
+
+.form-wrapper {
+  width: 100%;
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    .form-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 16px;
+      label {
+        font-weight: bold;
+      }
+      input {
+        padding: 8px 12px;
+        border: 1px solid $color_black_25;
+        border-radius: 8px;
+      }
+    }
+    input[type="submit"] {
+      background-color: $color_blue;
+      display: flex;
+      padding: 20px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      align-self: stretch;
+      border-radius: 8px;
+      border: none;
+      font-family: $font;
+    }
+  }
+}
