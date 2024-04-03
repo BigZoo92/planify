@@ -1,5 +1,5 @@
 import { Camera, CameraResultType } from '@capacitor/camera';
-export async function testCamera() {
+export const testCamera = async () => {
   try {
     const image = await Camera.getPhoto({
       quality: 90,
@@ -10,4 +10,4 @@ export async function testCamera() {
   } catch (error) {
     return `Le plugin Camera a rencontré une erreur: ${error}`;
   }
-}
+};
