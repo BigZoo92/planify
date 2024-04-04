@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./sass/main.scss";
 
-import Accueil from "./components/pages/accueil/Accueil";
-import Calendrier from "./components/pages/calendrier/Calendrier";
-import Evenement from "./components/pages/evenement/Evenement";
-import Navbar from "./components/custom/navbar/Navbar";
-import Menu from "./components/custom/menu/Menu";
-import Agenda from "./components/pages/agenda/Agenda";
+import Accueil from "./pages/Accueil/Accueil";
+import Calendrier from "./pages/Calendrier/Calendrier";
+import Evenement from "./pages/Evenement/Evenement";
+import Navbar from "./components/Navbar/Navbar";
+import Menu from "./components/Menu/Menu";
+import Agenda from "./pages/Agenda/Agenda";
 
 const App: React.FC = () => {
-    const [coursFictifs] = useState([
+    const [coursFictifs, setCoursFictifs] = useState([
         {
             id: 1,
             group: "MMI3-FA-CN; MMI3-FA-DW",
@@ -118,6 +118,146 @@ const App: React.FC = () => {
             starttime: "13:00",
             endtime: "16:00",
         },
+        {
+            id: 11,
+            group: "MMI3-FA-DW",
+            subject: "Prod. disp. inter. DWA",
+            staff: "Ben Amor Soufian",
+            classroom: "I03",
+            date: "2024-04-22",
+            starttime: "09:00",
+            endtime: "12:00",
+        },
+        {
+            id: 12,
+            group: "MMI3-FA-DW",
+            subject: "Prod. disp. inter. DWA",
+            staff: "Ben Amor Soufian",
+            classroom: "I03",
+            date: "2024-04-22",
+            starttime: "13:00",
+            endtime: "18:00",
+        },
+        {
+            id: 13,
+            group: "MMI3-FA-DW",
+            subject: "Prod. disp. inter. DWA",
+            staff: "Ben Amor Soufian",
+            classroom: "I03",
+            date: "2024-04-23",
+            starttime: "09:00",
+            endtime: "12:00",
+        },
+        {
+            id: 14,
+            group: "MMI3-FA-DW",
+            subject: "Prod. disp. inter. DWA",
+            staff: "Ben Amor Soufian",
+            classroom: "I03",
+            date: "2024-04-23",
+            starttime: "13:00",
+            endtime: "17:00",
+        },
+        {
+            id: 15,
+            group: "MMI3-FA-DW",
+            subject: "Dispositifs inter DWA",
+            staff: "Verdier Colin",
+            classroom: "E58",
+            date: "2024-04-24",
+            starttime: "09:00",
+            endtime: "10:00",
+        },
+        {
+            id: 16,
+            group: "MMI3-FA-DW",
+            subject: "Dispositifs inter DWA",
+            staff: "Verdier Colin",
+            classroom: "E58",
+            date: "2024-04-24",
+            starttime: "10:00",
+            endtime: "12:00",
+        },
+        {
+            id: 17,
+            group: "MMI3-FA-DW",
+            subject: "Dispositifs inter DWA",
+            staff: "Verdier Colin",
+            classroom: "E58",
+            date: "2024-04-24",
+            starttime: "13:30",
+            endtime: "16:00",
+        },
+        {
+            id: 18,
+            group: "MMI3-FA-DW",
+            subject: "Entrepreneuriat",
+            staff: "Legrand Patrick",
+            classroom: "510",
+            date: "2024-04-24",
+            starttime: "13:30",
+            endtime: "16:00",
+        },
+        {
+            id: 19,
+            group: "MMI3-FA-DW",
+            subject: "Dispositifs inter DWA",
+            staff: "Verdier Colin",
+            classroom: "E58",
+            date: "2024-04-25",
+            starttime: "09:00",
+            endtime: "10:00",
+        },
+        {
+            id: 20,
+            group: "MMI3-FA-DW",
+            subject: "Dispositifs inter DWA",
+            staff: "Verdier Colin",
+            classroom: "E58",
+            date: "2024-04-25",
+            starttime: "10:00",
+            endtime: "12:00",
+        },
+        {
+            id: 21,
+            group: "MMI3-FA-DW",
+            subject: "Dispositifs inter DWA",
+            staff: "Verdier Colin",
+            classroom: "E58",
+            date: "2024-04-25",
+            starttime: "13:00",
+            endtime: "15:00",
+        },
+        {
+            id: 22,
+            group: "MMI3-FA-DW",
+            subject: "Dispositifs inter DWA",
+            staff: "Verdier Colin",
+            classroom: "E58",
+            date: "2024-04-25",
+            starttime: "15:00",
+            endtime: "17:00",
+        },
+        {
+            id: 23,
+            group: "MMI3-FA-DW",
+            subject: "Prod. disp. inter. DWA",
+            staff: "Verdier Colin",
+            classroom: "E58",
+            date: "2024-04-26",
+            starttime: "09:00",
+            endtime: "12:00",
+        },
+        {
+            id: 24,
+            group: "MMI3-FA-DW",
+            subject: "Prod. disp. inter. DWA",
+            staff: "Verdier Colin",
+            classroom: "E58",
+            date: "2024-04-26",
+            starttime: "13:00",
+            endtime: "17:00",
+        },
     ]);
 
     return (
@@ -134,7 +274,10 @@ const App: React.FC = () => {
                     element={<Calendrier coursFictifs={coursFictifs} />}
                 />
                 <Route path="/new" element={<Evenement />} />
-                <Route path="/agenda" element={<Agenda coursFictifs={coursFictifs} />} />
+                <Route
+                    path="/agenda"
+                    element={<Agenda coursFictifs={coursFictifs} />}
+                />
             </Routes>
         </Router>
     );

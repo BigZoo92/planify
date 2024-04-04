@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import CalendarCard from "../../custom/cardCalendrier/CardCalendrier";
+import CalendarCard from "../../components/CardCalendrier/CardCalendrier";
 import "./Accueil.scss";
-import SearchBar from "../../custom/searchbar/Searchbar";
+import SearchBar from "../../components/SearchBar/Searchbar";
 
 interface AccueilProps {
     coursFictifs: Array<{
@@ -18,30 +18,29 @@ interface AccueilProps {
 }
 
 const Accueil: React.FC<AccueilProps> = ({ coursFictifs }) => {
-    const [prochainsCours, setProchainsCours] = useState([]);
+    const [coursAffiches, setCoursAffiches] = useState([]);
 
     useEffect(() => {
         const maintenant = new Date();
-        const demain = new Date();
-        demain.setDate(maintenant.getDate() + 1);
-        demain.setHours(0, 0, 0, 0);
+        maintenant.setHours(0, 0, 0, 0);
 
-        const coursDuLendemain = coursFictifs
+        const coursAujourdhuiEtApres = coursFictifs
             .map((cours) => ({
                 ...cours,
                 dateCours: new Date(`${cours.date}T${cours.starttime}`),
             }))
-            .filter((cours) => {
-                const debutJourneeDemain = demain.getTime();
-                const finJourneeDemain = debutJourneeDemain + 86400000;
-                return (
-                    cours.dateCours.getTime() >= debutJourneeDemain &&
-                    cours.dateCours.getTime() < finJourneeDemain
-                );
-            })
+            .filter((cours) => cours.dateCours >= maintenant)
             .sort((a, b) => a.dateCours.getTime() - b.dateCours.getTime());
 
-        setProchainsCours(coursDuLendemain);
+        const coursDuJour = coursAujourdhuiEtApres.filter((cours) => {
+            const finJournee = new Date(maintenant);
+            finJournee.setDate(finJournee.getDate() + 1);
+            return cours.dateCours < finJournee;
+        });
+
+        setCoursAffiches(
+            coursDuJour.length > 0 ? coursDuJour : [coursAujourdhuiEtApres[0]]
+        );
     }, [coursFictifs]);
 
     const dateActuelle = new Date();
@@ -60,7 +59,7 @@ const Accueil: React.FC<AccueilProps> = ({ coursFictifs }) => {
                 <div className="meteo-wrapper">
                     <div className="meteo-infos">
                         <h2>Météo</h2>
-                        <span>16 °C</span>
+                        <span>15 °C</span>
                         <div className="meteo-location">
                             <h3>Localisation</h3>
                             <p>Vélizy Villacoublay</p>
@@ -69,19 +68,19 @@ const Accueil: React.FC<AccueilProps> = ({ coursFictifs }) => {
                     <div className="meteo-soleil">
                         <div className="meteo-content">
                             <h3>Lever du soleil</h3>
-                            <p>05:48</p>
+                            <p>07:19</p>
                         </div>
                         <div className="meteo-content">
                             <h3>Coucher du soleil</h3>
-                            <p>19:59</p>
+                            <p>20:26</p>
                         </div>
                     </div>
                 </div>
                 <SearchBar />
                 <h2>Prochains évènements</h2>
-                <div className="accueil-prochain-wrapper">
-                    {prochainsCours.length > 0 ? (
-                        prochainsCours.map((cours) => (
+                <div className="calendar-wrapper">
+                    {coursAffiches.length > 0 ? (
+                        coursAffiches.map((cours) => (
                             <CalendarCard
                                 key={cours.id}
                                 group={cours.group}

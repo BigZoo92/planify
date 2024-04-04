@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import LogoPlanify from '../../../assets/icons/logo/svg/logo-planify-black.svg';
-import CalendarCard from '../../custom/cardCalendrier/CardCalendrier';
-import './Calendrier.scss';
-import '../../custom/searchbar/Searchbar.scss';
-import SearchBar from '../../custom/searchbar/Searchbar';
+import React, { useState } from "react";
+import LogoPlanify from "../../assets/icons/logo/svg/logo-planify-black.svg";
+import CalendarCard from "../../components/CardCalendrier/CardCalendrier";
+import "./Calendrier.scss";
+import "../../components/SearchBar/Searchbar.scss";
+import SearchBar from "../../components/SearchBar/Searchbar";
 
 interface CalendrierProps {
     coursFictifs: Array<{
@@ -21,7 +21,7 @@ interface CalendrierProps {
 
 const Calendrier: React.FC<CalendrierProps> = ({ coursFictifs }) => {
     const [selectedDate, setSelectedDate] = useState(
-        new Date().toISOString().split('T')[0]
+        new Date().toISOString().split("T")[0]
     );
 
     const onClickDateCours = (date) => {
@@ -34,24 +34,24 @@ const Calendrier: React.FC<CalendrierProps> = ({ coursFictifs }) => {
 
     const renderDateElements = () => {
         const dates = [
-            '2024-04-01',
-            '2024-04-02',
-            '2024-04-03',
-            '2024-04-04',
-            '2024-04-05',
-            '2024-04-06',
-            '2024-04-07',
+            "2024-04-01",
+            "2024-04-02",
+            "2024-04-03",
+            "2024-04-04",
+            "2024-04-05",
+            "2024-04-06",
+            "2024-04-07",
         ];
 
-        const today = new Date().toISOString().split('T')[0];
+        const today = new Date().toISOString().split("T")[0];
 
         return dates.map((date) => {
-            const numeroJour = new Date(date).toLocaleDateString('fr-FR', {
-                weekday: 'short',
+            const numeroJour = new Date(date).toLocaleDateString("fr-FR", {
+                weekday: "short",
             });
             const lettreJour = numeroJour.charAt(0).toUpperCase();
 
-            const dateClass = `date-element ${date === selectedDate ? 'selected' : ''} ${date === today ? 'today' : ''}`;
+            const dateClass = `date-element ${date === selectedDate ? "selected" : ""} ${date === today ? "today" : ""}`;
 
             return (
                 <div
@@ -68,7 +68,7 @@ const Calendrier: React.FC<CalendrierProps> = ({ coursFictifs }) => {
 
     return (
         <div className="page-wrapper calendrier">
-            <div className="logo-wrapper">
+            <div className="logo-wrapper absolute">
                 <img
                     id="calendrier-logo"
                     src={LogoPlanify}

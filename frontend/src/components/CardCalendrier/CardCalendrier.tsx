@@ -1,6 +1,5 @@
 import React from "react";
 import "./CardCalendrier.scss";
-import Element from "../../../assets/images/element/element.svg";
 import { UsersThree, MapPin, Student } from "@phosphor-icons/react";
 
 interface CalendarCardProps {
@@ -90,8 +89,30 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
         }
     };
 
+    const courseStatus = () => {
+        const now = new Date();
+        const startDate = new Date(`${date} ${starttime}`);
+        const endDate = new Date(`${date} ${endtime}`);
+
+        if (now < startDate) {
+            const diff = startDate.getTime() - now.getTime();
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            return {
+                text: `${hours}h ${minutes}min`,
+                className: "apres",
+            };
+        } else if (now >= startDate && now <= endDate) {
+            return { text: "En cours", className: "en-cours" };
+        } else {
+            return { text: "Passé", className: "passe" };
+        }
+    };
+
+    const status = courseStatus();
+
     return (
-        <div className="card-wrapper">
+        <div className="card-wrapper-element">
             {/* <div className="card-date">
                 <span>{getReadableDate(date)}</span>
             </div> */}
@@ -120,8 +141,11 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
                     <span>{endtime}</span>
                 </div>
                 <div className="card-description">
-                    <h2 className="card-titre">{subject}</h2>
-                    {notes && <p className="notes">Remarques : {notes}</p>}
+                    <div className="card-header">
+                        <h2 className="card-titre">{subject}</h2>
+                        <span className={status.className}>{status.text}</span>
+                    </div>
+                    {notes && <p className="notes">{notes}</p>}
                     <div className="card-bottom">
                         <div className="card-texte-wrapper">
                             <Student size={15} color="currentColor" />

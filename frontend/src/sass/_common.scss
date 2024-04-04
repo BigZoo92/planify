@@ -17,18 +17,26 @@ body {
   font-size: clamp(15px, 0.75vw, 18px);
 }
 
-body, button, input, textarea {
+body,
+button,
+input,
+textarea {
   font-family: $font;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: $font-title;
 }
 
 .page-wrapper {
   display: flex;
   padding: 20px;
-  height: 100vh;
+  min-height: 100vh;
   overflow-y: scroll;
   width: 100vw;
   flex-direction: column;
@@ -47,6 +55,10 @@ h1, h2, h3, h4, h5, h6 {
     width: 100px;
   }
 }
+
+  .absolute {
+    justify-content: flex-start;
+  }
 
 .form-wrapper {
   width: 100%;

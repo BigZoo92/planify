@@ -10,7 +10,8 @@ import {
     parseISO,
 } from "date-fns";
 import { fr } from "date-fns/locale";
-import CardCalendrier from "../../custom/cardCalendrier/CardCalendrier";
+import LogoPlanify from "../../assets/icons/logo/svg/logo-planify-black.svg";
+import CardCalendrier from "../../components/CardCalendrier/CardCalendrier";
 import "./Agenda.scss";
 
 interface Cours {
@@ -32,7 +33,7 @@ interface AgendaProps {
 const Agenda: React.FC<AgendaProps> = ({ coursFictifs }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [activeIndex, setActiveIndex] = useState(1);
-    const [selectedDay, setSelectedDay] = useState<Date | null>(null);
+    const [selectedDay, setSelectedDay] = useState<Date>(new Date());
 
     useEffect(() => {
         if (reactSwipeEl) {
@@ -66,10 +67,14 @@ const Agenda: React.FC<AgendaProps> = ({ coursFictifs }) => {
                             isSameDay(day, parseISO(cours.date))
                         );
                         const isToday = isSameDay(day, today);
+                        const isSelected = isSameDay(day, selectedDay);
+                        const shouldHighlightToday =
+                            isToday &&
+                            (isSelected || isSameDay(selectedDay, today));
                         return (
                             <div
                                 key={day.toString()}
-                                className={`day ${isToday ? "today" : ""} ${dayHasCourse ? "has-course" : ""}`}
+                                className={`day ${shouldHighlightToday ? "today" : ""} ${isSelected && !isToday ? "selected-day" : ""} ${dayHasCourse ? "has-course" : ""}`}
                                 onClick={() => setSelectedDay(day)}
                             >
                                 {format(day, "d", { locale: fr })}
@@ -82,14 +87,19 @@ const Agenda: React.FC<AgendaProps> = ({ coursFictifs }) => {
         );
     };
 
-    const coursesForSelectedDay = selectedDay
-        ? coursFictifs.filter((cours) =>
-              isSameDay(selectedDay, parseISO(cours.date))
-          )
-        : [];
+    const coursesForSelectedDay = coursFictifs.filter((cours) =>
+        isSameDay(selectedDay, parseISO(cours.date))
+    );
 
     return (
         <div className="page-wrapper agenda">
+            <div className="logo-wrapper absolute">
+                <img
+                    id="calendrier-logo"
+                    src={LogoPlanify}
+                    alt="Logo Planify"
+                />
+            </div>
             <ReactSwipe
                 swipeOptions={{
                     continuous: false,
@@ -102,8 +112,8 @@ const Agenda: React.FC<AgendaProps> = ({ coursFictifs }) => {
                 <div>{renderCalendarForMonth(currentMonth)}</div>
                 <div>{renderCalendarForMonth(addMonths(currentMonth, 1))}</div>
             </ReactSwipe>
-            {coursesForSelectedDay.length > 0 && (
-                <div className="card-wrapper">
+            {coursesForSelectedDay.length > 0 ? (
+                <div className="calendar-wrapper">
                     {coursesForSelectedDay.map((cours) => (
                         <CardCalendrier
                             key={cours.id}
@@ -117,6 +127,10 @@ const Agenda: React.FC<AgendaProps> = ({ coursFictifs }) => {
                             endtime={cours.endtime}
                         />
                     ))}
+                </div>
+            ) : (
+                <div className="no-courses-message">
+                    Aucun cours pour ce jour.
                 </div>
             )}
         </div>
