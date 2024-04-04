@@ -38,3 +38,5 @@ export const fonctionNotif = async () => {
 export const initNotificationSetup = () => {
   fonctionNotif().catch(error => console.error('Error in notification setup:', error));
 };
+
+// faire avec firebase, voir avec Noé
