@@ -1,0 +1,119 @@
+@import "../../sass/variables";
+
+// .navbar {
+//     position: fixed;
+//     bottom: 15px;
+//     left: 15px;
+//     z-index: 999;
+//     display: flex;
+//     width: calc(100% - 30px);
+//     background-color: $color_white_100;
+//     height: 60px;
+//     align-items: center;
+//     border: 1px solid $color_black_25;
+//     border-radius: 20px;
+
+//     .nav-links {
+//         display: grid;
+//         grid-template-columns: repeat(5, 1fr);
+//         justify-items: center;
+//         width: 100%;
+//         position: relative;
+//         li {
+//             display: flex;
+//             justify-content: center;
+//             align-items: center;
+//             a {
+//                 color: $color_black_100;
+//             }
+//             .active {
+//                 position: relative;
+//                 color: $color_blue;
+//                 svg {
+//                     color: inherit;
+//                 }
+
+//                 &:after {
+//                     content: "";
+//                     position: absolute;
+//                     bottom: -5px;
+//                     left: 50%;
+//                     transform: translateX(-50%);
+//                     width: 5px;
+//                     height: 5px;
+//                     background-color: $color_blue;
+//                     border-radius: 50%;
+//                 }
+//             }
+//             .plus-item {
+//                 background-color: $color_blue;
+//                 border-radius: 50%;
+//                 width: 40px;
+//                 height: 40px;
+//                 color: $color_white_100;
+//                 display: flex;
+//                 justify-content: center;
+//                 align-items: center;
+//             }
+//         }
+//     }
+// }
+
+.navbar {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    width: fit-content;
+
+    .nav-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .btn-event {
+                color: $color_white_100;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+                background-color: $color_black_100;
+                padding: 8px 8px 8px 12px;
+                border-radius: 12px;
+                height: 45px;
+                span {
+                    text-wrap: nowrap;
+                    font-weight: 500;
+                }
+                .svg-link {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: $color_white_100;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    svg {
+                        color: $color_black_100;
+                    }
+                }
+            }
+            .link-event {
+                color: $color_white_100;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+                background-color: $color_black_100;
+                border-radius: 12px;
+                height: 45px;
+                width: 45px;
+            }
+        }
+    }
+}
