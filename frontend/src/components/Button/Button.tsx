@@ -1,9 +1,9 @@
-import React from 'react';
-import './_Button.scss';
+import React from "react";
+import "./Button.scss";
 
 interface ButtonProps {
     children: React.ReactNode;
-    variant: 'main' | 'secondary';
+    variant: "main" | "secondary";
     onClick?: () => void;
 }
 

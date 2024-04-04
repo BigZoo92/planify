@@ -15,6 +15,8 @@ module.exports = {
     'prettier' // Active le plugin Prettier
   ],
   rules: {
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     'prettier/prettier': [
       'error',
       {
