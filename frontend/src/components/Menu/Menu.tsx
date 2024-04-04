@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import LogoPlanify from "../../../assets/icons/logo/svg/logo-planify-black.svg";
+import LogoPlanify from "../../assets/icons/logo/svg/logo-planify-black.svg";
 import "./Menu.scss";
 
 const Menu: React.FC = () => {
@@ -45,7 +45,7 @@ const Menu: React.FC = () => {
                             </NavLink>
                         </li>
                     </div>
-                    <span>V0.0.2</span>
+                    <span>Alpha V0.0.4</span>
                 </ul>
             )}
         </div>
