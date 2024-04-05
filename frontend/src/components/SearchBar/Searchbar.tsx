@@ -1,23 +1,20 @@
-import React, { useState } from 'react';
-import TextField from '@mui/material/TextField';
-import InputAdornment from '@mui/material/InputAdornment';
-import SearchIcon from '@mui/icons-material/Search';
-import { Sliders } from '@phosphor-icons/react';
-import './SearchBar.scss';
+import React, { useState } from "react";
+import { Sliders } from "@phosphor-icons/react";
+import "./SearchBar.scss";
 
 interface SearchBarProps {
     onSearch: (value: string) => void;
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
-    const [searchTerm, setSearchTerm] = useState('');
+    const [searchTerm, setSearchTerm] = useState("");
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
     };
 
     const handleKeyPress = (event: React.KeyboardEvent) => {
-        if (event.key === 'Enter') {
+        if (event.key === "Enter") {
             onSearch(searchTerm);
         }
     };

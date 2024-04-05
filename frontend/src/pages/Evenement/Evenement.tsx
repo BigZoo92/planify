@@ -1,11 +1,8 @@
-import React from 'react';
+import React from "react";
 
-interface EvenementProps {
-
-}
+interface EvenementProps {}
 
 const Evenement: React.FC<EvenementProps> = () => {
-
     return (
         <div className="page-wrapper">
             <h1>Créer un nouvel événement</h1>
