@@ -3,14 +3,14 @@ import { Request, Response } from 'express';
 import * as cheerio from 'cheerio';
 
 export async function scrapeTestPage(req: Request, res: Response) {
-  const { urlToscrape } = req.body;
+  const { urlToScrape } = req.body;
   try {
-    const { data } = await axios.get(urlToscrape);
+    const { data } = await axios.get(urlToScrape);
     const $ = cheerio.load(data);
     const iframeSrc = $('iframe').attr('src');
   
     if (iframeSrc) {
-      const iframeUrl = new URL(iframeSrc, urlToscrape).href;
+      const iframeUrl = new URL(iframeSrc, urlToScrape).href;
       const iframeResponse = await axios.get(iframeUrl);
       const iframeContent: string = iframeResponse.data;
       

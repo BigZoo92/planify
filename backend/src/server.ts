@@ -28,7 +28,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
 });
 
-app.get('/scrape', async (req, res) => await scrapeTestPage(req, res));
+app.post('/scrape', async (req, res) => await scrapeTestPage(req, res));
 
 app.get('/ics', async (req, res) => {
   const test = await parseIcsFile();
