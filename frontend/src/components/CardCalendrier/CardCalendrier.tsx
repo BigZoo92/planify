@@ -52,43 +52,6 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
     const setColor = getColor(subject);
     const adjustedColor = getAdjustedColor(subject);
 
-    const getReadableDate = (courseDate: string) => {
-        const now = new Date();
-        const today = new Date(
-            now.getFullYear(),
-            now.getMonth(),
-            now.getDate()
-        );
-        const tomorrow = new Date(today);
-        tomorrow.setDate(tomorrow.getDate() + 1);
-
-        const nextWeek = new Date(today);
-        nextWeek.setDate(nextWeek.getDate() + 7);
-
-        const courseDateTime = new Date(courseDate);
-        const courseDay = new Date(
-            courseDateTime.getFullYear(),
-            courseDateTime.getMonth(),
-            courseDateTime.getDate()
-        );
-
-        const options: Intl.DateTimeFormatOptions = {
-            day: "numeric",
-            month: "numeric",
-        };
-        const formattedDate = courseDay.toLocaleDateString("fr-FR", options);
-
-        if (courseDay.valueOf() === today.valueOf()) {
-            return "Aujourd'hui";
-        } else if (courseDay.valueOf() === tomorrow.valueOf()) {
-            return "Demain";
-        } else if (courseDay.valueOf() === nextWeek.valueOf()) {
-            return "Lundi prochain";
-        } else {
-            return formattedDate;
-        }
-    };
-
     const courseStatus = () => {
         const now = new Date();
         const startDate = new Date(`${date} ${starttime}`);

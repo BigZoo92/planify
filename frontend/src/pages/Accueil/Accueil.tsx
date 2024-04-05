@@ -2,51 +2,34 @@ import React, { useState, useEffect } from "react";
 import CalendarCard from "../../components/CardCalendrier/CardCalendrier";
 import "./Accueil.scss";
 import SearchBar from "../../components/SearchBar/Searchbar";
+import { CalendarEvent, getTimetableFromUrl } from "../../utils/queries";
 
-interface AccueilProps {
-    coursFictifs: Array<{
-        id: number;
-        group: string;
-        subject: string;
-        staff: string;
-        classroom: string;
-        date: string;
-        notes: string;
-        starttime: string;
-        endtime: string;
-    }>;
-}
-
-const Accueil: React.FC<AccueilProps> = ({ coursFictifs }) => {
-    const [coursAffiches, setCoursAffiches] = useState([]);
+const Accueil = () => {
+    const [timetables, setTimetables] = useState<CalendarEvent[]>([]);
 
     useEffect(() => {
-        const maintenant = new Date();
-        maintenant.setHours(0, 0, 0, 0);
-
-        const coursAujourdhuiEtApres = coursFictifs
-            .map((cours) => ({
-                ...cours,
-                dateCours: new Date(`${cours.date}T${cours.starttime}`),
-            }))
-            .filter((cours) => cours.dateCours >= maintenant)
-            .sort((a, b) => a.dateCours.getTime() - b.dateCours.getTime());
-
-        const coursDuJour = coursAujourdhuiEtApres.filter((cours) => {
-            const finJournee = new Date(maintenant);
-            finJournee.setDate(finJournee.getDate() + 1);
-            return cours.dateCours < finJournee;
-        });
-
-        setCoursAffiches(
-            coursDuJour.length > 0 ? coursDuJour : [coursAujourdhuiEtApres[0]]
-        );
-    }, [coursFictifs]);
+        (async () => {
+            console.log("newTimetables");
+            const newTimetables = await getTimetableFromUrl(
+                "https://chronos.iut-velizy.uvsq.fr/EDT/g235272.html"
+            );
+            console.log(newTimetables);
+            setTimetables(newTimetables);
+        })();
+    }, [setTimetables]);
 
     const dateActuelle = new Date();
-    const optionsJour = { weekday: "long" };
+    const optionsJour: { weekday: "long" | "short" | "narrow" } = {
+        weekday: "long",
+    };
     const nomDuJour = dateActuelle.toLocaleDateString("fr-FR", optionsJour);
-    const optionsDate = { day: "2-digit", month: "long" };
+    const optionsDate: {
+        day: "2-digit" | "numeric";
+        month: "long" | "short" | "narrow";
+    } = {
+        day: "2-digit",
+        month: "long",
+    };
     const dateDuJour = dateActuelle.toLocaleDateString("fr-FR", optionsDate);
 
     return (
@@ -76,21 +59,21 @@ const Accueil: React.FC<AccueilProps> = ({ coursFictifs }) => {
                         </div>
                     </div>
                 </div>
-                <SearchBar />
+                <SearchBar onSearch={() => console.log("wesh")} />
                 <h2>Prochains évènements</h2>
                 <div className="calendar-wrapper">
-                    {coursAffiches.length > 0 ? (
-                        coursAffiches.map((cours) => (
+                    {timetables.length > 0 ? (
+                        timetables.map((timetable, index) => (
                             <CalendarCard
-                                key={cours.id}
-                                group={cours.group}
-                                subject={cours.subject}
-                                staff={cours.staff}
-                                classroom={cours.classroom}
-                                date={cours.date}
-                                notes={cours.notes}
-                                starttime={cours.starttime}
-                                endtime={cours.endtime}
+                                key={index}
+                                group={timetable.data.group}
+                                subject={timetable.summary}
+                                staff={timetable.data.staff}
+                                classroom={timetable.location}
+                                date={timetable.data.date}
+                                notes={timetable.data.notes}
+                                starttime={timetable.start}
+                                endtime={timetable.end}
                             />
                         ))
                     ) : (
