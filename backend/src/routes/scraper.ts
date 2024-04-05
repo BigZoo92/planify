@@ -1,15 +1,16 @@
 import axios from 'axios';
+import { Request, Response } from 'express';
 import * as cheerio from 'cheerio';
-import { CalendarEvent } from './parseIcs';
 
-export async function scrapeTestPage(url: string): Promise<CalendarEvent[]> {
+export async function scrapeTestPage(req: Request, res: Response) {
+  const { urlToscrape } = req.body;
   try {
-    const { data } = await axios.get(url);
+    const { data } = await axios.get(urlToscrape);
     const $ = cheerio.load(data);
     const iframeSrc = $('iframe').attr('src');
   
     if (iframeSrc) {
-      const iframeUrl = new URL(iframeSrc, url).href;
+      const iframeUrl = new URL(iframeSrc, urlToscrape).href;
       const iframeResponse = await axios.get(iframeUrl);
       const iframeContent: string = iframeResponse.data;
       
@@ -45,10 +46,10 @@ export async function scrapeTestPage(url: string): Promise<CalendarEvent[]> {
         })
         .filter(e => e.summary && e.start);
 
-      return events;
-    } else return [];
+      res.send(events);
+    } else res.send([]);
   } catch (error) {
     console.error('Erreur lors du scraping:', error);
-    return [];
+    res.send([]);
   }
 }
