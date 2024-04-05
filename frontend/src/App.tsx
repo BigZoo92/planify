@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./sass/main.scss";
 
-import Accueil from "./pages/Accueil/Accueil";
+import { Accueil } from "./pages/Accueil";
 import Calendrier from "./pages/Calendrier/Calendrier";
 import Evenement from "./pages/Evenement/Evenement";
 import Navbar from "./components/Navbar/Navbar";
@@ -265,10 +265,7 @@ const App: React.FC = () => {
             <Menu />
             <Navbar />
             <Routes>
-                <Route
-                    path="/"
-                    element={<Accueil coursFictifs={coursFictifs} />}
-                />
+                <Route path="/" element={<Accueil />} />
                 <Route
                     path="/calendrier"
                     element={<Calendrier coursFictifs={coursFictifs} />}

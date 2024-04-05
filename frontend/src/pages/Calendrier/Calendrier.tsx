@@ -4,6 +4,7 @@ import CalendarCard from "../../components/CardCalendrier/CardCalendrier";
 import "./Calendrier.scss";
 import "../../components/SearchBar/Searchbar.scss";
 import SearchBar from "../../components/SearchBar/Searchbar";
+import { WeekContainer } from "../../components/WeekContainer/WeekContainer";
 
 interface CalendrierProps {
     coursFictifs: Array<{
@@ -32,40 +33,6 @@ const Calendrier: React.FC<CalendrierProps> = ({ coursFictifs }) => {
         (course) => selectedDate === null || course.date === selectedDate
     );
 
-    const renderDateElements = () => {
-        const dates = [
-            "2024-04-01",
-            "2024-04-02",
-            "2024-04-03",
-            "2024-04-04",
-            "2024-04-05",
-            "2024-04-06",
-            "2024-04-07",
-        ];
-
-        const today = new Date().toISOString().split("T")[0];
-
-        return dates.map((date) => {
-            const numeroJour = new Date(date).toLocaleDateString("fr-FR", {
-                weekday: "short",
-            });
-            const lettreJour = numeroJour.charAt(0).toUpperCase();
-
-            const dateClass = `date-element ${date === selectedDate ? "selected" : ""} ${date === today ? "today" : ""}`;
-
-            return (
-                <div
-                    key={date}
-                    className={dateClass}
-                    onClick={() => onClickDateCours(date)}
-                >
-                    <div className="day-letter">{lettreJour}</div>
-                    {date.substring(8)}
-                </div>
-            );
-        });
-    };
-
     return (
         <div className="page-wrapper calendrier">
             <div className="logo-wrapper absolute">
@@ -75,8 +42,11 @@ const Calendrier: React.FC<CalendrierProps> = ({ coursFictifs }) => {
                     alt="Logo Planify"
                 />
             </div>
-            <SearchBar />
-            <div className="date-wrapper">{renderDateElements()}</div>
+            <SearchBar onSearch={() => console.log("search")} />
+            <WeekContainer
+                selectedDate={selectedDate}
+                onClick={onClickDateCours}
+            />
             <div className="calendar-wrapper">
                 {filtreCours.map((course) => (
                     <CalendarCard
