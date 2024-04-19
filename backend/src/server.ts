@@ -7,6 +7,7 @@ import cors from 'cors';
 import { scrapeTestPage } from './routes/scraper';
 import { parseIcsFile } from './routes/parseIcs';
 import { corsOptions } from './constants';
+import { getDataFromTimetableWithAi } from './routes/getDataFromTimetableWithAi';
 
 //For env File
 dotenv.config();
@@ -28,7 +29,8 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
 });
 
-app.post('/scrape', async (req, res) => await scrapeTestPage(req, res));
+// app.post('/scrape', async (req, res) => await scrapeTestPage(req, res));
+app.post('/getTimetable', async (req, res) => await getDataFromTimetableWithAi(req, res));
 
 app.get('/ics', async (req, res) => {
   const test = await parseIcsFile();
