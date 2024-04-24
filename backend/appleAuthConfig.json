@@ -1,9 +1,0 @@
-{
-    "client_id": "yourServiceId",
-    "team_id": "yourTeamId",
-    "redirect_uri": "https://yourRedirectUri",
-    "key_id": "yourKeyId",
-    "private_key_path": "/path/to/your/key.p8",
-    "private_key": "yourPrivateKey"
-  }
-  
