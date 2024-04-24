@@ -1,5 +1,5 @@
 import { Haptics } from '@capacitor/haptics';
-export const fonctionVibration = async () => {
+export const haptic = async () => {
   try {
     await Haptics.vibrate();
     console.log('Vibration triggered');
