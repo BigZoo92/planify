@@ -1,14 +1,19 @@
 import express, { Request, Response, Application } from 'express';
 import dotenv from 'dotenv';
+
 import { scrapeTestPage } from './scraper';
 import session from 'express-session';
 import { getGoogleAuthURL, getGoogleUser } from './auth/googleStrategy'; 
 import SessionData from './@types/types';
-import AppleAuth from 'apple-auth';
 import fs from 'fs';
 import path from 'path';
-import { handleAppleLogin, getAppleLoginUrl } from './auth/appleStrategy';
-
+import helmet from 'helmet';
+import morgan from 'morgan';
+import compression from 'compression';
+import cors from 'cors';
+import { parseIcsFile } from './routes/parseIcs';
+import { corsOptions } from './constants';
+import { getDataFromCelcat } from './routes/getDataFromCelcat';
 
 dotenv.config();
 
@@ -30,9 +35,10 @@ app.get('/auth/google', (req: Request, res: Response) => getGoogleAuthURL(req, r
 
 app.get('/auth/google/callback', async (req: Request, res: Response) => getGoogleUser(req, res));
 
-app.get('/scrape', async (req, res) => {
-  const url = 'https://chronos.iut-velizy.uvsq.fr/EDT/g235272.html';
-  const test = await scrapeTestPage(url);
+app.post('/getDataFromCelcat', async (req, res) => await getDataFromCelcat(req, res));
+
+app.get('/ics', async (req, res) => {
+  const test = await parseIcsFile();
   res.send(test);
 });
 

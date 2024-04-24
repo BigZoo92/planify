@@ -25,7 +25,12 @@
     "express-session": "^1.18.0",
     "google-auth-library": "^9.7.0",
     "googleapis": "^134.0.0",
-    "prettier": "^3.2.5"
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "node-ical": "^0.18.0",
+    "openai": "^4.38.1",
+    "prettier": "^3.2.5",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
