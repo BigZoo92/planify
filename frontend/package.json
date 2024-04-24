@@ -17,6 +17,7 @@
     "@capacitor/core": "^5.7.0",
     "@capacitor/ios": "^5.7.0",
     "react": "^18.2.0",
+    "react-chat-elements": "^12.0.14",
     "react-dom": "^18.2.0",
     "sass": "^1.72.0"
   },
