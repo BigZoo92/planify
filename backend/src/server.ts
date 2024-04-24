@@ -4,42 +4,31 @@ import { scrapeTestPage } from './scraper';
 import session from 'express-session';
 import { getGoogleAuthURL, getGoogleUser } from './auth/googleStrategy'; 
 import SessionData from './@types/types';
-import AppleAuth from 'apple-auth';
-import fs from 'fs';
-import path from 'path';
-import { handleAppleLogin, getAppleLoginUrl } from './auth/appleStrategy';
-
+import { Server as SocketIOServer } from 'socket.io';
+import { createServer } from 'http';
+import { setupWebsocketServer } from './socket';  
 
 dotenv.config();
 
 
 const app: Application = express();
 const port = process.env.PORT || 8000;
-const appleConfig = JSON.parse(fs.readFileSync(path.resolve(__dirname, './appleAuthConfig.json'), 'utf8'));
-const appleAuth = new AppleAuth(appleConfig, appleConfig.key_id);
-
-
-app.get('/auth/apple', (req: Request, res: Response) => {
-  const url = getAppleLoginUrl();
-  res.redirect(url);
-});
-app.post('/auth/apple/callback', async (req: Request, res: Response) => {
-  try {
-    const response = await appleAuth.accessToken(req.body.code);
-    const appleUser = await appleAuth.verifyIdToken(response.id_token);
-    req.session.user = appleUser; 
-    res.redirect('/some-internal-page');
-  } catch (error) {
-    console.error('Apple login error:', error);
-    res.status(500).send('Internal Server Error');
+const server = createServer(app);
+const io = new SocketIOServer(server, {
+  cors: {
+    origin: "*", 
+    methods: ["GET", "POST"]
   }
 });
+
+setupWebsocketServer(io);
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secret', 
   resave: true,
   saveUninitialized: true,
 }));
+
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
@@ -58,7 +47,6 @@ app.get('/auth/google/callback', async (req: Request, res: Response) => {
       req.session.user = user; 
       res.redirect('/some-internal-page'); 
     } catch (error) {
-      console.error('Erreur lors de l\'échange de code Google :', error);
       res.status(500).send('Erreur d\'authentification avec Google.');
     }
   } else {
