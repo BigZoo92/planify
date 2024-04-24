@@ -1,25 +1,26 @@
-import express, { Request, Response, Application } from 'express';
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
+import fs from 'fs/promises';
 
-import { scrapeTestPage } from './scraper';
 import session from 'express-session';
-import { getGoogleAuthURL, getGoogleUser } from './auth/googleStrategy'; 
-import SessionData from './@types/types';
-import fs from 'fs';
-import path from 'path';
+import { getGoogleAuthURL, getGoogleUser } from './routes/auth'; 
 import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
 import cors from 'cors';
-import { parseIcsFile } from './routes/parseIcs';
-import { corsOptions } from './constants';
-import { getDataFromCelcat } from './routes/getDataFromCelcat';
+import { parseIcs } from './routes/parse';
+import { getDataFromCelcat } from './routes/parse';
 
 dotenv.config();
 
 
 const app = express();
 const port = process.env.PORT || 8000;
+
+app.use(helmet());
+app.use(cors());
+app.use(compression());
+app.use(morgan('dev'));
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secret', 
@@ -37,10 +38,10 @@ app.get('/auth/google/callback', async (req: Request, res: Response) => getGoogl
 
 app.post('/getDataFromCelcat', async (req, res) => await getDataFromCelcat(req, res));
 
-app.get('/ics', async (req, res) => {
-  const test = await parseIcsFile();
-  res.send(test);
-});
+// app.get('/ics', async (req, res) => {
+//   const test = parseIcs(icsTest);
+//   res.send(test);
+// });
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
