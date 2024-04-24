@@ -1,10 +1,10 @@
 import { Camera, CameraResultType } from '@capacitor/camera';
-export const testCamera = async () => {
+export const takePhoto = async () => {
   try {
     const image = await Camera.getPhoto({
       quality: 90,
       allowEditing: true,
-      resultType: CameraResultType.Uri
+      resultType: CameraResultType.Uri,
     });
     return image.webPath;
   } catch (error) {

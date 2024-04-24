@@ -1,5 +1,5 @@
 import { Geolocation } from '@capacitor/geolocation';
-export const fonctionGeoloc = async () => {
+export const geoloc = async () => {
   try {
     const coordinates = await Geolocation.getCurrentPosition();
     return coordinates;
