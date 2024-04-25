@@ -13,7 +13,7 @@ import { setupWebsocketServer } from './socket';
 import session from 'express-session';
 import { Server as SocketIOServer } from 'socket.io';
 import { createServer } from 'http';
-import { setupWebsocketServer } from './socket';  
+import setupWebsocketServer from './socket';
 
 dotenv.config();
 
@@ -34,7 +34,19 @@ const io = new SocketIOServer(server, {
   }
 });
 
+io.on('connection', (socket) => {
+  socket.on('disconnect', () => {
+  });
+  socket.on('event', (data) => {
+    io.emit('event', data);
+  });
+});
+
 setupWebsocketServer(io);
+
+app.get('/', (req, res) => {
+  res.send('WebSocket server running.');
+});
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'secret', 
