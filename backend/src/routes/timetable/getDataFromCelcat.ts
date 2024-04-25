@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as cheerio from 'cheerio';
-import { scraper } from '../scrape';
+import { scraper } from '../../utils/scrape';
 
 export async function getDataFromCelcat(req: Request, res: Response) {
   const { urlToScrape } = req.body;
