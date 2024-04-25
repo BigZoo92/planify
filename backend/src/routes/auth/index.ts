@@ -1,2 +1,1 @@
-export * from './appleStrategy'
-export * from './googleStrategy'
+export {default as authRouter} from './router'
