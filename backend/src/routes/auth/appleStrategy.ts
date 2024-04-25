@@ -14,7 +14,7 @@ export async function handleAppleLogin(req: Request, res: Response) {
     const idToken = response.id_token;
     //@ts-ignore
     const appleUser = await appleAuth.verifyIdToken(idToken, undefined, 'HS256');
-    req.session.user = appleUser;
+    // req.session.user = appleUser;
     res.redirect('/some-internal-page');
   } catch (error) {
     console.error('Apple login error:', error);
