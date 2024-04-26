@@ -1,5 +1,13 @@
 import { z } from 'zod';
 
+const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
+type Literal = z.infer<typeof literalSchema>;
+type Json = Literal | { [key: string]: Json } | Json[];
+const jsonSchema: z.ZodType<Json> = z.lazy(() =>
+  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
+);
+
+
 /////////////////////////////////////////
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
@@ -79,7 +87,7 @@ export const EventSchema = z.object({
   location: z.string(),
   start: z.date(),
   end: z.date(),
-  data: z.any(),
+  data: jsonSchema,
   createdAt: z.date(),
   updatedAt: z.date(),
 })
