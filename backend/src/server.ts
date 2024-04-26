@@ -1,38 +1,29 @@
-import express, { Request, Response, Application } from 'express';
+import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
+
+import session from 'express-session';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
 import cors from 'cors';
-import { scrapeTestPage } from './routes/scraper';
-import { parseIcsFile } from './routes/parseIcs';
-import { corsOptions } from './constants';
+import router from './routes';
 
-//For env File
 dotenv.config();
 
-const app: Application = express();
+export const app = express();
 const port = process.env.PORT || 8000;
 
-// JSON FORMAT
-app.use(express.json());
-
-// MIDDLEWARE
-app.use(helmet({ crossOriginResourcePolicy: false }));
-app.use(morgan('combined'));
+app.use(helmet());
+app.use(cors());
 app.use(compression());
-app.use(cors(corsOptions));
+app.use(morgan('dev'));
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
 });
 
-app.post('/scrape', async (req, res) => await scrapeTestPage(req, res));
+app.use('/api', router)
 
-app.get('/ics', async (req, res) => {
-  const test = await parseIcsFile();
-  res.send(test);
-});
 app.listen(port, () => {
-  console.log(`Server is Fire at http://localhost:${port}`);
+  console.log(`Server is running at http://localhost:${port}`);
 });
