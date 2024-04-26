@@ -1,0 +1,14 @@
+{
+  "name": "planify",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "task-format": "npx eslint --fix \"**/*.{ts,tsx,js,jsx,scss}\"",
+    "task-dev": "start start.bat",
+    "task-build": "start build.bat",
+    "task-update": "start update.bat"
+  },
+  "devDependencies": {
+    "@types/supertest": "^6.0.2"
+  }
+}
