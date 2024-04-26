@@ -1,1 +1,2 @@
-export * from "./getCours";
+export * from "./scrape";
+export * from "./auth";

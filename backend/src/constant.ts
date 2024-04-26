@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // WHITELIST
-export const whitelist = ["http://localhost:3000"];
+export const whitelist = ["http://localhost:5173"];
 
 // CORS
 export const corsOptions: CorsOptions = {

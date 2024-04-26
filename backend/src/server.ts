@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import compression from 'compression';
 import cors from 'cors';
 import router from './routes';
+import { corsOptions } from './constant';
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ export const app = express();
 const port = process.env.PORT || 8000;
 
 app.use(helmet());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(compression());
 app.use(morgan('dev'));
 
