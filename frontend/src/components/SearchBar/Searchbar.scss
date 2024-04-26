@@ -1,4 +1,4 @@
-@import "../../sass/variables";
+@import "../../assets/styles/Variables.scss";
 
 .search-wrapper {
     display: flex;
@@ -11,14 +11,31 @@
         height: 40px;
         align-items: center;
         gap: 6px;
-        flex: 1 0 0;
+        width: 100%;
         align-self: stretch;
         border-radius: 8px;
         border: 1px solid $color_black_10;
         background-color: $color_white_100;
-        color: $color_black_25;
-        font-family: $font;
-        font-size: 12px;
+        position: relative;
+        input {
+            padding-left: 24px;
+            color: $color_black_50;
+            font-family: $font;
+            font-size: 0.875rem;
+            border: none;
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            left: 12px;
+            top: 50%;
+            width: 15px;
+            height: 15px;
+            background: url("../../assets/icons/phosphor/search.svg") no-repeat;
+            background-size: contain;
+        }
     }
     .filter-wrapper {
         display: flex;

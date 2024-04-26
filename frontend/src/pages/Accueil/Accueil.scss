@@ -1,4 +1,4 @@
-@import "../../sass/variables";
+@import "../../assets/styles/Variables.scss";
 
 .accueil {
     .accueil-content-wrapper {
@@ -20,22 +20,23 @@
             font-weight: 500;
         }
         .meteo-wrapper {
-            background-color: #FFFFFF;
+            background-color: $color_white_100;
+            border: 1px solid $color_black_10;
             border-radius: 8px;
-            padding: 24px 16px;
-            display: flex;
-            justify-content: space-between;
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             .meteo-infos {
                 display: flex;
                 flex-direction: column;
-                gap: 8px;
+                gap: 14px;
                 h2 {
                     font-size: 16px;
                     font-weight: 500;
                     color: $color_black_70;
                 }
                 span {
-                    font-size: 48px;
+                    font-size: 2.5rem;
                 }
                 .meteo-location {
                     display: flex;
@@ -60,6 +61,7 @@
                 border-left: 1px solid $color_black_10;
                 .meteo-content {
                     display: flex;
+                    align-items: flex-end;
                     flex-direction: column;
                     gap: 8px;
                     h3 {

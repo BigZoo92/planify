@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./CardCalendrier.scss";
 import { UsersThree, MapPin, Student } from "@phosphor-icons/react";
 
@@ -16,7 +16,7 @@ interface CalendarCardProps {
 const getColor = (subject: string): string => {
     switch (subject) {
         case "Dispositifs inter DWA":
-            return "var(--color-blue)";
+            return "var(--color-blue-100)";
         case "Dév web DWA":
             return "var(--color-orange)";
         case "Prod. disp. inter. DWA":
@@ -29,7 +29,7 @@ const getColor = (subject: string): string => {
 const getAdjustedColor = (subject: string): string => {
     switch (subject) {
         case "Dispositifs inter DWA":
-            return "var(--color-blue-light)";
+            return "var(--color-blue-light";
         case "Dév web DWA":
             return "var(--color-orange-light)";
         case "Prod. disp. inter. DWA":
@@ -51,34 +51,57 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
 }) => {
     const setColor = getColor(subject);
     const adjustedColor = getAdjustedColor(subject);
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    useEffect(() => {
+        const timerID = setInterval(() => setCurrentTime(new Date()), 60000);
+        return () => clearInterval(timerID);
+    }, []);
 
     const courseStatus = () => {
         const now = new Date();
-        const startDate = new Date(`${date} ${starttime}`);
-        const endDate = new Date(`${date} ${endtime}`);
+        now.setSeconds(0, 0);
 
-        if (now < startDate) {
-            const diff = startDate.getTime() - now.getTime();
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff / (1000 * 60)) % 60);
-            return {
-                text: `${hours}h ${minutes}min`,
-                className: "apres",
-            };
+        const [day, month, year] = date.split("/").map(Number);
+        const [startHour, startMinute] = starttime.split(":").map(Number);
+        const [endHour, endMinute] = endtime.split(":").map(Number);
+
+        const startDate = new Date(
+            year,
+            month - 1,
+            day,
+            startHour,
+            startMinute
+        );
+        const endDate = new Date(year, month - 1, day, endHour, endMinute);
+
+        let text, className;
+
+        const diffTime = startDate.getTime() - now.getTime();
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+        if (startDate > now) {
+            if (diffDays === 0) {
+                text = `À ${starttime}`;
+            } else if (diffDays === 1) {
+                text = `Demain - À ${starttime}`;
+            } else {
+                text = `À ${starttime}`;
+            }
         } else if (now >= startDate && now <= endDate) {
-            return { text: "En cours", className: "en-cours" };
+            text = "En cours";
+            className = "active";
         } else {
-            return { text: "Passé", className: "passe" };
+            text = "Passé";
         }
+
+        return { text, className };
     };
 
     const status = courseStatus();
 
     return (
         <div className="card-wrapper-element">
-            {/* <div className="card-date">
-                <span>{getReadableDate(date)}</span>
-            </div> */}
             <div className="card-cours" style={{ backgroundColor: setColor }}>
                 <svg
                     width="103"

@@ -1,1 +1,1 @@
-export * from "./getTimetableFromUrl";
+export * from "./getCours";

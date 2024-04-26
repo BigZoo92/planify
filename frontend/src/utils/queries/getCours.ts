@@ -17,12 +17,13 @@ export const CalendarEventSchema = z.object({
 
 export type CalendarEvent = z.infer<typeof CalendarEventSchema>;
 
-export const getTimetableFromUrl = async (
+export const getCours = async (
     urlToScrape: string
 ): Promise<CalendarEvent[] | null> => {
-    console.log(`${"http://localhost:8000"}/scrape`);
+    const backendUrl = import.meta.env.VITE_SERVER_BACKEND_URL;
+    console.log(`${backendUrl}/scrape`);
     try {
-        const response = await fetch(`${"http://localhost:8000"}/scrape`, {
+        const response = await fetch(`${backendUrl}/scrape`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -32,7 +33,7 @@ export const getTimetableFromUrl = async (
         });
 
         if (!response.ok) {
-            throw new Error("Network response was not ok");
+            throw new Error("Erreur lors de la récupération des données.");
         }
 
         const data: CalendarEvent[] = await response.json();

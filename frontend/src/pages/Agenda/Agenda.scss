@@ -1,10 +1,10 @@
-@import "../../sass/variables";
+@import "../../assets/styles/Variables.scss";
 
 .page-wrapper {
     overflow: hidden;
     &.agenda {
         overflow: hidden;
-        max-width: 100vw;
+        max-width: 100%;
         min-height: 100vh;
         height: auto;
         position: relative;
@@ -44,7 +44,7 @@
                     gap: 8px;
 
                     &.today {
-                        background-color: $color_blue;
+                        background-color: $color_blue_100;
                         color: $color_white_100;
 
                         &.has-course .dot {
@@ -55,13 +55,13 @@
                     &.has-course .dot {
                         height: 5px;
                         width: 5px;
-                        background-color: $color_blue;
+                        background-color: $color_blue_100;
                         display: inline-block;
                         border-radius: 50%;
                     }
 
                     &.selected-day {
-                        background-color: $color_blue;
+                        background-color: $color_blue_100;
                         color: $color_white_100;
 
                         .dot {

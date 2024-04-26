@@ -1,4 +1,4 @@
-@import "../../sass/variables";
+@import "../../assets/styles/Variables.scss";
 
 .calendar-wrapper {
     display: flex;
@@ -79,12 +79,10 @@
                         border-radius: 8px;
                         font-weight: 500;
                         text-wrap: nowrap;
-                    }
-                    .passe {
                         opacity: 0.5;
                     }
-                    .apres {
-                        opacity: 0.5;
+                    .active {
+                        opacity: 1;
                     }
                 }
                 .notes {
