@@ -5,7 +5,7 @@ export const getTimetableFromCelcat = async (
 ): Promise<Event[] | null> => {
     try {
         const response = await fetch(
-            `${"http://localhost:8000/api"}/timetable/celcat`,
+            `http://localhost:8000/api/timetable/celcat`,
             {
                 method: "POST",
                 headers: {

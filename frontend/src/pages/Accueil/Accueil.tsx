@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import CalendarCard from "../../components/CardCalendrier/CardCalendrier";
 import SearchBar from "../../components/SearchBar/Searchbar";
-import { CalendarEvent, getCours } from "../../utils/queries";
+import { getTimetableFromCelcat } from "../../utils/queries";
 import "./Accueil.scss";
+import { Event } from "../../schema";
 
 const Accueil: React.FC = () => {
-    const [timetables, setTimetables] = useState<CalendarEvent[]>([]);
+    const [timetables, setTimetables] = useState<Event[]>([]);
     const [weather, setWeather] = useState({
         temp: "",
         condition: "",
@@ -16,7 +17,7 @@ const Accueil: React.FC = () => {
 
     useEffect(() => {
         (async () => {
-            const newTimetables = await getCours(
+            const newTimetables = await getTimetableFromCelcat(
                 import.meta.env.VITE_URL_SCRAPING
             );
             console.log("Récupération Celcat : ", newTimetables);
