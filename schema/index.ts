@@ -1,8 +1,6 @@
 import { z } from 'zod';
 
 /////////////////////////////////////////
-// ENUMS
-/////////////////////////////////////////
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
