@@ -21,20 +21,40 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <form onSubmit={handleSubmit}>
                     <div className="form-wrapper">
                         <label htmlFor="nom">Nom de l'événement:</label>
-                        <input type="text" id="nom" name="nom" placeholder="Nom de l'évènement" />
+                        <input
+                            type="text"
+                            id="nom"
+                            name="nom"
+                            placeholder="Nom de l'évènement"
+                        />
                     </div>
                     <div className="form-wrapper">
-                        <label htmlFor="description">Description de l'événement:</label>
-                        <textarea id="description" name="description" placeholder="Description de l'évènement"></textarea>
+                        <label htmlFor="description">
+                            Description de l'événement:
+                        </label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            placeholder="Description de l'évènement"
+                        ></textarea>
                     </div>
                     <div className="form-wrapper">
                         <label htmlFor="date">Date de l'événement:</label>
-                        <input type="date" id="date" name="date" placeholder="Date" />
+                        <input
+                            type="date"
+                            id="date"
+                            name="date"
+                            placeholder="Date"
+                        />
                     </div>
                     <div className="grid-wrapper">
                         <div className="form-wrapper">
                             <label htmlFor="heureDebut">Heure de début:</label>
-                            <input type="time" id="heureDebut" name="heureDebut" />
+                            <input
+                                type="time"
+                                id="heureDebut"
+                                name="heureDebut"
+                            />
                         </div>
                         <div className="form-wrapper">
                             <label htmlFor="heureFin">Heure de fin:</label>
@@ -43,11 +63,20 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     </div>
                     <div className="form-wrapper">
                         <label htmlFor="lieu">Lieu de l'événement:</label>
-                        <input type="text" id="lieu" name="lieu" placeholder="Lieu de l'évènement" />
+                        <input
+                            type="text"
+                            id="lieu"
+                            name="lieu"
+                            placeholder="Lieu de l'évènement"
+                        />
                     </div>
                     <div className="btn-wrapper">
                         <input type="submit" value="Créer l'évènement" />
-                        <button type="button" className="close-button" onClick={onClose}>
+                        <button
+                            type="button"
+                            className="close-button"
+                            onClick={onClose}
+                        >
                             <X size={20} weight="bold" />
                         </button>
                     </div>
