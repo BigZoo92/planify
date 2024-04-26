@@ -19,6 +19,8 @@ app.use(cors(corsOptions));
 app.use(compression());
 app.use(morgan('dev'));
 
+app.use(express.json());
+
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
 });
