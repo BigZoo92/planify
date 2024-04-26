@@ -1,10 +1,14 @@
-@import "../../sass/variables";
+@import "../../assets/styles/Variables.scss";
 
 .date-wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    // padding: 20px;
+    // background-color: $color_white_100;
+    // z-index: 999;
+    // box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     .date-element {
         font-weight: 600;
         padding: 10px 12px;
@@ -17,7 +21,7 @@
         align-items: center;
     }
     .selected {
-        background-color: $color_blue;
+        background-color: $color_blue_100;
         color: $color_white_100;
     }
 }

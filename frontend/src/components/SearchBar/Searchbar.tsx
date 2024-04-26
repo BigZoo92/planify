@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Sliders } from "@phosphor-icons/react";
-import "./SearchBar.scss";
+import "./Searchbar.scss";
 
 interface SearchBarProps {
     onSearch: (value: string) => void;
@@ -22,11 +22,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     return (
         <div className="search-wrapper">
             {/* <SearchBar onSearch={handleSearch} /> */}
-            <input
-                type="text"
-                placeholder="Rechercher..."
-                className="input-wrapper"
-            />
+            <div className="input-wrapper">
+                <input type="text" placeholder="Rechercher..." />
+            </div>
             <div className="filter-wrapper">
                 <Sliders size={20} color="currentColor" />
             </div>

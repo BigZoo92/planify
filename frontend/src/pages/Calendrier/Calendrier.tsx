@@ -1,64 +1,57 @@
-import React, { useState } from "react";
-import LogoPlanify from "../../assets/icons/logo/svg/logo-planify-black.svg";
-import CalendarCard from "../../components/CardCalendrier/CardCalendrier";
+import { useState, useEffect } from "react";
+import Calendar from "react-calendar";
+import { CardCalendrier } from "../../components/CardCalendrier";
+import { getCours } from "../../utils/queries";
+import "react-calendar/dist/Calendar.css";
 import "./Calendrier.scss";
-import "../../components/SearchBar/Searchbar.scss";
-import SearchBar from "../../components/SearchBar/Searchbar";
-import { WeekContainer } from "../../components/WeekContainer/WeekContainer";
 
-interface CalendrierProps {
-    coursFictifs: Array<{
-        id: number;
-        group: string;
-        subject: string;
-        staff: string;
-        classroom: string;
-        date: string;
-        notes: string;
-        starttime: string;
-        endtime: string;
-    }>;
-}
+const Calendrier: React.FC = () => {
+    const [dateSelectionnee, setDateSelectionnee] = useState(new Date());
+    const [cours, setCours] = useState([]);
 
-const Calendrier: React.FC<CalendrierProps> = ({ coursFictifs }) => {
-    const [selectedDate, setSelectedDate] = useState(
-        new Date().toISOString().split("T")[0]
-    );
+    useEffect(() => {
+        (async () => {
+            const url = import.meta.env.VITE_URL_SCRAPING;
+            const coursFictifs = await getCours(url);
+            setCours(coursFictifs);
+        })();
+    }, []);
 
-    const onClickDateCours = (date) => {
-        setSelectedDate(date);
+    const onChangeDate = (date) => {
+        setDateSelectionnee(date);
     };
 
-    const filtreCours = coursFictifs.filter(
-        (course) => selectedDate === null || course.date === selectedDate
-    );
+    const filtreCours = cours.filter((course) => {
+        const dateParts = course.data.date.split("/");
+        const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
+        const dateCours = new Date(formattedDate);
+
+        return (
+            dateCours.getFullYear() === dateSelectionnee.getFullYear() &&
+            dateCours.getMonth() === dateSelectionnee.getMonth() &&
+            dateCours.getDate() === dateSelectionnee.getDate()
+        );
+    });
 
     return (
         <div className="page-wrapper calendrier">
-            <div className="logo-wrapper absolute">
-                <img
-                    id="calendrier-logo"
-                    src={LogoPlanify}
-                    alt="Logo Planify"
-                />
-            </div>
-            <SearchBar onSearch={() => console.log("search")} />
-            <WeekContainer
-                selectedDate={selectedDate}
-                onClick={onClickDateCours}
+            <Calendar
+                onChange={onChangeDate}
+                value={dateSelectionnee}
+                className="monthly-calendar"
             />
             <div className="calendar-wrapper">
                 {filtreCours.map((course) => (
-                    <CalendarCard
+                    <CardCalendrier
                         key={course.id}
-                        group={course.group}
-                        subject={course.subject}
-                        staff={course.staff}
-                        classroom={course.classroom}
-                        date={course.date}
-                        notes={course.notes}
-                        starttime={course.starttime}
-                        endtime={course.endtime}
+                        group={course.data.group}
+                        subject={course.summary}
+                        staff={course.data.staff}
+                        classroom={course.location}
+                        date={course.data.date}
+                        notes={course.data.notes}
+                        starttime={course.start}
+                        endtime={course.end}
                     />
                 ))}
             </div>

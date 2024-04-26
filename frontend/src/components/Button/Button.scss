@@ -1,4 +1,4 @@
-@import '../../../sass/variables';
+@import "../../../sass/variables";
 
 .btn {
     display: flex;
@@ -14,7 +14,7 @@
     font-size: clamp(13px, 0.75vw, 14px);
     &.main {
         background-color: $color_white;
-        color: $color_blue;
+        color: $color_blue_100;
         border-color: $color_white;
 
         &:hover {
@@ -23,7 +23,7 @@
     }
 
     &.secondary {
-        background-color: $color_blue;
+        background-color: $color_blue_100;
         color: $color_white;
         border-color: $color_white;
 

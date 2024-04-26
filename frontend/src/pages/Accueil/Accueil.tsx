@@ -1,39 +1,80 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import CalendarCard from "../../components/CardCalendrier/CardCalendrier";
-import "./Accueil.scss";
 import SearchBar from "../../components/SearchBar/Searchbar";
-import { CalendarEvent, getTimetableFromUrl } from "../../utils/queries";
+import { CalendarEvent, getCours } from "../../utils/queries";
+import "./Accueil.scss";
 
-const Accueil = () => {
+const Accueil: React.FC = () => {
     const [timetables, setTimetables] = useState<CalendarEvent[]>([]);
+    const [weather, setWeather] = useState({
+        temp: "",
+        condition: "",
+        sunrise: "",
+        sunset: "",
+        location: "",
+    });
 
     useEffect(() => {
         (async () => {
-            console.log("newTimetables");
-            const newTimetables = await getTimetableFromUrl(
-                "https://chronos.iut-velizy.uvsq.fr/EDT/g235272.html"
+            const newTimetables = await getCours(
+                import.meta.env.VITE_URL_SCRAPING
             );
-            console.log(newTimetables);
+            console.log("Récupération Celcat : ", newTimetables);
             setTimetables(newTimetables);
+            fetchWeatherData();
         })();
     }, [setTimetables]);
 
+    const fetchWeatherData = async () => {
+        const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+        const response = await fetch(
+            `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=48.787899,2.190408&days=1&aqi=no&alerts=no&lang=fr`
+        );
+        const data = await response.json();
+        setWeather({
+            temp: `${data.current.temp_c} °C`,
+            condition: data.current.condition.text,
+            sunrise: data.forecast.forecastday[0].astro.sunrise,
+            sunset: data.forecast.forecastday[0].astro.sunset,
+            location: data.location.name,
+        });
+    };
+
     const dateActuelle = new Date();
-    const optionsJour: { weekday: "long" | "short" | "narrow" } = {
-        weekday: "long",
-    };
+    const optionsJour = { weekday: "long" };
     const nomDuJour = dateActuelle.toLocaleDateString("fr-FR", optionsJour);
-    const optionsDate: {
-        day: "2-digit" | "numeric";
-        month: "long" | "short" | "narrow";
-    } = {
-        day: "2-digit",
-        month: "long",
-    };
+    const optionsDate = { day: "2-digit", month: "long" };
     const dateDuJour = dateActuelle.toLocaleDateString("fr-FR", optionsDate);
 
+    const filterUpcomingAndCurrentCourses = (allCourses) => {
+        const currentDate = new Date();
+        const currentTime = currentDate.getTime();
+
+        return allCourses.filter((course) => {
+            const [day, month, year] = course.data.date.split("/");
+            const courseDate = new Date(`${year}-${month}-${day}`);
+            const courseStartTime = new Date(
+                `${year}-${month}-${day}T${course.start}:00`
+            ).getTime();
+            const courseEndTime = new Date(
+                `${year}-${month}-${day}T${course.end}:00`
+            ).getTime();
+
+            const isToday =
+                courseDate.toDateString() === currentDate.toDateString();
+            const isCurrentOrUpcoming =
+                (courseStartTime <= currentTime &&
+                    courseEndTime >= currentTime) ||
+                courseStartTime >= currentTime;
+
+            return isToday && isCurrentOrUpcoming;
+        });
+    };
+
+    const filtreTableauDate = filterUpcomingAndCurrentCourses(timetables);
+
     return (
-        <div className="page-wrapper accueil">
+        <main className="page-wrapper accueil">
             <div className="accueil-content-wrapper">
                 <h1 className="accueil-date">{dateDuJour}</h1>
                 <h2 className="accueil-date-nom">
@@ -42,28 +83,28 @@ const Accueil = () => {
                 <div className="meteo-wrapper">
                     <div className="meteo-infos">
                         <h2>Météo</h2>
-                        <span>15 °C</span>
+                        <span>{weather.temp}</span>
                         <div className="meteo-location">
                             <h3>Localisation</h3>
-                            <p>Vélizy Villacoublay</p>
+                            <p>{weather.location}</p>
                         </div>
                     </div>
                     <div className="meteo-soleil">
                         <div className="meteo-content">
                             <h3>Lever du soleil</h3>
-                            <p>07:19</p>
+                            <p>{weather.sunrise}</p>
                         </div>
                         <div className="meteo-content">
                             <h3>Coucher du soleil</h3>
-                            <p>20:26</p>
+                            <p>{weather.sunset}</p>
                         </div>
                     </div>
                 </div>
                 <SearchBar onSearch={() => console.log("wesh")} />
                 <h2>Prochains évènements</h2>
                 <div className="calendar-wrapper">
-                    {timetables.length > 0 ? (
-                        timetables.map((timetable, index) => (
+                    {filtreTableauDate.length > 0 ? (
+                        filtreTableauDate.map((timetable, index) => (
                             <CalendarCard
                                 key={index}
                                 group={timetable.data.group}
@@ -77,11 +118,11 @@ const Accueil = () => {
                             />
                         ))
                     ) : (
-                        <p className="cours-absent">Aucun cours à venir.</p>
+                        <p className="deactivated">Aucun cours à venir.</p>
                     )}
                 </div>
             </div>
-        </div>
+        </main>
     );
 };
 

@@ -1,0 +1,86 @@
+@import "../../assets/styles/Variables.scss";
+
+.modal {
+    width: 100%;
+    bottom: 0;
+    position: fixed;
+    background-color: $color_white_100;
+    box-shadow: 0px 3px 30px 0px rgba(0, 0, 0, 0.16);
+    border-radius: 32px 32px 0px 0px;
+    height: fit-content;
+    z-index: 9999;
+    .modal-content {
+        display: flex;
+        flex-direction: column;
+        padding: 40px 20px 20px 20px;
+        gap: 2rem;
+        .close-button {
+            width: 25px;
+            height: 25px;
+            border: none;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.5rem;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            .form-wrapper {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                label {
+                    display: none;
+                }
+                input,
+                textarea {
+                    padding: 8px;
+                    height: 50px;
+                    border-radius: 8px;
+                    border: 1px solid $color_black_10;
+                    width: 100%;
+                }
+                textarea {
+                    height: 100px;
+                }
+            }
+            .grid-wrapper {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+            .btn-wrapper {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                gap: 1rem;
+                input {
+                    height: 50px;
+                    border-radius: 8px;
+                    width: 100%;
+                    border: none;
+                    background-color: $color_blue_100;
+                    color: $color_white_100;
+                    font-weight: 500;
+                    font-size: 1rem;
+                }
+                button {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 8px;
+                    width: 50px;
+                    height: 50px;
+                    aspect-ratio: 1/1;
+                    border: none;
+                    background-color: $color_pink_100;
+                    svg {
+                        color: $color_white_100;
+                    }
+                }
+            }
+        }
+    }
+}
