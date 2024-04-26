@@ -1,13 +1,5 @@
 import { z } from 'zod';
 
-const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
-type Literal = z.infer<typeof literalSchema>;
-type Json = Literal | { [key: string]: Json } | Json[];
-const jsonSchema: z.ZodType<Json> = z.lazy(() =>
-  z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
-);
-
-
 /////////////////////////////////////////
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
@@ -18,7 +10,9 @@ export const AgendaScalarFieldEnumSchema = z.enum(['id','type','createdAt','upda
 
 export const AgendaUserScalarFieldEnumSchema = z.enum(['agendaId','userId','role','createdAt','updatedAt']);
 
-export const EventScalarFieldEnumSchema = z.enum(['id','agendaId','summary','location','start','end','data','createdAt','updatedAt']);
+export const EventScalarFieldEnumSchema = z.enum(['id','summary','location','start','end','data','createdAt','updatedAt']);
+
+export const EventAgendaScalarFieldEnumSchema = z.enum(['eventId','agendaId','createdAt','updatedAt']);
 
 export const MessageScalarFieldEnumSchema = z.enum(['id','content','senderId','receiverId','createdAt']);
 
@@ -82,17 +76,29 @@ export type AgendaUser = z.infer<typeof AgendaUserSchema>
 
 export const EventSchema = z.object({
   id: z.number(),
-  agendaId: z.number(),
   summary: z.string(),
   location: z.string(),
   start: z.date(),
   end: z.date(),
-  data: jsonSchema,
+  data: z.any(),
   createdAt: z.date(),
   updatedAt: z.date(),
 })
 
 export type Event = z.infer<typeof EventSchema>
+
+/////////////////////////////////////////
+// EVENT AGENDA SCHEMA
+/////////////////////////////////////////
+
+export const EventAgendaSchema = z.object({
+  eventId: z.number(),
+  agendaId: z.number(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+})
+
+export type EventAgenda = z.infer<typeof EventAgendaSchema>
 
 /////////////////////////////////////////
 // MESSAGE SCHEMA
