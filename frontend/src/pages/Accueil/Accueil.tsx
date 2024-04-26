@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import CalendarCard from '../../components/CardCalendrier/CardCalendrier';
+// import React, { useState, useEffect } from 'react';
+// import CalendarCard from '../../components/CardCalendrier/CardCalendrier';
 import './Accueil.scss';
-import SearchBar from '../../components/SearchBar/Searchbar';
-import { CalendarEvent, getTimetableFromUrl } from '../../utils/queries';
+// import SearchBar from '../../components/SearchBar/Searchbar';
+// import { CalendarEvent, getTimetableFromUrl } from '../../utils/queries';
 
 const Accueil = () => {
-  const [timetables, setTimetables] = useState<CalendarEvent[]>([]);
+  // const [timetables, setTimetables] = useState<CalendarEvent[]>([]);
 
-  useEffect(() => {
-    if (timetables.length) return;
-    (async () => {
-      const newTimetables = await getTimetableFromUrl(
-        'https://chronos.iut-velizy.uvsq.fr/EDT/g235272.html'
-      );
-      console.log(newTimetables);
-      setTimetables(newTimetables);
-    })();
-  }, [timetables, setTimetables]);
+  // useEffect(() => {
+  //   if (timetables.length) return;
+  //   (async () => {
+  //     const newTimetables = await getTimetableFromUrl(
+  //       'https://chronos.iut-velizy.uvsq.fr/EDT/g235272.html'
+  //     );
+  //     console.log(newTimetables);
+  //     setTimetables(newTimetables);
+  //   })();
+  // }, [timetables, setTimetables]);
 
-  const dateActuelle = new Date();
-  const optionsJour: { weekday: 'long' | 'short' | 'narrow' } = {
-    weekday: 'long',
-  };
-  const nomDuJour = dateActuelle.toLocaleDateString('fr-FR', optionsJour);
-  const optionsDate: {
-    day: '2-digit' | 'numeric';
-    month: 'long' | 'short' | 'narrow';
-  } = {
-    day: '2-digit',
-    month: 'long',
-  };
-  const dateDuJour = dateActuelle.toLocaleDateString('fr-FR', optionsDate);
+  // const dateActuelle = new Date();
+  // const optionsJour: { weekday: 'long' | 'short' | 'narrow' } = {
+  //   weekday: 'long',
+  // };
+  // const nomDuJour = dateActuelle.toLocaleDateString('fr-FR', optionsJour);
+  // const optionsDate: {
+  //   day: '2-digit' | 'numeric';
+  //   month: 'long' | 'short' | 'narrow';
+  // } = {
+  //   day: '2-digit',
+  //   month: 'long',
+  // };
+  // const dateDuJour = dateActuelle.toLocaleDateString('fr-FR', optionsDate);
 
   return (
     <div className="page-wrapper accueil">
-      <div className="accueil-content-wrapper">
+      {/* <div className="accueil-content-wrapper">
         <h1 className="accueil-date">{dateDuJour}</h1>
         <h2 className="accueil-date-nom">
           {nomDuJour.charAt(0).toUpperCase() + nomDuJour.slice(1)}
@@ -80,7 +80,7 @@ const Accueil = () => {
             <p className="cours-absent">Aucun cours à venir.</p>
           )}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

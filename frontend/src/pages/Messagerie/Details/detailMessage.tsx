@@ -1,9 +1,8 @@
 import ChatInput from './ChatInput';
 import MessageList from './MessageList';
-
 const DetailMessage = () => {
   return (
-    <div>
+    <div id="detail-message">
       <MessageList />
       <ChatInput />
     </div>
