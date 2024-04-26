@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import { CardCalendrier } from "../../components/CardCalendrier";
-import { getCours } from "../../utils/queries";
+import { getTimetableFromCelcat } from "../../utils/queries";
 import "react-calendar/dist/Calendar.css";
 import "./Calendrier.scss";
 
@@ -12,7 +12,7 @@ const Calendrier: React.FC = () => {
     useEffect(() => {
         (async () => {
             const url = import.meta.env.VITE_URL_SCRAPING;
-            const coursFictifs = await getCours(url);
+            const coursFictifs = await getTimetableFromCelcat(url);
             setCours(coursFictifs);
         })();
     }, []);
