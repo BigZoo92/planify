@@ -36,12 +36,12 @@ model User {
 }
 
 model Agenda {
-    id        Int          @id @default(autoincrement())
+    id        Int           @id @default(autoincrement())
     type      String
     users     AgendaUser[]
-    events    Event[]
-    createdAt DateTime     @default(now())
-    updatedAt DateTime     @updatedAt
+    events    EventAgenda[]
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
 }
 
 model AgendaUser {
@@ -57,16 +57,26 @@ model AgendaUser {
 }
 
 model Event {
-    id        Int      @id @default(autoincrement())
-    agendaId  Int
-    agenda    Agenda   @relation(fields: [agendaId], references: [id])
+    id        Int           @id @default(autoincrement())
     summary   String
     location  String
     start     DateTime
     end       DateTime
     data      Json
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
+    agendas   EventAgenda[]
+}
+
+model EventAgenda {
+    event     Event    @relation(fields: [eventId], references: [id])
+    eventId   Int
+    agenda    Agenda   @relation(fields: [agendaId], references: [id])
+    agendaId  Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@id([eventId, agendaId])
 }
 
 model Message {
