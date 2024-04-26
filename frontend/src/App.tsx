@@ -1,18 +1,40 @@
-import './sass/main.scss';
-import TestDialog from './capacitor/dialog/TestDialog';
-import TestCamera from './capacitor/camera/TestCamera';
-import TestGeolocation from './capacitor/geolocalisation/testGeoloc';
-import TestNotification from './capacitor/notification/testNotif';
-import TestVibreur from './capacitor/haptic/testVibreur';
-function App() {
-  return (
-    <div>
-      <TestDialog />
-      <TestCamera />
-      <TestGeolocation />
-      <TestNotification />
-      <TestVibreur />
-    </div>
-  );
-}
+// Global dependencies
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// Components
+import { Menu } from "./components/Menu";
+import { Navbar } from "./components/Navbar";
+import { Modal } from "./components/Modal";
+
+// Pages
+import { Accueil } from "./pages/Accueil";
+import { Calendrier } from "./pages/Calendrier";
+import { Agenda } from "./pages/Agenda";
+import { Compte } from "./pages/Compte";
+
+// Styles
+import "./assets/styles/Main.scss";
+
+const App: React.FC = () => {
+    const [openModal, setModalOpen] = useState(false);
+
+    const toggleModal = () => setModalOpen(!openModal);
+
+    return (
+        <Router>
+            <Menu />
+            <Modal isOpen={openModal} onClose={toggleModal} />
+            <Routes>
+                <Route path="/" element={<Accueil />} />
+                <Route path="/calendrier" element={<Calendrier />} />
+                <Route path="/agenda" element={<Agenda />} />
+                {/* <Route path="/messagerie" element={<Messagerie />} /> */}
+                <Route path="/compte" element={<Compte />} />
+            </Routes>
+            <Navbar onNewEvent={toggleModal} />
+        </Router>
+    );
+};
+
 export default App;

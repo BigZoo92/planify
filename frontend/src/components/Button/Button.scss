@@ -1,0 +1,34 @@
+@import "../../../sass/variables";
+
+.btn {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: 8px;
+    border: 1px solid;
+    font-weight: 600;
+    font-family: $font;
+    font-size: clamp(13px, 0.75vw, 14px);
+    &.main {
+        background-color: $color_white;
+        color: $color_blue_100;
+        border-color: $color_white;
+
+        &:hover {
+            background-color: #0056b3;
+        }
+    }
+
+    &.secondary {
+        background-color: $color_blue_100;
+        color: $color_white;
+        border-color: $color_white;
+
+        &:hover {
+            background-color: #545b62;
+        }
+    }
+}
