@@ -1,8 +1,6 @@
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
-  margin: 0;
-  padding: 0;
 }
 
 html,
@@ -40,13 +38,13 @@ h6 {
 
 .page-wrapper {
   display: flex;
-  padding: 20px;
+  padding: $size-large;
   min-height: 100vh;
   overflow-y: scroll;
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: $size-large;
   margin-bottom: 30px;
 }
 

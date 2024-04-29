@@ -1,7 +1,7 @@
 @import "../../assets/styles/Variables.scss";
 
 .header-wrapper {
-    padding: 20px 20px 0 20px;
+    padding: $size-large $size-large 0 $size-large;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -20,7 +20,7 @@
             justify-content: space-between;
             align-items: flex-end;
             width: fit-content;
-            gap: 8px;
+            gap: $size-small;
             cursor: pointer;
             z-index: 9999;
 
@@ -61,7 +61,7 @@
             left: 0;
             background-color: $color_white_100;
             list-style: none;
-            padding: 20px;
+            padding: $size-large;
             transition: all 0.3s ease-in-out;
             z-index: 9998;
             .li-wrapper {
@@ -74,13 +74,13 @@
                         position: relative;
                         display: flex;
                         align-items: center;
-                        gap: 8px;
+                        gap: $size-small;
                         padding: 12px 8px;
                     }
                     .active {
                         font-weight: 600;
                         background-color: $color_blue_10;
-                        border-radius: 5px;
+                        border-radius: $size-extra-small;
                         color: $color_blue_100;
                     }
                 }
@@ -111,19 +111,19 @@
                     .user-info-wrapper {
                         display: flex;
                         align-items: center;
-                        gap: 8px;
+                        gap: $size-small;
                         img {
                             width: 50px;
                             height: 50px;
                             object-fit: contain;
                             aspect-ratio: 1/1;
-                            border-radius: 50%;
+                            border-radius: $br-50;
                             border: 1px solid $color_black_10;
                         }
                         .user-info {
                             display: flex;
                             flex-direction: column;
-                            gap: 5px;
+                            gap: $size-extra-small;
                             .user-info-name {
                                 font-weight: 600;
                             }
@@ -134,8 +134,8 @@
                         }
                     }
                     .user-logout {
-                        padding: 8px 10px;
-                        border-radius: 5px;
+                        padding: $size-small $size-medium;
+                        border-radius: $size-extra-small;
                         display: flex;
                         background-color: $color_white_100;
                         border: 1px solid $color_black_25;

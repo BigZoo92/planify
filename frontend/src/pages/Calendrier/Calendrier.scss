@@ -8,7 +8,7 @@
         border: 1px solid $color_black_10;
         font-family: $font;
         line-height: 1.125em;
-        border-radius: 10px;
+        border-radius: $size-small;
         .react-calendar button {
             transition: all 0.3s;
         }
@@ -25,10 +25,10 @@
                 bottom: 0;
                 left: 50%;
                 transform: translateX(-50%);
-                width: 5px;
-                height: 5px;
+                width: $size-extra-small;
+                height: $size-extra-small;
                 background-color: $color_blue_100;
-                border-radius: 50%;
+                border-radius: $br-50;
             }
             &:hover {
                 color: $color_white_100;
@@ -36,12 +36,12 @@
         }
         .react-calendar__tile {
             transition: all 0.3s;
-            border-radius: 10px;
+            border-radius: $size-small;
         }
         .react-calendar__tile--active:enabled:hover,
         .react-calendar__tile--active:enabled:focus {
             background-color: $color_blue_100;
-            border-radius: 10px;
+            border-radius: $size-small;
         }
     }
 }
@@ -53,11 +53,11 @@
     transform: translate(-50%, -50%);
     background-color: $color_white_100;
     z-index: 9999;
-    padding: 20px;
+    padding: $size-large;
     width: 30vw;
-    border-radius: 10px;
+    border-radius: $size-small;
     border: 1px solid $color_black_10;
-    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px $size-large rgba(0, 0, 0, 0.1);
     .ReactModal__Content {
         display: flex;
         flex-direction: column;
@@ -68,14 +68,14 @@
         }
         p {
             font-weight: 500;
-            color: $color_black_70;
+            color: $color_black_75;
         }
         button {
             border: 1px solid;
             padding: 4px 8px;
             background-color: $color_black_100;
             color: $color_white_100;
-            border-radius: 5px;
+            border-radius: $size-extra-small;
             cursor: pointer;
             transition: all 0.3s;
             &:hover {

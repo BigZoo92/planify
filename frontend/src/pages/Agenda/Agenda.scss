@@ -14,12 +14,12 @@
             flex-direction: column;
             align-items: center;
             overflow: hidden;
-            gap: 20px;
+            gap: $size-large;
             text-transform: uppercase;
             background-color: $color_white_100;
             border: 1px solid $color_black_25;
             padding: 10px;
-            border-radius: 8px;
+            border-radius: $size-small;
             width: 100%;
             .ReactSwipe {
                 overflow: hidden;
@@ -29,7 +29,7 @@
             .days-grid {
                 display: grid;
                 grid-template-columns: repeat(7, 1fr);
-                gap: 8px;
+                gap: $size-small;
                 width: 100%;
 
                 .day {
@@ -40,8 +40,8 @@
                     height: 50px;
                     width: 100%;
                     background-color: $color_black_10;
-                    border-radius: 8px;
-                    gap: 8px;
+                    border-radius: $size-small;
+                    gap: $size-small;
 
                     &.today {
                         background-color: $color_blue_100;
@@ -53,11 +53,11 @@
                     }
 
                     &.has-course .dot {
-                        height: 5px;
-                        width: 5px;
+                        height: $size-extra-small;
+                        width: $size-extra-small;
                         background-color: $color_blue_100;
                         display: inline-block;
-                        border-radius: 50%;
+                        border-radius: $br-50;
                     }
 
                     &.selected-day {
