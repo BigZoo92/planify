@@ -1,6 +1,6 @@
 import React from "react";
 import "./Login.scss";
-import ElementGraphique from "../../../assets/images/login/login-element--principal__2.svg";
+import ElementGraphique from "../../assets/images/login/login-element--principal__2.svg";
 
 const Login: React.FC = () => {
     return (

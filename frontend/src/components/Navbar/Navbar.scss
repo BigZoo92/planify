@@ -23,9 +23,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 8px;
+        gap: $size-small;
         width: 100%;
-        padding-inline: 20px;
+        padding-inline: $size-large;
         li {
             display: flex;
             justify-content: center;
@@ -40,7 +40,7 @@
                 justify-content: center;
                 align-items: center;
                 background-color: $color_blue_100;
-                border-radius: 50%;
+                border-radius: $br-50;
                 height: 50px;
                 width: 50px;
                 border: none;

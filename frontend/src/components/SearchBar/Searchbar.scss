@@ -3,17 +3,17 @@
 .search-wrapper {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: $size-small;
     align-self: stretch;
     .input-wrapper {
         display: flex;
-        padding: 12px;
+        padding: $size-medium;
         height: 40px;
         align-items: center;
         gap: 6px;
         width: 100%;
         align-self: stretch;
-        border-radius: 8px;
+        border-radius: $size-small;
         border: 1px solid $color_black_10;
         background-color: $color_white_100;
         position: relative;
@@ -29,7 +29,7 @@
             position: absolute;
             -webkit-transform: translateY(-50%);
             transform: translateY(-50%);
-            left: 12px;
+            left: $size-medium;
             top: 50%;
             width: 15px;
             height: 15px;
@@ -41,12 +41,12 @@
         display: flex;
         width: 40px;
         height: 40px;
-        padding: 5px 10px;
+        padding: $size-extra-small 10px;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 10px;
-        border-radius: 8px;
+        border-radius: $size-small;
         border: 1px solid $color_black_10;
         background-color: $color_white_100;
         svg {

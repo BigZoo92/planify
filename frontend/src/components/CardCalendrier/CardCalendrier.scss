@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: $size-medium;
     width: 100%;
     .card-wrapper-element {
         width: 100%;
@@ -24,7 +24,7 @@
             display: flex;
             align-items: flex-start;
             align-self: stretch;
-            border-radius: 16px;
+            border-radius: $size-medium-large;
             position: relative;
             overflow: hidden;
             .element {
@@ -34,11 +34,11 @@
             }
             .card-temps {
                 display: flex;
-                padding: 12px;
+                padding: $size-medium;
                 flex-direction: column;
                 align-items: center;
                 justify-content: space-between;
-                gap: 12px;
+                gap: $size-medium;
                 height: 100%;
                 border-right: 0.5px solid;
                 color: $color_white_100;
@@ -50,8 +50,8 @@
             }
             .card-description {
                 display: flex;
-                padding: 12px;
-                gap: 12px;
+                padding: $size-medium;
+                gap: $size-medium;
                 flex-direction: column;
                 justify-content: space-between;
                 align-items: flex-start;
@@ -76,7 +76,7 @@
                         color: $color_black_100;
                         font-size: 12px;
                         padding: 4px 8px;
-                        border-radius: 8px;
+                        border-radius: $size-small;
                         font-weight: 500;
                         text-wrap: nowrap;
                         opacity: 0.5;
@@ -91,7 +91,7 @@
                 .card-texte-wrapper {
                     display: flex;
                     align-items: center;
-                    gap: 5px;
+                    gap: $size-extra-small;
                     svg {
                         color: inherit;
                     }
