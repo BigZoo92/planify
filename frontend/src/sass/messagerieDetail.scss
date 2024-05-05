@@ -3,6 +3,8 @@
   .rce-mbox-body {
     display: flex;
     flex-direction: column;
+    width: calc(100% - 16px);
+    margin: auto;
     .rce-mbox-text {
       border-radius: 15px;
       line-height: 1.35rem;

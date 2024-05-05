@@ -29,12 +29,12 @@ const MessageList = () => {
         position="left"
         title={formatDate(date)}
         type="text"
-        text="Enzo suce moi"
+        text="test 2"
         date={date}
         replyButton={false}
         forwarded={false}
         removeButton={false}
-        status="sent"
+        status="read"
         notch={false}
         retracted={false}
       />
