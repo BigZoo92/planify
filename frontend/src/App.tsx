@@ -12,8 +12,10 @@ import { Navbar } from "./components/Navbar";
 import { Modal } from "./components/Modal";
 
 // Pages
+import { Auth } from "./pages/Auth";
+import { Signup } from "./pages/Auth/Signup";
+import { Login } from "./pages/Auth/Login";
 import { Accueil } from "./pages/Accueil";
-import { LoginHome } from "./pages/LoginHome";
 import { Calendrier } from "./pages/Calendrier";
 import { Agenda } from "./pages/Agenda";
 import { Compte } from "./pages/Compte";
@@ -28,31 +30,39 @@ const App: React.FC = () => {
     return (
         <Router>
             <Routes>
+                <Route path="/" element={<Auth />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
                 <Route
-                    path="/"
+                    path="/*"
                     element={<MainContent toggleModal={toggleModal} />}
                 />
-                <Route path="/signup" element={<LoginHome />} />
-                <Route path="/calendrier" element={<Calendrier />} />
-                <Route path="/agenda" element={<Agenda />} />
-                <Route path="/compte" element={<Compte />} />
             </Routes>
         </Router>
     );
 };
 
-// Define a new component that will properly use the `useLocation` hook
 const MainContent: React.FC<{ toggleModal: () => void }> = ({
     toggleModal,
 }) => {
     const location = useLocation();
-    const isSignupPage = location.pathname === "/signup";
+    const hideNavbarAndMenu = ["/", "/login", "/signup"].includes(
+        location.pathname
+    );
 
     return (
         <>
-            {!isSignupPage && <Menu />}
-            {!isSignupPage && <Modal isOpen={false} onClose={toggleModal} />}
-            <Navbar onNewEvent={toggleModal} />
+            {!hideNavbarAndMenu && <Menu />}
+            {!hideNavbarAndMenu && (
+                <Modal isOpen={false} onClose={toggleModal} />
+            )}
+            {!hideNavbarAndMenu && <Navbar onNewEvent={toggleModal} />}
+            <Routes>
+                <Route path="accueil" element={<Accueil />} />
+                <Route path="calendrier" element={<Calendrier />} />
+                <Route path="agenda" element={<Agenda />} />
+                <Route path="compte" element={<Compte />} />
+            </Routes>
         </>
     );
 };

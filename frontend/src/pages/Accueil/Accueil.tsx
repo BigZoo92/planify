@@ -17,21 +17,24 @@ const Accueil: React.FC = () => {
 
     useEffect(() => {
         (async () => {
+            console.log("Fetching timetables from Celcat...");
             const newTimetables = await getTimetableFromCelcat(
                 import.meta.env.VITE_URL_SCRAPING
             );
-            console.log("Récupération Celcat : ", newTimetables);
+            console.log("Celcat response: ", newTimetables);
             setTimetables(newTimetables);
             fetchWeatherData();
         })();
     }, [setTimetables]);
 
     const fetchWeatherData = async () => {
+        console.log("Fetching weather data...");
         const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
         const response = await fetch(
             `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=48.787899,2.190408&days=1&aqi=no&alerts=no&lang=fr`
         );
         const data = await response.json();
+        console.log("Weather API response: ", data);
         setWeather({
             temp: `${data.current.temp_c} °C`,
             condition: data.current.condition.text,
@@ -48,6 +51,7 @@ const Accueil: React.FC = () => {
     const dateDuJour = dateActuelle.toLocaleDateString("fr-FR", optionsDate);
 
     const filterUpcomingAndCurrentCourses = (allCourses) => {
+        console.log("Filtering courses...");
         const currentDate = new Date();
         const currentTime = currentDate.getTime();
 
@@ -73,6 +77,7 @@ const Accueil: React.FC = () => {
     };
 
     const filtreTableauDate = filterUpcomingAndCurrentCourses(timetables);
+    console.log("Filtered timetables: ", filtreTableauDate);
 
     return (
         <main className="page-wrapper accueil">
@@ -101,7 +106,7 @@ const Accueil: React.FC = () => {
                         </div>
                     </div>
                 </div>
-                <SearchBar onSearch={() => console.log("wesh")} />
+                <SearchBar onSearch={() => console.log("Search initiated")} />
                 <h2>Prochains évènements</h2>
                 <div className="calendar-wrapper">
                     {filtreTableauDate.length > 0 ? (
