@@ -28,6 +28,7 @@ model User {
     password         String?
     firstName        String?
     lastName         String?
+    urls             String[]     @default([])
     createdAt        DateTime     @default(now())
     updatedAt        DateTime     @updatedAt
     agendas          AgendaUser[]
@@ -40,6 +41,7 @@ model Agenda {
     type      String
     users     AgendaUser[]
     events    EventAgenda[]
+    active    Boolean       @default(true)
     createdAt DateTime      @default(now())
     updatedAt DateTime      @updatedAt
 }
