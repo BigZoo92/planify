@@ -22,6 +22,7 @@ import { Compte } from "./pages/Compte";
 
 // Styles
 import "./assets/styles/Main.scss";
+import { UserProvider, TimetableProvider } from "./providers";
 
 const App: React.FC = () => {
     const [openModal, setModalOpen] = useState(false);
@@ -29,15 +30,19 @@ const App: React.FC = () => {
 
     return (
         <Router>
-            <Routes>
-                <Route path="/" element={<Auth />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route
-                    path="/*"
-                    element={<MainContent toggleModal={toggleModal} />}
-                />
-            </Routes>
+            <UserProvider>
+                <TimetableProvider>
+                    <Routes>
+                    <Route path="/" element={<Auth />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route
+                        path="/*"
+                        element={<MainContent toggleModal={toggleModal} />}
+                    />
+                    </Routes>
+                </TimetableProvider>
+            </UserProvider>
         </Router>
     );
 };
