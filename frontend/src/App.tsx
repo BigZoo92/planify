@@ -15,6 +15,7 @@ import { Compte } from "./pages/Compte";
 
 // Styles
 import "./assets/styles/Main.scss";
+import { UserProvider, TimetableProvider } from "./providers";
 
 const App: React.FC = () => {
     const [openModal, setModalOpen] = useState(false);
@@ -23,16 +24,20 @@ const App: React.FC = () => {
 
     return (
         <Router>
-            <Menu />
-            <Modal isOpen={openModal} onClose={toggleModal} />
-            <Routes>
-                <Route path="/" element={<Accueil />} />
-                <Route path="/calendrier" element={<Calendrier />} />
-                <Route path="/agenda" element={<Agenda />} />
-                {/* <Route path="/messagerie" element={<Messagerie />} /> */}
-                <Route path="/compte" element={<Compte />} />
-            </Routes>
-            <Navbar onNewEvent={toggleModal} />
+            <UserProvider>
+                <TimetableProvider>
+                    <Menu />
+                    <Modal isOpen={openModal} onClose={toggleModal} />
+                    <Routes>
+                        <Route path="/" element={<Accueil />} />
+                        <Route path="/calendrier" element={<Calendrier />} />
+                        <Route path="/agenda" element={<Agenda />} />
+                        {/* <Route path="/messagerie" element={<Messagerie />} /> */}
+                        <Route path="/compte" element={<Compte />} />
+                    </Routes>
+                    <Navbar onNewEvent={toggleModal} />
+                </TimetableProvider>
+            </UserProvider>
         </Router>
     );
 };
