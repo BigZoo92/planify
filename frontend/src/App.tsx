@@ -33,13 +33,13 @@ const App: React.FC = () => {
             <UserProvider>
                 <TimetableProvider>
                     <Routes>
-                    <Route path="/" element={<Auth />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route
-                        path="/*"
-                        element={<MainContent toggleModal={toggleModal} />}
-                    />
+                        <Route path="/" element={<Auth />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<Signup />} />
+                        <Route
+                            path="/*"
+                            element={<MainContent toggleModal={toggleModal} />}
+                        />
                     </Routes>
                 </TimetableProvider>
             </UserProvider>
