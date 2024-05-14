@@ -1,47 +1,52 @@
-import React, { useState } from "react";
+import { useForm, SubmitHandler, Path } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ZodSchema } from "zod";
 import "./Form.scss";
 
-interface FormProps {
-    onSubmit: (formData: FormData) => void;
-    fields: FormField[];
+interface FormProps<T> {
+    onSubmit: SubmitHandler<T>;
+    fields: FormField<T>[];
     buttonName: string;
+    schema: ZodSchema<T>;
 }
 
-interface FormField {
-    name: string;
+interface FormField<T> {
+    name: keyof T;
     label: string;
     type: string;
     required?: boolean;
 }
 
-interface FormData {
-    [key: string]: string | string[] | null;
-}
-
-const Form: React.FC<FormProps> = ({ onSubmit, fields, buttonName }) => {
-    const [formData, setFormData] = useState<FormData>({});
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
-
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        onSubmit(formData);
-    };
+//@ts-ignore
+const Form = <T extends Record<string, any>>({
+    onSubmit,
+    fields,
+    buttonName,
+    schema,
+}: FormProps<T>) => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<T>({
+        resolver: zodResolver(schema),
+    });
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             {fields.map((field) => (
-                <div key={field.name} className="form-group">
-                    <label htmlFor={field.name}>{field.label}</label>
+                <div key={String(field.name)} className="form-group">
+                    <label htmlFor={String(field.name)}>{field.label}</label>
                     <input
                         type={field.type}
-                        name={field.name}
+                        {...register(field.name as Path<T>)}
                         required={field.required}
-                        onChange={handleChange}
                     />
+                    {errors[field.name] && (
+                        <span className="error-message">
+                            {errors[field.name]?.message as string}
+                        </span>
+                    )}
                 </div>
             ))}
             <button type="submit">{buttonName}</button>

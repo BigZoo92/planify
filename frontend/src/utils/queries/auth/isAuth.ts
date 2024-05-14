@@ -4,11 +4,10 @@ import { User } from "../../../schema";
 export const isAuth = async (): Promise<User | null> => {
     try {
         const token = await Preferences.get({ key: "jwtToken" });
-        console.log(token.value);
         if (!token.value) return null;
 
         const response = await fetch(
-            process.env.SERVER_URL + "/api/auth/isAuth",
+            import.meta.env.VITE_SERVER_BACKEND_URL + "/auth/isAuth",
             {
                 method: "POST",
                 headers: {
