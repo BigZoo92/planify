@@ -32,6 +32,7 @@ export const TimetableProvider: React.FC<TimetableProviderProps> = ({
 
     useEffect(() => {
         setLoading(true);
+        if (!user) return;
         const { urls } = user;
         for (const url of urls) {
             (async () => {
@@ -46,7 +47,6 @@ export const TimetableProvider: React.FC<TimetableProviderProps> = ({
                 }
             })();
         }
-
         setLoading(false);
     }, [user, events]);
 
