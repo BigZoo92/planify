@@ -31,7 +31,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         const newUser = await isAuth();
 
         if (!newUser) {
-            navigate("/auth");
+            // navigate("/");
             setLoading(false);
         } else {
             setUser(newUser);
@@ -42,6 +42,10 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     useEffect(() => {
         (async () => await fetchUser())();
     }, [fetchUser]);
+
+    useEffect(() => {
+        console.log("user", user);
+    }, [user]);
 
     return (
         <UserContext.Provider

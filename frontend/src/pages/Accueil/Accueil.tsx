@@ -17,18 +17,15 @@ const Accueil: React.FC = () => {
 
     useEffect(() => {
         (async () => {
-            console.log("Fetching timetables from Celcat...");
             const newTimetables = await getTimetableFromCelcat(
                 import.meta.env.VITE_URL_SCRAPING
             );
-            console.log("Celcat response: ", newTimetables);
             setTimetables(newTimetables);
             fetchWeatherData();
         })();
     }, [setTimetables]);
 
     const fetchWeatherData = async () => {
-        console.log("Fetching weather data...");
         const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
         const response = await fetch(
             `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=48.787899,2.190408&days=1&aqi=no&alerts=no&lang=fr`
