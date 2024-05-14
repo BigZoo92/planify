@@ -29,7 +29,7 @@ const getColor = (subject: string): string => {
 const getAdjustedColor = (subject: string): string => {
     switch (subject) {
         case "Dispositifs inter DWA":
-            return "var(--color-blue-light";
+            return "var(--color-blue-light)";
         case "Dév web DWA":
             return "var(--color-orange-light)";
         case "Prod. disp. inter. DWA":
@@ -100,6 +100,11 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
 
     const status = courseStatus();
 
+    const formattedStaff = staff
+        .split(",")
+        .map((name) => name.trim())
+        .join(", ");
+
     return (
         <div className="card-wrapper-element">
             <div className="card-cours" style={{ backgroundColor: setColor }}>
@@ -135,7 +140,7 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
                     <div className="card-bottom">
                         <div className="card-texte-wrapper">
                             <Student size={15} color="currentColor" />
-                            <p>{staff}</p>
+                            <p>{formattedStaff}</p>
                         </div>
                         <hr />
                         <div className="card-bottom-texte">
