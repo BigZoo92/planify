@@ -1,14 +1,31 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Form } from "../../../components/Form";
 import "./Login.scss";
 import ElementGraphique from "../../../assets/images/login/login-element--principal__2.svg";
+import { LoginSchema, login } from "../../../utils/queries";
 
 const Login: React.FC = () => {
-    const handleLogin = (formData: any) => {
-        console.log("Login data:", formData);
+    const navigate = useNavigate();
+
+    const handleLogin = async (formData: {
+        email: string;
+        password: string;
+    }) => {
+        try {
+            await login(formData);
+            navigate("/dashboard");
+        } catch (error) {
+            console.error("Login failed:", error);
+        }
     };
 
-    const loginFields = [
+    const loginFields: {
+        name: keyof typeof LoginSchema._type;
+        label: string;
+        type: string;
+        required: boolean;
+    }[] = [
         { name: "email", label: "Email", type: "email", required: true },
         {
             name: "password",
@@ -26,6 +43,7 @@ const Login: React.FC = () => {
                 onSubmit={handleLogin}
                 fields={loginFields}
                 buttonName="Se connecter"
+                schema={LoginSchema}
             />
         </div>
     );

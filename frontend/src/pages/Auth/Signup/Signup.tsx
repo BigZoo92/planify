@@ -1,13 +1,32 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Form } from "../../../components/Form";
 import "./Signup.scss";
+import { SignupFormSchema, signup } from "../../../utils/queries";
 
 const Signup: React.FC = () => {
-    const handleSignup = (formData: any) => {
-        console.log("Signup data:", formData);
+    const navigate = useNavigate();
+
+    const handleSignup = async (formData: {
+        email: string;
+        password: string;
+        firstName?: string;
+        lastName?: string;
+    }) => {
+        try {
+            await signup(formData);
+            navigate("/dashboard");
+        } catch (error) {
+            console.error("Signup failed:", error);
+        }
     };
 
-    const signupFields = [
+    const signupFields: {
+        name: keyof typeof SignupFormSchema._type;
+        label: string;
+        type: string;
+        required: boolean;
+    }[] = [
         { name: "email", label: "Email", type: "email", required: true },
         {
             name: "password",
@@ -31,6 +50,7 @@ const Signup: React.FC = () => {
                 onSubmit={handleSignup}
                 fields={signupFields}
                 buttonName="Créer un compte"
+                schema={SignupFormSchema}
             />
         </div>
     );
