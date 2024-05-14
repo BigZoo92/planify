@@ -1,0 +1,18 @@
+@import "../../assets/styles/Variables.scss";
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: $size-small;
+        input {
+            width: 100%;
+            border: 1px solid $color_black_25;
+            border-radius: $size-small;
+            padding: 4px 8px;
+        }
+    }
+}

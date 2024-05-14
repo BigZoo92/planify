@@ -1,11 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
+import loginElement from "../../assets/images/login/login-element--principal.svg";
+import "./Auth.scss";
 
-import loginElement from "../../../assets/images/login/login-element--principal.svg";
-import "./LoginHome.scss";
-
-const LoginHome: React.FC = () => {
+const Auth: React.FC = () => {
     const navigate = useNavigate();
     return (
         <div className="login-wrapper">
@@ -15,10 +14,12 @@ const LoginHome: React.FC = () => {
                 <Button variant="main" onClick={() => navigate("/login")}>
                     Se connecter
                 </Button>
-                <Button variant="secondary">Créez un compte</Button>
+                <Button variant="secondary" onClick={() => navigate("/signup")}>
+                    Créez un compte
+                </Button>
             </div>
         </div>
     );
 };
 
-export default LoginHome;
+export default Auth;
