@@ -1,34 +1,28 @@
-@import "../../../sass/variables";
+@import "../../assets/styles/Variables.scss";
 
 .btn {
     display: flex;
-    padding: 20px;
+    padding: $size-medium-large;
     justify-content: center;
     align-items: center;
     gap: 10px;
     align-self: stretch;
-    border-radius: 8px;
+    border-radius: $size-small;
     border: 1px solid;
     font-weight: 600;
     font-family: $font;
-    font-size: clamp(13px, 0.75vw, 14px);
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
     &.main {
-        background-color: $color_white;
+        background-color: $color_white_100;
         color: $color_blue_100;
-        border-color: $color_white;
-
-        &:hover {
-            background-color: #0056b3;
-        }
+        border-color: $color_white_100;
     }
 
     &.secondary {
         background-color: $color_blue_100;
-        color: $color_white;
-        border-color: $color_white;
-
-        &:hover {
-            background-color: #545b62;
-        }
+        color: $color_white_100;
+        border-color: $color_white_100;
     }
 }

@@ -12,8 +12,8 @@
     .modal-content {
         display: flex;
         flex-direction: column;
-        padding: 40px 20px 20px 20px;
-        gap: 2rem;
+        padding: $size-medium;
+        gap: $size-medium-large;
         .close-button {
             width: 25px;
             height: 25px;
@@ -30,15 +30,15 @@
             .form-wrapper {
                 display: flex;
                 flex-direction: column;
-                gap: 5px;
+                gap: $size-extra-small;
                 label {
                     display: none;
                 }
                 input,
                 textarea {
-                    padding: 8px;
+                    padding: $size-small;
                     height: 50px;
-                    border-radius: 8px;
+                    border-radius: $size-small;
                     border: 1px solid $color_black_10;
                     width: 100%;
                 }
@@ -58,7 +58,7 @@
                 gap: 1rem;
                 input {
                     height: 50px;
-                    border-radius: 8px;
+                    border-radius: $size-small;
                     width: 100%;
                     border: none;
                     background-color: $color_blue_100;
@@ -70,7 +70,7 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    border-radius: 8px;
+                    border-radius: $size-small;
                     width: 50px;
                     height: 50px;
                     aspect-ratio: 1/1;

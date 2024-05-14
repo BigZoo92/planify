@@ -1,6 +1,10 @@
-// Global dependencies
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Routes,
+    Route,
+    useLocation,
+} from "react-router-dom";
 
 // Components
 import { Menu } from "./components/Menu";
@@ -8,6 +12,9 @@ import { Navbar } from "./components/Navbar";
 import { Modal } from "./components/Modal";
 
 // Pages
+import { Auth } from "./pages/Auth";
+import { Signup } from "./pages/Auth/Signup";
+import { Login } from "./pages/Auth/Login";
 import { Accueil } from "./pages/Accueil";
 import { Calendrier } from "./pages/Calendrier";
 import { Agenda } from "./pages/Agenda";
@@ -19,26 +26,49 @@ import { UserProvider, TimetableProvider } from "./providers";
 
 const App: React.FC = () => {
     const [openModal, setModalOpen] = useState(false);
-
     const toggleModal = () => setModalOpen(!openModal);
 
     return (
         <Router>
             <UserProvider>
                 <TimetableProvider>
-                    <Menu />
-                    <Modal isOpen={openModal} onClose={toggleModal} />
                     <Routes>
-                        <Route path="/" element={<Accueil />} />
-                        <Route path="/calendrier" element={<Calendrier />} />
-                        <Route path="/agenda" element={<Agenda />} />
-                        {/* <Route path="/messagerie" element={<Messagerie />} /> */}
-                        <Route path="/compte" element={<Compte />} />
+                    <Route path="/" element={<Auth />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route
+                        path="/*"
+                        element={<MainContent toggleModal={toggleModal} />}
+                    />
                     </Routes>
-                    <Navbar onNewEvent={toggleModal} />
                 </TimetableProvider>
             </UserProvider>
         </Router>
+    );
+};
+
+const MainContent: React.FC<{ toggleModal: () => void }> = ({
+    toggleModal,
+}) => {
+    const location = useLocation();
+    const hideNavbarAndMenu = ["/", "/login", "/signup"].includes(
+        location.pathname
+    );
+
+    return (
+        <>
+            {!hideNavbarAndMenu && <Menu />}
+            {!hideNavbarAndMenu && (
+                <Modal isOpen={false} onClose={toggleModal} />
+            )}
+            {!hideNavbarAndMenu && <Navbar onNewEvent={toggleModal} />}
+            <Routes>
+                <Route path="accueil" element={<Accueil />} />
+                <Route path="calendrier" element={<Calendrier />} />
+                <Route path="agenda" element={<Agenda />} />
+                <Route path="compte" element={<Compte />} />
+            </Routes>
+        </>
     );
 };
 
