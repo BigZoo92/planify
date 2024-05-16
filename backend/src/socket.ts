@@ -36,7 +36,7 @@ const setupWebsocketServer = (io: SocketIOServer) => {
       console.log(
         `Message received from ${message.authorName}: ${message.content}`
       );
-      const room = message.room;
+      const { room } = message;
       if (room) {
         socket.to(room).emit('new-message', message);
       } else {
@@ -45,6 +45,7 @@ const setupWebsocketServer = (io: SocketIOServer) => {
     });
 
     socket.on('agenda-update', (update) => {
+      console.log(`Agenda update received: ${JSON.stringify(update)}`);
       io.emit('agenda-update', update);
     });
 

@@ -13,8 +13,8 @@ import setupWebsocketServer from './socket';
 
 dotenv.config();
 
-export const app = express();
-const port = process.env.PORT || 8000;
+const app = express();
+const port = process.env.PORT || 3000;
 
 app.use(helmet());
 app.use(cors(corsOptions));
@@ -53,18 +53,10 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use('/api', router);
 
-server.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
-
-io.on('connection', (socket) => {
-  console.log(`Client connected: ${socket.id}`);
-
-  socket.on('disconnect', () => {
-    console.log(`Client disconnected: ${socket.id}`);
+server
+  .listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+  })
+  .on('error', (err) => {
+    console.error(`Failed to start server: ${err.message}`);
   });
-
-  socket.on('event', (data) => {
-    io.emit('event', data);
-  });
-});
