@@ -2,23 +2,32 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/Button";
 import loginElement from "../../assets/images/login/login-element--principal.svg";
-import "./Auth.scss";
+import styles from "./Auth.module.scss";
 
 const Auth: React.FC = () => {
     const navigate = useNavigate();
     return (
-        <div className="login-wrapper">
+        <main className={styles.authWrapper}>
             <img src={loginElement} alt="loginElement" />
-            <h1>Débutez votre aventure</h1>
-            <div className="btn-wrapper">
-                <Button variant="main" onClick={() => navigate("/login")}>
-                    Se connecter
-                </Button>
-                <Button variant="secondary" onClick={() => navigate("/signup")}>
-                    Créez un compte
-                </Button>
+            <div className={styles.authContent}>
+                <h1>Débutez votre aventure</h1>
+                <span>Organisez votre temps comme vous le souhaitez !</span>
+                <div className={styles.btnWrapper}>
+                    <Button
+                        variant={["main", "full"]}
+                        onClick={() => navigate("/login")}
+                    >
+                        Se connecter
+                    </Button>
+                    <Button
+                        variant={["secondary", "full"]}
+                        onClick={() => navigate("/signup")}
+                    >
+                        Créez un compte
+                    </Button>
+                </div>
             </div>
-        </div>
+        </main>
     );
 };
 

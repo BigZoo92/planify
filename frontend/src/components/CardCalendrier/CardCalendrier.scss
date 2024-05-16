@@ -65,9 +65,9 @@
                     align-items: center;
                     justify-content: space-between;
                     width: 100%;
-                    h2 {
+                    .card-titre {
                         font-family: $font;
-                        font-size: 14px;
+                        font-size: 0.875rem;
                         font-weight: 600;
                         text-transform: uppercase;
                     }

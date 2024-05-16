@@ -20,6 +20,10 @@ body {
   width: 100%;
 }
 
+#root.mb {
+  margin-bottom: 110px;
+}
+
 body,
 button,
 input,
@@ -36,6 +40,30 @@ h6 {
   font-family: $font-title;
 }
 
+h1 {
+  font-size: clamp(2rem, 2.5vw, 3rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 1.875vw, 2.25rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 1.563vw, 1.875rem);
+}
+
+h4 {
+  font-size: clamp(1.125rem, 1.406vw, 1.688rem);
+}
+
+h5 {
+  font-size: clamp(1rem, 1.25vw, 1.5rem);
+}
+
+h6 {
+  font-size: clamp(0.875rem, 1.094vw, 1.313rem);
+}
+
 .page-wrapper {
   display: flex;
   padding: $size-large;
@@ -45,7 +73,6 @@ h6 {
   flex-direction: column;
   align-items: flex-start;
   gap: $size-large;
-  margin-bottom: 30px;
 }
 
 .logo-wrapper {

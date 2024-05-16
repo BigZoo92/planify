@@ -1,0 +1,18 @@
+@import "../../../assets/styles/Variables.scss";
+
+.profileWrapper {
+    padding: $size-large;
+    .profileHeader {
+        display: flex;
+        align-items: center;
+        gap: $size-medium;
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: $size-small;
+            border-radius: $size-medium;
+            border: 1px solid $color_black_10;
+        }
+    }
+}

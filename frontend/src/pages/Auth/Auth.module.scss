@@ -1,0 +1,37 @@
+@import "../../assets/styles/Variables.scss";
+
+.authWrapper {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    padding: 5rem $size-large $size-extra-large $size-large;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: $size-extra-large;
+    .authContent {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: $size-extra-large;
+        h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: $color_blue_100;
+            letter-spacing: 0.1rem;
+        }
+        span {
+            font-weight: 500;
+            color: $color_blue_75;
+        }
+        .btnWrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            gap: $size-medium;
+        }
+    }
+}

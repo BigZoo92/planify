@@ -1,7 +1,12 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import Calendar from "react-calendar";
+
+// Components
 import { CardCalendrier } from "../../components/CardCalendrier";
 import { getTimetableFromCelcat } from "../../utils/queries";
+
+// Styles
 import "react-calendar/dist/Calendar.css";
 import "./Calendrier.scss";
 
@@ -34,12 +39,8 @@ const Calendrier: React.FC = () => {
     });
 
     return (
-        <div className="page-wrapper calendrier">
-            <Calendar
-                onChange={onChangeDate}
-                value={dateSelectionnee}
-                className="monthly-calendar"
-            />
+        <main className="calendrier-wrapper">
+            <Calendar onChange={onChangeDate} value={dateSelectionnee} />
             <div className="calendar-wrapper">
                 {filtreCours.map((course) => (
                     <CardCalendrier
@@ -55,7 +56,7 @@ const Calendrier: React.FC = () => {
                     />
                 ))}
             </div>
-        </div>
+        </main>
     );
 };
 
