@@ -2,26 +2,71 @@ import { z } from 'zod';
 
 /////////////////////////////////////////
 
-export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
+export const TransactionIsolationLevelSchema = z.enum([
+  'ReadUncommitted',
+  'ReadCommitted',
+  'RepeatableRead',
+  'Serializable',
+]);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','email','password','firstName','lastName','urls','createdAt','updatedAt']);
+export const UserScalarFieldEnumSchema = z.enum([
+  'id',
+  'email',
+  'password',
+  'firstName',
+  'lastName',
+  'urls',
+  'createdAt',
+  'updatedAt',
+]);
 
-export const AgendaScalarFieldEnumSchema = z.enum(['id','type','active','createdAt','updatedAt']);
+export const AgendaScalarFieldEnumSchema = z.enum([
+  'id',
+  'type',
+  'active',
+  'createdAt',
+  'updatedAt',
+]);
 
-export const AgendaUserScalarFieldEnumSchema = z.enum(['agendaId','userId','role','createdAt','updatedAt']);
+export const AgendaUserScalarFieldEnumSchema = z.enum([
+  'agendaId',
+  'userId',
+  'role',
+  'createdAt',
+  'updatedAt',
+]);
 
-export const EventScalarFieldEnumSchema = z.enum(['id','summary','location','start','end','data','createdAt','updatedAt']);
+export const EventScalarFieldEnumSchema = z.enum([
+  'id',
+  'summary',
+  'location',
+  'start',
+  'end',
+  'data',
+  'createdAt',
+  'updatedAt',
+]);
 
-export const EventAgendaScalarFieldEnumSchema = z.enum(['eventId','agendaId','createdAt','updatedAt']);
+export const EventAgendaScalarFieldEnumSchema = z.enum([
+  'eventId',
+  'agendaId',
+  'createdAt',
+  'updatedAt',
+]);
 
-export const MessageScalarFieldEnumSchema = z.enum(['id','content','senderId','receiverId','createdAt']);
+export const MessageScalarFieldEnumSchema = z.enum([
+  'id',
+  'content',
+  'senderId',
+  'receiverId',
+  'createdAt',
+]);
 
-export const SortOrderSchema = z.enum(['asc','desc']);
+export const SortOrderSchema = z.enum(['asc', 'desc']);
 
+export const QueryModeSchema = z.enum(['default', 'insensitive']);
 
-export const QueryModeSchema = z.enum(['default','insensitive']);
-
-export const NullsOrderSchema = z.enum(['first','last']);
+export const NullsOrderSchema = z.enum(['first', 'last']);
 
 /////////////////////////////////////////
 // MODELS
@@ -40,9 +85,9 @@ export const UserSchema = z.object({
   urls: z.string().array(),
   createdAt: z.date(),
   updatedAt: z.date(),
-})
+});
 
-export type User = z.infer<typeof UserSchema>
+export type User = z.infer<typeof UserSchema>;
 
 /////////////////////////////////////////
 // AGENDA SCHEMA
@@ -54,9 +99,9 @@ export const AgendaSchema = z.object({
   active: z.boolean(),
   createdAt: z.date(),
   updatedAt: z.date(),
-})
+});
 
-export type Agenda = z.infer<typeof AgendaSchema>
+export type Agenda = z.infer<typeof AgendaSchema>;
 
 /////////////////////////////////////////
 // AGENDA USER SCHEMA
@@ -68,9 +113,9 @@ export const AgendaUserSchema = z.object({
   role: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
-})
+});
 
-export type AgendaUser = z.infer<typeof AgendaUserSchema>
+export type AgendaUser = z.infer<typeof AgendaUserSchema>;
 
 /////////////////////////////////////////
 // EVENT SCHEMA
@@ -85,9 +130,9 @@ export const EventSchema = z.object({
   data: z.any(),
   createdAt: z.date(),
   updatedAt: z.date(),
-})
+});
 
-export type Event = z.infer<typeof EventSchema>
+export type Event = z.infer<typeof EventSchema>;
 
 /////////////////////////////////////////
 // EVENT AGENDA SCHEMA
@@ -98,9 +143,9 @@ export const EventAgendaSchema = z.object({
   agendaId: z.number(),
   createdAt: z.date(),
   updatedAt: z.date(),
-})
+});
 
-export type EventAgenda = z.infer<typeof EventAgendaSchema>
+export type EventAgenda = z.infer<typeof EventAgendaSchema>;
 
 /////////////////////////////////////////
 // MESSAGE SCHEMA
@@ -112,6 +157,6 @@ export const MessageSchema = z.object({
   senderId: z.number(),
   receiverId: z.number(),
   createdAt: z.date(),
-})
+});
 
-export type Message = z.infer<typeof MessageSchema>
+export type Message = z.infer<typeof MessageSchema>;

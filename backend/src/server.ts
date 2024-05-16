@@ -25,13 +25,12 @@ app.use(express.json());
 const server = createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
-    origin: "*", 
-    methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
-    credentials: true
-  }
+    origin: '*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['my-custom-header'],
+    credentials: true,
+  },
 });
-
 
 setupWebsocketServer(io);
 
@@ -40,11 +39,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'secret', 
-  resave: true,
-  saveUninitialized: true,
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'secret',
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
@@ -58,11 +59,11 @@ server.listen(port, () => {
 
 io.on('connection', (socket) => {
   console.log(`Client connected: ${socket.id}`);
-  
+
   socket.on('disconnect', () => {
     console.log(`Client disconnected: ${socket.id}`);
   });
-  
+
   socket.on('event', (data) => {
     io.emit('event', data);
   });
