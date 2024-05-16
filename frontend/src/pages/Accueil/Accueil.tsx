@@ -14,7 +14,7 @@ import { Event } from "../../schema";
 
 // Styles
 import "./Accueil.scss";
-import { Calendar, MapPin } from "@phosphor-icons/react";
+import { Calendar, MapPin, WarningCircle } from "@phosphor-icons/react";
 import Searchbar from "../../components/SearchBar/Searchbar";
 
 const Accueil: React.FC = () => {
@@ -110,8 +110,8 @@ const Accueil: React.FC = () => {
 
     const recapText =
         nbCoursesToday > 0
-            ? `Vous avez ${nbCoursesToday} cours aujourd'hui.`
-            : "Vous n'avez pas de cours aujourd'hui.";
+            ? `Vous avez ${nbCoursesToday} évènements aujourd'hui`
+            : "Vous n'avez pas d'évènements pour aujourd'hui";
 
     if (!user) {
         return null;
@@ -134,7 +134,7 @@ const Accueil: React.FC = () => {
             <section className="recap-wrapper">
                 <h2>{recapText}</h2>
                 <div className="recap-infos">
-                    <span className="nb-cours">Bonne chance !</span>
+                    <span className="nb-cours">Bonne journée !</span>
                 </div>
             </section>
             <section className="calendar-wrapper">
@@ -159,7 +159,8 @@ const Accueil: React.FC = () => {
                     ))
                 ) : (
                     <p className="deactivated">
-                        Aucun évènement cette semaine.
+                        <WarningCircle size={20} weight="bold" />
+                        Aucun évènement cette semaine
                     </p>
                 )}
                 <span className="span-calendar">Semaine prochaine</span>
@@ -179,7 +180,8 @@ const Accueil: React.FC = () => {
                     ))
                 ) : (
                     <p className="deactivated">
-                        Aucun évènement la semaine prochaine.
+                        <WarningCircle size={20} weight="bold" />
+                        Aucun évènement trouvé
                     </p>
                 )}
             </section>

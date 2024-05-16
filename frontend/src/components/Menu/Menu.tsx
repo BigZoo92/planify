@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import Searchbar from "../SearchBar/Searchbar";
 import UserImage from "../../assets/images/users-image/placeholder.png";
@@ -19,6 +19,19 @@ import { useUser } from "../../providers/UserProvider";
 const Menu: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { user } = useUser();
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add("no-scroll");
+        } else {
+            document.body.classList.remove("no-scroll");
+        }
+
+        // Cleanup function to remove the class when the component unmounts
+        return () => {
+            document.body.classList.remove("no-scroll");
+        };
+    }, [isOpen]);
 
     if (!user) {
         return null;
@@ -51,7 +64,7 @@ const Menu: React.FC = () => {
                 </div>
                 <Link to="/notifications">
                     <div className="notifications">
-                        <BellRinging size={30} weight="bold" />
+                        <BellRinging size={30} />
                     </div>
                 </Link>
                 {isOpen && (
@@ -88,13 +101,12 @@ const Menu: React.FC = () => {
                             </li>
                             <li>
                                 <NavLink
-                                    to="/agendas"
+                                    to="/agenda"
                                     onClick={fermetureMenu}
                                     className={
                                         styleNavLink({
                                             isActive:
-                                                location.pathname ===
-                                                "/agendas",
+                                                location.pathname === "/agenda",
                                         }).className
                                     }
                                 >
@@ -104,11 +116,11 @@ const Menu: React.FC = () => {
                                             styleNavLink({
                                                 isActive:
                                                     location.pathname ===
-                                                    "/agendas",
+                                                    "/agenda",
                                             }).iconWeight
                                         }
                                     />
-                                    Agendas
+                                    Agenda
                                 </NavLink>
                             </li>
                             <li>
