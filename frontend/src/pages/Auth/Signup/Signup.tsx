@@ -1,8 +1,14 @@
+// Dependencies
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Form } from "../../../components/Form";
-import "./Signup.scss";
 import { SignupFormSchema, signup } from "../../../utils/queries";
+
+// Assets
+import ElementGraphique from "../../../assets/images/login/login-element--principal__2.svg";
+
+// Styles
+import styles from "./Signup.module.scss";
 
 const Signup: React.FC = () => {
     const navigate = useNavigate();
@@ -15,9 +21,9 @@ const Signup: React.FC = () => {
     }) => {
         try {
             await signup(formData);
-            navigate("/dashboard");
+            navigate("/accueil");
         } catch (error) {
-            console.error("Signup failed:", error);
+            console.error("Erreur lors de l'inscription : ", error);
         }
     };
 
@@ -44,7 +50,8 @@ const Signup: React.FC = () => {
     ];
 
     return (
-        <div className="page-wrapper">
+        <main className={styles.signupWrapper}>
+            <img src={ElementGraphique} alt="ElementGraphique" />
             <h1>Signup</h1>
             <Form
                 onSubmit={handleSignup}
@@ -52,7 +59,7 @@ const Signup: React.FC = () => {
                 buttonName="Créer un compte"
                 schema={SignupFormSchema}
             />
-        </div>
+        </main>
     );
 };
 

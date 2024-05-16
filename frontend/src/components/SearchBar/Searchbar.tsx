@@ -6,7 +6,7 @@ interface SearchBarProps {
     onSearch: (value: string) => void;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
     const [searchTerm, setSearchTerm] = useState("");
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,15 +21,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
     return (
         <div className="search-wrapper">
-            {/* <SearchBar onSearch={handleSearch} /> */}
             <div className="input-wrapper">
                 <input type="text" placeholder="Rechercher..." />
             </div>
-            <div className="filter-wrapper">
+            {/* <div className="filter-wrapper">
                 <Sliders size={20} color="currentColor" />
-            </div>
+            </div> */}
         </div>
     );
 };
 
-export default SearchBar;
+export default Searchbar;

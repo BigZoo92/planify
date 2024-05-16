@@ -1,17 +1,36 @@
 @import "../../assets/styles/Variables.scss";
 
-.calendrier {
+.calendrier-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    gap: $size-large;
     .react-calendar {
         width: 100%;
         max-width: 100%;
         background: none;
-        border: 1px solid $color_black_10;
-        font-family: $font;
+        border: none;
         line-height: 1.125em;
-        border-radius: $size-small;
-        .react-calendar button {
+        border-radius: $size-extra-large;
+        box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+        padding: $size-small;
+        font-family: $font;
+        font-weight: 500;
+        button {
             transition: all 0.3s;
         }
+        .react-calendar__navigation__arrow {
+            font-size: 1.5rem;
+        }
+        .react-calendar__navigation__label__labelText {
+            font-weight: bold;
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-family: $font-title;
+        }
+
         .react-calendar__tile--active {
             background-color: $color_blue_100;
         }
@@ -43,6 +62,9 @@
             background-color: $color_blue_100;
             border-radius: $size-small;
         }
+    }
+    .calendar-wrapper {
+        padding-inline: $size-large;
     }
 }
 
