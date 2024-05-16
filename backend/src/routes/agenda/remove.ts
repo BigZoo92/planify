@@ -14,6 +14,12 @@ export const remove = async (req: Request<{ id: number }>, res: Response) => {
       return res.status(404).json({ message: "Agenda with provided ID not found." });
     }
 
+    if (req.io) {
+      req.io.emit('agenda-deleted', deletedAgenda);
+    } else {
+      console.error("Socket.io instance not available on request");
+    }
+
     res.status(200).json({ message: "Agenda deleted successfully." });
   } catch (error: any) {
     console.error("Error deleting agenda:", error);

@@ -1,15 +1,11 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
-import session from 'express-session';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
 import cors from 'cors';
 import router from './routes';
 import { corsOptions } from './constant';
-import { Server as SocketIOServer } from 'socket.io';
-import { createServer } from 'http';
-import { setupWebsocketServer } from './socket'; 
 import session from 'express-session';
 import { Server as SocketIOServer } from 'socket.io';
 import { createServer } from 'http';
@@ -24,28 +20,24 @@ app.use(helmet());
 app.use(cors(corsOptions));
 app.use(compression());
 app.use(morgan('dev'));
-
 app.use(express.json());
+
 const server = createServer(app);
 const io = new SocketIOServer(server, {
   cors: {
     origin: "*", 
-    methods: ["GET", "POST"]
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
   }
 });
 
-io.on('connection', (socket) => {
-  socket.on('disconnect', () => {
-  });
-  socket.on('event', (data) => {
-    io.emit('event', data);
-  });
-});
 
 setupWebsocketServer(io);
 
-app.get('/', (req, res) => {
-  res.send('WebSocket server running.');
+app.use((req, res, next) => {
+  req.io = io;
+  next();
 });
 
 app.use(session({
@@ -53,12 +45,25 @@ app.use(session({
   resave: true,
   saveUninitialized: true,
 }));
+
 app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
 });
 
-app.use('/api', router)
+app.use('/api', router);
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
+});
+
+io.on('connection', (socket) => {
+  console.log(`Client connected: ${socket.id}`);
+  
+  socket.on('disconnect', () => {
+    console.log(`Client disconnected: ${socket.id}`);
+  });
+  
+  socket.on('event', (data) => {
+    io.emit('event', data);
+  });
 });

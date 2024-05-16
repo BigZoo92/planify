@@ -10,6 +10,12 @@ export const create = async (req: Request<{}, {}, Agenda>, res: Response) => {
       data: agendaData,
     });
 
+    if (req.io) {
+      req.io.emit('agenda-created', newAgenda);
+    } else {
+      console.error("Socket.io instance not available on request");
+    }
+
     res.status(201).json({ agenda: newAgenda });
   } catch (error: any) {
     console.error("Error creating agenda:", error);
