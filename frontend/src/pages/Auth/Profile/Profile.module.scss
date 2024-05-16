@@ -1,18 +1,60 @@
 @import "../../../assets/styles/Variables.scss";
 
 .profileWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $size-large;
     padding: $size-large;
+    .oval {
+        width: 100%;
+        height: 12.5rem;
+        background-color: $color_blue_100;
+        border-radius: 50%;
+        position: absolute;
+        top: -100px;
+        left: 50%;
+        transform: translate(-50%);
+        img {
+            width: 5.625rem;
+            height: 5.625rem;
+            position: absolute;
+            left: 50%;
+            bottom: -45px;
+            transform: translateX(-50%);
+        }
+    }
     .profileHeader {
         display: flex;
         align-items: center;
-        gap: $size-medium;
-        button {
+        justify-content: center;
+        flex-direction: column;
+        gap: $size-small;
+        margin-top: 9.0625rem;
+        h1 {
+            color: $color_blue_100;
+        }
+        span {
+            color: $color_black_25;
+            font-weight: bold;
+        }
+    }
+    .profileContent {
+        display: flex;
+        flex-direction: column;
+        gap: $size-extra-large;
+        section {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: $size-small;
-            border-radius: $size-medium;
+            flex-direction: column;
+            gap: $size-extra-large;
+        }
+        .profileInfo {
+            display: flex;
+            flex-direction: column;
+            gap: $size-small;
             border: 1px solid $color_black_10;
+            // box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
+            padding: $size-large $size-medium;
+            border-radius: $size-medium;
         }
     }
 }

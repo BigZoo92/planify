@@ -1,11 +1,12 @@
 // Dependencies
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     BrowserRouter as Router,
     Routes,
     Route,
     useLocation,
 } from "react-router-dom";
+import { gsap } from "gsap";
 
 // Utils
 import { UserProvider, TimetableProvider } from "./providers";
@@ -23,6 +24,8 @@ import { Profile } from "./pages/Auth/Profile";
 import { Accueil } from "./pages/Accueil";
 import { Calendrier } from "./pages/Calendrier";
 import { Agenda } from "./pages/Agenda";
+import { Notifications } from "./pages/Notifications";
+import { Messagerie } from "./pages/Messagerie";
 
 // Styles
 import "./assets/styles/Main.scss";
@@ -44,8 +47,8 @@ const MainContentWrapper: React.FC = () => {
     const mbContent = ["/login", "/signup"].includes(location.pathname);
 
     return (
-        <div id="root" className={!mbContent ? "mb" : ""}>
-            <Routes>
+        <div className={!mbContent ? "mb" : ""}>
+            <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<Auth />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
@@ -71,22 +74,88 @@ const MainContent: React.FC = () => {
 
     return (
         <>
-            <UserProvider>
-                <TimetableProvider>
-                    {!hideMenu && <Menu />}
-                    {!hideMenu && (
-                        <Modal isOpen={openModal} onClose={toggleModal} />
-                    )}
-                    {!hideNavbar && <Navbar onNewEvent={toggleModal} />}
-                    <Routes>
-                        <Route path="accueil" element={<Accueil />} />
-                        <Route path="calendrier" element={<Calendrier />} />
-                        <Route path="agenda" element={<Agenda />} />
-                        <Route path="profile" element={<Profile />} />
-                    </Routes>
-                </TimetableProvider>
-            </UserProvider>
+            {!hideMenu && <Menu />}
+            <Routes location={location} key={location.pathname}>
+                <Route
+                    path="accueil"
+                    element={
+                        <PageWrapper>
+                            <Accueil />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="calendrier"
+                    element={
+                        <PageWrapper>
+                            <Calendrier />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="agenda"
+                    element={
+                        <PageWrapper>
+                            <Agenda />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="profile"
+                    element={
+                        <PageWrapper>
+                            <Profile />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="messagerie"
+                    element={
+                        <PageWrapper>
+                            <Messagerie />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="notifications"
+                    element={
+                        <PageWrapper>
+                            <Notifications />
+                        </PageWrapper>
+                    }
+                />
+            </Routes>
+            {!hideMenu && <Modal isOpen={openModal} onClose={toggleModal} />}
+            {!hideNavbar && <Navbar onNewEvent={toggleModal} />}
         </>
+    );
+};
+
+interface PageWrapperProps {
+    children: React.ReactNode;
+}
+
+const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
+    const pageRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.fromTo(
+                pageRef.current,
+                { opacity: 0, y: 50 },
+                { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
+            );
+        }, pageRef);
+
+        return () => {
+            ctx.revert();
+        };
+    }, []);
+
+    return (
+        <div className="main-content" ref={pageRef}>
+            {children}
+        </div>
     );
 };
 

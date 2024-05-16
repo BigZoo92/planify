@@ -1,10 +1,14 @@
+// Dependencies
 import React from "react";
+
+// Styles
+import styles from "./Agenda.module.scss";
 
 const Agenda: React.FC = () => {
     return (
-        <div>
+        <main className={styles.agendaWrapper}>
             <h1>Agenda</h1>
-        </div>
+        </main>
     );
 };
 

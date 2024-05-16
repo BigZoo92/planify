@@ -74,12 +74,13 @@
                     span {
                         background-color: $color_white_100;
                         color: $color_black_100;
-                        font-size: 12px;
-                        padding: 4px 8px;
+                        font-size: $size-medium;
+                        padding: $size-extra-small $size-small;
                         border-radius: $size-small;
                         font-weight: 500;
                         text-wrap: nowrap;
                         opacity: 0.5;
+                        text-transform: capitalize;
                     }
                     .active {
                         opacity: 1;
