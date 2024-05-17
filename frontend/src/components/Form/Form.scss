@@ -4,15 +4,24 @@ form {
     display: flex;
     flex-direction: column;
     width: 100%;
+    gap: $size-medium;
     .form-group {
         display: flex;
         flex-direction: column;
         gap: $size-small;
         input {
             width: 100%;
-            border: 1px solid $color_black_25;
+            border: none;
+            background-color: rgba(234, 235, 236, 1);
             border-radius: $size-small;
-            padding: 4px 8px;
+            padding: $size-medium $size-medium-large;
         }
+    }
+    button {
+        width: 100%;
+        border: 1px solid $color_black_25;
+        border-radius: $size-small;
+        padding: $size-medium $size-medium-large;
+        font-weight: bold;
     }
 }

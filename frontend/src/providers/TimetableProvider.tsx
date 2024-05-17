@@ -31,24 +31,37 @@ export const TimetableProvider: React.FC<TimetableProviderProps> = ({
     const { user } = useUser();
 
     useEffect(() => {
-        setLoading(true);
-        if (!user) return;
-        const { urls } = user;
-        for (const url of urls) {
-            (async () => {
-                const newEvents: Event[] = await getTimetableFromCelcat(url);
-                setEvents([...events, ...newEvents]);
-                const agendas: Agenda[] = await listAgendas(user.id);
-                for (const agenda of agendas) {
-                    if (agenda.active) {
-                        const newEvents: Event[] = await listEvents(agenda.id);
-                        setEvents([...events, ...newEvents]);
-                    }
+        const fetchEvents = async () => {
+            setLoading(true);
+            setEvents([]);
+
+            if (!user || !Array.isArray(user.urls)) {
+                setLoading(false);
+                return;
+            }
+
+            const { urls } = user;
+            const allEvents: Event[] = [];
+
+            for (const url of urls) {
+                const newEvents = await getTimetableFromCelcat(url);
+                allEvents.push(...newEvents);
+            }
+
+            const agendas: Agenda[] = await listAgendas(user.id);
+            for (const agenda of agendas) {
+                if (agenda.active) {
+                    const newEvents = await listEvents(agenda.id);
+                    allEvents.push(...newEvents);
                 }
-            })();
-        }
-        setLoading(false);
-    }, [user, events]);
+            }
+
+            setEvents(allEvents);
+            setLoading(false);
+        };
+
+        fetchEvents();
+    }, [user]);
 
     return (
         <TimetableContext.Provider

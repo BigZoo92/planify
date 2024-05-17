@@ -1,91 +1,130 @@
 @import "../../assets/styles/Variables.scss";
 
-.accueil {
-    .accueil-content-wrapper {
+.accueil-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: $size-large $size-large 0 $size-large;
+    gap: $size-large;
+    .header-wrapper {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;
+        width: 100%;
+        font-family: $font-title;
+        .header-infos {
+            display: flex;
+            flex-direction: column;
+            gap: $size-small;
+            .header-location {
+                display: flex;
+                align-items: center;
+                gap: $size-extra-small;
+                color: $color_black_50;
+                svg {
+                    color: inherit;
+                }
+            }
+        }
+    }
+    .recap-wrapper {
         display: flex;
         flex-direction: column;
-        gap: $size-medium-large;
+        justify-content: space-between;
         width: 100%;
-        .accueil-date {
-            font-size: 3rem;
-            font-weight: bold;
-            letter-spacing: 2px;
+        height: 10rem;
+        background: url("../../assets/images/element/calendar-card.svg") no-repeat center center;
+        background-size: cover;
+        border-radius: $size-medium-large;
+        padding: $size-medium-large;
+        color: $color_white_100;
+        .recap-infos {
+            margin: 0 0 0 auto;
+            font-size: 1.5rem;
+            font-family: $font-title;
         }
-        .accueil-date-nom {
-            font-size: 24px;
-            font-weight: 300;
-        }
-        h2 {
-            font-size: 24px;
-            font-weight: 500;
-        }
-        .meteo-wrapper {
-            background-color: $color_white_100;
-            border: 1px solid $color_black_10;
-            border-radius: $size-small;
-            padding: $size-medium-large;
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            .meteo-infos {
-                display: flex;
-                flex-direction: column;
-                gap: 14px;
-                h2 {
-                    font-size: 16px;
-                    font-weight: 500;
-                    color: $color_black_75;
-                }
-                span {
-                    font-size: 2.5rem;
-                }
-                .meteo-location {
-                    display: flex;
-                    flex-direction: column;
-                    gap: $size-small;
-                    h3 {
-                        font-size: 14px;
-                        color: $color_black_75;
-                    }
-                    p {
-                        font-size: 18px;
-                        font-weight: 500;
-                    }
-                }
-            }
-            .meteo-soleil {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                gap: $size-small;
-                padding-left: $size-medium-large;
-                border-left: 1px solid $color_black_10;
-                .meteo-content {
-                    display: flex;
-                    align-items: flex-end;
-                    flex-direction: column;
-                    gap: $size-small;
-                    h3 {
-                        font-size: 14px;
-                        color: $color_black_75;
-                    }
-                    p {
-                        font-size: 18px;
-                        font-weight: 500;
-                    }
-                }
-            }
-        }
-        .calendar-wrapper {
+    }
+    .meteo-wrapper {
+        background-color: $color_white_100;
+        border: 1px solid $color_black_10;
+        border-radius: $size-small;
+        padding: $size-medium-large;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        .meteo-infos {
             display: flex;
             flex-direction: column;
             gap: $size-medium;
-            .cours-absent {
-                background-color: $color_black_10;
-                padding: $size-small;
-                border-radius: $size-small;
-                border: 1px solid $color_black_25;
-                text-align: center;
+            h2 {
+                font-size: 1rem;
+                font-weight: 500;
+                color: $color_black_75;
             }
+            span {
+                font-size: 3rem;
+            }
+            .meteo-location {
+                display: flex;
+                flex-direction: column;
+                gap: $size-small;
+                h3 {
+                    font-size: 0.875rem;
+                    color: $color_black_75;
+                }
+                p {
+                    font-size: 18px;
+                    font-weight: 500;
+                }
+            }
+        }
+        .meteo-soleil {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: $size-small;
+            padding-left: $size-medium-large;
+            border-left: 1px solid $color_black_10;
+            .meteo-content {
+                display: flex;
+                align-items: flex-end;
+                flex-direction: column;
+                gap: $size-small;
+                h3 {
+                    font-size: 14px;
+                    color: $color_black_75;
+                }
+                p {
+                    font-size: 18px;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+    .calendar-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: $size-medium;
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
+            gap: $size-small;
+            color: $color_blue_100;
+            svg {
+                color: inherit;
+            }
+        }
+        .span-calendar {
+            color: $color_black_25;
+            font-weight: bold;
+        }
+        .cours-absent {
+            background-color: $color_black_10;
+            padding: $size-small;
+            border-radius: $size-small;
+            border: 1px solid $color_black_25;
+            text-align: center;
         }
     }
 }

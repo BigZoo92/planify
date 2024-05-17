@@ -1,10 +1,15 @@
-import React, { useState } from "react";
+// Dependencies
+import React, { useState, useEffect, useRef } from "react";
 import {
     BrowserRouter as Router,
     Routes,
     Route,
     useLocation,
 } from "react-router-dom";
+import { gsap } from "gsap";
+
+// Utils
+import { UserProvider, TimetableProvider } from "./providers";
 
 // Components
 import { Menu } from "./components/Menu";
@@ -15,21 +20,23 @@ import { Modal } from "./components/Modal";
 import { Auth } from "./pages/Auth";
 import { Signup } from "./pages/Auth/Signup";
 import { Login } from "./pages/Auth/Login";
+import { Profile } from "./pages/Auth/Profile";
 import { Accueil } from "./pages/Accueil";
 import { Calendrier } from "./pages/Calendrier";
 import { Agenda } from "./pages/Agenda";
-import { Compte } from "./pages/Compte";
-
-// Styles
-import "./assets/styles/Main.scss";
-import { UserProvider, TimetableProvider } from "./providers";
+import { Notifications } from "./pages/Notifications";
+import { Messagerie } from "./pages/Messagerie";
 import { AgendasAdmin } from "./pages/AgendasAdmin";
 import { AgendaAdmin } from "./pages/AgendaAdmin";
 
-const App: React.FC = () => {
-    const [openModal, setModalOpen] = useState(false);
-    const toggleModal = () => setModalOpen(!openModal);
+// Styles
+import "./assets/styles/Main.scss";
 
+// Providers
+import { UserProvider, TimetableProvider } from "./providers";
+
+
+const App: React.FC = () => {
     return (
         <Router>
             <UserProvider>
@@ -51,34 +58,127 @@ const App: React.FC = () => {
                             element={<MainContent toggleModal={toggleModal} />}
                         />
                     </Routes>
+                    <MainContentWrapper />
                 </TimetableProvider>
             </UserProvider>
         </Router>
     );
 };
 
-const MainContent: React.FC<{ toggleModal: () => void }> = ({
-    toggleModal,
-}) => {
+const MainContentWrapper: React.FC = () => {
     const location = useLocation();
-    const hideNavbarAndMenu = ["/", "/login", "/signup"].includes(
-        location.pathname
+    const mbContent = ["/login", "/signup"].includes(location.pathname);
+
+    return (
+        <div className={!mbContent ? "mb" : ""}>
+            <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<Auth />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/*" element={<MainContent />} />
+            </Routes>
+        </div>
     );
+};
+
+const MainContent: React.FC = () => {
+    const location = useLocation();
+    const [openModal, setModalOpen] = useState(false);
+    const toggleModal = () => setModalOpen(!openModal);
+
+    const hideMenu = [
+        "/",
+        "/login",
+        "/signup",
+        "/calendrier",
+        "/profile",
+    ].includes(location.pathname);
+    const hideNavbar = ["/", "/login", "/signup"].includes(location.pathname);
 
     return (
         <>
-            {!hideNavbarAndMenu && <Menu />}
-            {!hideNavbarAndMenu && (
-                <Modal isOpen={false} onClose={toggleModal} />
-            )}
-            {!hideNavbarAndMenu && <Navbar onNewEvent={toggleModal} />}
-            <Routes>
-                <Route path="accueil" element={<Accueil />} />
-                <Route path="calendrier" element={<Calendrier />} />
-                <Route path="agenda" element={<Agenda />} />
-                <Route path="compte" element={<Compte />} />
+            {!hideMenu && <Menu />}
+            <Routes location={location} key={location.pathname}>
+                <Route
+                    path="accueil"
+                    element={
+                        <PageWrapper>
+                            <Accueil />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="calendrier"
+                    element={
+                        <PageWrapper>
+                            <Calendrier />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="agenda"
+                    element={
+                        <PageWrapper>
+                            <Agenda />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="profile"
+                    element={
+                        <PageWrapper>
+                            <Profile />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="messagerie"
+                    element={
+                        <PageWrapper>
+                            <Messagerie />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="notifications"
+                    element={
+                        <PageWrapper>
+                            <Notifications />
+                        </PageWrapper>
+                    }
+                />
             </Routes>
+            {!hideMenu && <Modal isOpen={openModal} onClose={toggleModal} />}
+            {!hideNavbar && <Navbar onNewEvent={toggleModal} />}
         </>
+    );
+};
+
+interface PageWrapperProps {
+    children: React.ReactNode;
+}
+
+const PageWrapper: React.FC<PageWrapperProps> = ({ children }) => {
+    const pageRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            gsap.fromTo(
+                pageRef.current,
+                { opacity: 0, y: 50 },
+                { opacity: 1, y: 0, duration: 0.5, ease: "power3.out" }
+            );
+        }, pageRef);
+
+        return () => {
+            ctx.revert();
+        };
+    }, []);
+
+    return (
+        <div className="main-content" ref={pageRef}>
+            {children}
+        </div>
     );
 };
 

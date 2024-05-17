@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
-import SearchBar from "../SearchBar/Searchbar";
-import LogoPlanify from "../../assets/icons/logo/svg/logo-planify-black.svg";
+import Searchbar from "../SearchBar/Searchbar";
 import UserImage from "../../assets/images/users-image/placeholder.png";
 import {
     House,
@@ -11,11 +10,33 @@ import {
     Gear,
     CalendarDots,
     SignOut,
+    IconWeight,
+    BellRinging,
 } from "@phosphor-icons/react";
 import "./Menu.scss";
+import { useUser } from "../../providers/UserProvider";
 
 const Menu: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { user } = useUser();
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.classList.add("no-scroll");
+        } else {
+            document.body.classList.remove("no-scroll");
+        }
+
+        return () => {
+            document.body.classList.remove("no-scroll");
+        };
+    }, [isOpen]);
+
+    if (!user) {
+        return null;
+    }
+
+    const fullName = `${user.firstName} ${user.lastName}`;
 
     const ouvertureMenu = () => {
         setIsOpen(!isOpen);
@@ -25,23 +46,14 @@ const Menu: React.FC = () => {
         setIsOpen(false);
     };
 
-    const styleNavLink = ({ isActive }) => ({
+    const styleNavLink = ({ isActive }: { isActive: boolean }) => ({
         className: isActive ? "nav-link active" : "nav-link",
-        iconWeight: isActive ? "bold" : "regular",
+        iconWeight: isActive ? "bold" : ("regular" as IconWeight),
     });
 
     return (
-        <header className="header-wrapper">
+        <header className="header-container">
             <div className="menu">
-                <Link to="/">
-                    <div className="logo-wrapper">
-                        <img
-                            id="calendrier-logo"
-                            src={LogoPlanify}
-                            alt="Logo Planify"
-                        />
-                    </div>
-                </Link>
                 <div
                     className={`hamburger ${isOpen ? "open" : ""}`}
                     onClick={ouvertureMenu}
@@ -49,156 +61,192 @@ const Menu: React.FC = () => {
                     <span></span>
                     <span></span>
                 </div>
+                <Link to="/notifications">
+                    <div className="notifications">
+                        <BellRinging size={30} />
+                    </div>
+                </Link>
                 {isOpen && (
-                    <ul className="menu-items">
-                        <div className="menu-content">
-                            <div className="logo-wrapper">
-                                <img
-                                    id="calendrier-logo"
-                                    src={LogoPlanify}
-                                    alt="Logo Planify"
-                                />
-                            </div>
-                            <SearchBar onSearch={() => console.log("search")} />
-                            <div className="li-wrapper">
-                                <li>
-                                    <NavLink
-                                        to="/"
-                                        onClick={fermetureMenu}
-                                        {...styleNavLink}
-                                    >
-                                        <House
-                                            size={20}
-                                            weight={
-                                                styleNavLink({
-                                                    isActive:
-                                                        location.pathname ===
-                                                        "/",
-                                                }).iconWeight
-                                            }
-                                        />
-                                        Accueil
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        to="/agendas"
-                                        onClick={fermetureMenu}
-                                        {...styleNavLink}
-                                    >
-                                        <CalendarDots
-                                            size={20}
-                                            weight={
-                                                styleNavLink({
-                                                    isActive:
-                                                        location.pathname ===
-                                                        "/agendas",
-                                                }).iconWeight
-                                            }
-                                        />
-                                        Agendas
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        to="/calendrier"
-                                        onClick={fermetureMenu}
-                                        {...styleNavLink}
-                                    >
-                                        <Calendar
-                                            size={20}
-                                            weight={
-                                                styleNavLink({
-                                                    isActive:
-                                                        location.pathname ===
-                                                        "/calendrier",
-                                                }).iconWeight
-                                            }
-                                        />
-                                        Calendrier
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        to="/messagerie"
-                                        onClick={fermetureMenu}
-                                        {...styleNavLink}
-                                    >
-                                        <ChatCircle
-                                            size={20}
-                                            weight={
-                                                styleNavLink({
-                                                    isActive:
-                                                        location.pathname ===
-                                                        "/messagerie",
-                                                }).iconWeight
-                                            }
-                                        />
-                                        Messagerie
-                                    </NavLink>
-                                </li>
-                            </div>
+                    <div className="overlay" onClick={fermetureMenu}></div>
+                )}
+                <ul className={`menu-items ${isOpen ? "menu-open" : ""}`}>
+                    <div className="menu-content">
+                        <Searchbar onSearch={() => console.log("search")} />
+                        <div className="li-wrapper">
+                            <li>
+                                <NavLink
+                                    to="/accueil"
+                                    onClick={fermetureMenu}
+                                    className={
+                                        styleNavLink({
+                                            isActive:
+                                                location.pathname ===
+                                                "/accueil",
+                                        }).className
+                                    }
+                                >
+                                    <House
+                                        size={20}
+                                        weight={
+                                            styleNavLink({
+                                                isActive:
+                                                    location.pathname ===
+                                                    "/accueil",
+                                            }).iconWeight
+                                        }
+                                    />
+                                    Accueil
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/agenda"
+                                    onClick={fermetureMenu}
+                                    className={
+                                        styleNavLink({
+                                            isActive:
+                                                location.pathname === "/agenda",
+                                        }).className
+                                    }
+                                >
+                                    <CalendarDots
+                                        size={20}
+                                        weight={
+                                            styleNavLink({
+                                                isActive:
+                                                    location.pathname ===
+                                                    "/agenda",
+                                            }).iconWeight
+                                        }
+                                    />
+                                    Agenda
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/calendrier"
+                                    onClick={fermetureMenu}
+                                    className={
+                                        styleNavLink({
+                                            isActive:
+                                                location.pathname ===
+                                                "/calendrier",
+                                        }).className
+                                    }
+                                >
+                                    <Calendar
+                                        size={20}
+                                        weight={
+                                            styleNavLink({
+                                                isActive:
+                                                    location.pathname ===
+                                                    "/calendrier",
+                                            }).iconWeight
+                                        }
+                                    />
+                                    Calendrier
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/messagerie"
+                                    onClick={fermetureMenu}
+                                    className={
+                                        styleNavLink({
+                                            isActive:
+                                                location.pathname ===
+                                                "/messagerie",
+                                        }).className
+                                    }
+                                >
+                                    <ChatCircle
+                                        size={20}
+                                        weight={
+                                            styleNavLink({
+                                                isActive:
+                                                    location.pathname ===
+                                                    "/messagerie",
+                                            }).iconWeight
+                                        }
+                                    />
+                                    Messagerie
+                                </NavLink>
+                            </li>
                         </div>
-                        <div className="menu-footer">
-                            <div className="li-wrapper">
-                                <li>
-                                    <NavLink
-                                        to="/support"
-                                        onClick={fermetureMenu}
-                                        {...styleNavLink}
-                                    >
-                                        <Lifebuoy
-                                            size={20}
-                                            weight={
-                                                styleNavLink({
-                                                    isActive:
-                                                        location.pathname ===
-                                                        "/support",
-                                                }).iconWeight
-                                            }
-                                        />
-                                        Support
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        to="/parametres"
-                                        onClick={fermetureMenu}
-                                        {...styleNavLink}
-                                    >
-                                        <Gear
-                                            size={20}
-                                            weight={
-                                                styleNavLink({
-                                                    isActive:
-                                                        location.pathname ===
-                                                        "/parametres",
-                                                }).iconWeight
-                                            }
-                                        />
-                                        Paramètres
-                                    </NavLink>
-                                </li>
-                            </div>
-                            <div className="user-wrapper">
+                    </div>
+                    <div className="menu-footer">
+                        <div className="li-wrapper">
+                            <li>
+                                <NavLink
+                                    to="/support"
+                                    onClick={fermetureMenu}
+                                    className={
+                                        styleNavLink({
+                                            isActive:
+                                                location.pathname ===
+                                                "/support",
+                                        }).className
+                                    }
+                                >
+                                    <Lifebuoy
+                                        size={20}
+                                        weight={
+                                            styleNavLink({
+                                                isActive:
+                                                    location.pathname ===
+                                                    "/support",
+                                            }).iconWeight
+                                        }
+                                    />
+                                    Support
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink
+                                    to="/parametres"
+                                    onClick={fermetureMenu}
+                                    className={
+                                        styleNavLink({
+                                            isActive:
+                                                location.pathname ===
+                                                "/parametres",
+                                        }).className
+                                    }
+                                >
+                                    <Gear
+                                        size={20}
+                                        weight={
+                                            styleNavLink({
+                                                isActive:
+                                                    location.pathname ===
+                                                    "/parametres",
+                                            }).iconWeight
+                                        }
+                                    />
+                                    Paramètres
+                                </NavLink>
+                            </li>
+                        </div>
+                        <div className="user-wrapper">
+                            <Link to="/profile" onClick={fermetureMenu}>
                                 <div className="user-info-wrapper">
                                     <img src={UserImage} alt="User" />
                                     <div className="user-info">
                                         <p className="user-info-name">
-                                            Lorem Nom
+                                            {fullName}
                                         </p>
                                         <p className="user-info-email">
-                                            lorem.nom@lorem.com
+                                            {user.email}
                                         </p>
                                     </div>
                                 </div>
-                                <div className="user-logout">
-                                    <SignOut size={20} />
-                                </div>
+                            </Link>
+                            <div className="user-logout">
+                                <SignOut size={20} />
                             </div>
                         </div>
-                    </ul>
-                )}
+                    </div>
+                </ul>
             </div>
         </header>
     );
