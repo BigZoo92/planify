@@ -1,17 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-    RoleAgendaAcademic,
-    createAgenda,
-} from "../../utils/queries/agenda";
+import { RoleAgendaAcademic, createAgenda } from "../../utils/queries/agenda";
 import { AgendaTypeSchema } from "../../schema";
 import { z } from "zod";
-import { Warning, WarningCircle } from "@phosphor-icons/react";
+import { Warning } from "@phosphor-icons/react";
 
 export const AgendaSchema = z.object({
-    type: z.nativeEnum(AgendaType),
-    name: z.string().min(1, "Le nom de l'agenda est obligatoire"),
     type: AgendaTypeSchema,
     name: z.string().min(1, "Name is required"),
 });
@@ -78,7 +73,7 @@ const CreateAgendaForm: React.FC = () => {
             <input
                 type="submit"
                 value={"Créer"}
-              {/* @ts-ignore */}
+                //@ts-ignore
                 onSubmit={onSubmit}
                 className="btn main"
             />
