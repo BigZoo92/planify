@@ -1,17 +1,61 @@
 #detail-message {
+  margin: 16px 0 0 0;
   width: 100vw;
+  padding: 0 0 56px 0;
+  .rce-container-mbox:not(:first-of-type) {
+    margin: 15px 0;
+  }
+  .rce-mbox-photo--img__block {
+    display: none;
+  }
+  .rce-mbox-text,
+  .rce-mbox-photo {
+    border-radius: 15px;
+    line-height: 1.35rem;
+    padding: 8px 12px;
+    width: fit-content;
+    max-width: calc(100% - 19px);
+    font-size: 14px;
+    color: $color_white_100;
+  }
+  .rce-mbox .rce-mbox-photo {
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+    background: $color_blue;
+    order: 1;
+  }
+  .rce-mbox-right .rce-mbox-photo {
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 12px;
+    background: $color_pink;
+    order: 2;
+  }
+  .rce-mbox-body .rce-mbox-time {
+    order: 3;
+  }
   .rce-mbox-body {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     width: calc(100% - 16px);
+    gap: 4px;
     margin: auto;
-    .rce-mbox-text {
-      border-radius: 15px;
-      line-height: 1.35rem;
-      padding: 8px 12px;
-      width: fit-content;
-      color: $color_white_100;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    .rce-mbox-title {
+      width: 100%;
+      span {
+        font-size: 12px;
+        color: $color_black_70;
+      }
     }
+    .rce-mbox-photo--img {
+      img {
+        height: fit-content;
+        width: 100%;
+      }
+    }
+
     .rce-mbox-text.left {
       align-self: flex-start;
       border-bottom-left-radius: 5px;
@@ -21,15 +65,33 @@
       align-self: flex-end;
       border-bottom-right-radius: 5px;
       background: $color_pink;
+      order: 2;
+    }
+    .rce-mbox-text.right ~ div,
+    .rce-mbox-text.right ~ div > span {
+      text-align: right;
+    }
+  }
+  .rce-mbox-right {
+    .rce-mbox-time {
+      order: 1;
+    }
+    .rce-mbox-body {
+      justify-content: flex-end;
+      .rce-mbox-title {
+        text-align: right;
+      }
     }
   }
   .chat-bar {
     left: 0;
     right: 0;
+    background: #fff;
     width: calc(100% - 16px);
     margin: auto;
-    bottom: 8px;
-    position: absolute;
+    bottom: 0;
+    padding: 0 0 18px 0;
+    position: fixed;
     .rce-container-input {
       display: flex;
       align-items: flex-end;
@@ -65,7 +127,7 @@
           #emoji-button {
             position: absolute;
             right: 30px;
-            bottom: 6px;
+            bottom: 24px;
           }
         }
       }
@@ -82,7 +144,7 @@
       align-items: flex-start;
       gap: 12px;
       flex-wrap: wrap;
-      padding: 16px 0 0 0;
+      padding: 12px 0 0 0;
       > div {
         position: relative;
         > .file-preview-file {
