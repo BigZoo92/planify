@@ -1,17 +1,18 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Agenda } from "../../schema";
+import { Agenda as AgendaBackend } from "../../schema";
 import {
     AgendaType,
     RoleAgendaAcademic,
     createAgenda,
 } from "../../utils/queries/agenda";
 import { z } from "zod";
+import { Warning } from "@phosphor-icons/react";
 
 export const AgendaSchema = z.object({
     type: z.nativeEnum(AgendaType),
-    name: z.string().min(1, "Name is required"),
+    name: z.string().min(1, "Le nom de l'agenda est obligatoire"),
 });
 
 const CreateAgendaForm: React.FC = () => {
@@ -20,11 +21,11 @@ const CreateAgendaForm: React.FC = () => {
         handleSubmit,
         formState: { errors },
         reset,
-    } = useForm<Agenda>({
+    } = useForm<AgendaBackend>({
         resolver: zodResolver(AgendaSchema),
     });
 
-    const onSubmit = async (data: Agenda) => {
+    const onSubmit = async (data: AgendaBackend) => {
         console.log("Form data:", data);
         try {
             const response = await createAgenda({
@@ -45,8 +46,8 @@ const CreateAgendaForm: React.FC = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
-            <div>
-                <label htmlFor="type">Type</label>
+            <div className="form-group">
+                <label htmlFor="type">Type de l'agenda</label>
                 <select id="type" {...register("type")}>
                     {Object.values(AgendaType).map((type) => (
                         <option key={type} value={type}>
@@ -54,14 +55,39 @@ const CreateAgendaForm: React.FC = () => {
                         </option>
                     ))}
                 </select>
-                {errors.type && <p>{errors.type.message}</p>}
+                {errors.type && (
+                    <p className="error-message">
+                        <Warning size={20} weight="bold" />
+                        {errors.type.message}
+                    </p>
+                )}
             </div>
-            <div>
-                <label htmlFor="name">Name</label>
+            <div className="form-group">
+                <label htmlFor="name">Nom de l'agenda</label>
                 <input type="text" id="name" {...register("name")} />
-                {errors.name && <p>{errors.name.message}</p>}
+                {errors.name && (
+                    <p className="error-message">
+                        <Warning size={20} weight="bold" />
+                        {errors.name.message}
+                    </p>
+                )}
             </div>
-            <input type="submit" value={"create agenda"} onSubmit={onSubmit} />
+            <div className="form-group">
+                <label htmlFor="prive">Privé</label>
+                <input type="checkbox" id="prive" {...register("prive")} />
+                {errors.type && (
+                    <p className="error-message">
+                        <Warning size={20} weight="bold" />
+                        {errors.type.message}
+                    </p>
+                )}
+            </div>
+            <input
+                type="submit"
+                value={"Créer"}
+                onSubmit={onSubmit}
+                className="btn main"
+            />
         </form>
     );
 };
