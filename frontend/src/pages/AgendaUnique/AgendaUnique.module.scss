@@ -1,20 +1,20 @@
 @import "../../assets/styles/Variables.scss";
 
-.agenda_admin_container{
+.agendaAdminWrapper {
     width: 100%;
     padding: $size-large;
     display: flex;
     flex-direction: column;
     gap: $size-large;
-    h1{
+    h1 {
         color: $color_blue_100;
     }
-    .agenda_chip_container{
+    .agenda_chip_container {
         display: flex;
         flex-direction: column;
         gap: $size-large;
         width: 100%;
-        .agenda_chip{
+        .agenda_chip {
             width: 100%;
             height: 40px;
             display: flex;
@@ -24,7 +24,4 @@
             border-radius: $size-medium-large;
         }
     }
-    
 }
-
-

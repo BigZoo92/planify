@@ -20,11 +20,10 @@ import { Login } from "./pages/Auth/Login";
 import { Profile } from "./pages/Auth/Profile";
 import { Accueil } from "./pages/Accueil";
 import { Calendrier } from "./pages/Calendrier";
-import { Agenda } from "./pages/Agenda";
 import { Notifications } from "./pages/Notifications";
 import { Messagerie } from "./pages/Messagerie";
-import { AgendasAdmin } from "./pages/AgendasAdmin";
-import { AgendaAdmin } from "./pages/AgendaAdmin";
+import { Agenda } from "./pages/Agenda";
+import { AgendaUnique } from "./pages/AgendaUnique";
 
 // Styles
 import "./assets/styles/Main.scss";
@@ -95,14 +94,6 @@ const MainContent: React.FC = () => {
                     }
                 />
                 <Route
-                    path="agenda"
-                    element={
-                        <PageWrapper>
-                            <Agenda />
-                        </PageWrapper>
-                    }
-                />
-                <Route
                     path="profile"
                     element={
                         <PageWrapper>
@@ -127,18 +118,18 @@ const MainContent: React.FC = () => {
                     }
                 />
                 <Route
-                    path="/agendasAdmin"
+                    path="/agenda"
                     element={
                         <PageWrapper>
-                            <AgendasAdmin />
+                            <Agenda />
                         </PageWrapper>
                     }
                 />
                 <Route
-                    path="/agendaAdmin/:agendaId"
+                    path="/agenda/:agendaId"
                     element={
                         <PageWrapper>
-                            <AgendaAdmin />
+                            <AgendaUnique />
                         </PageWrapper>
                     }
                 />

@@ -1,11 +1,17 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Agenda, AgendaTypeSchema } from "../../schema";
-import { RoleAgendaAcademic, createAgenda } from "../../utils/queries/agenda";
+import {
+    RoleAgendaAcademic,
+    createAgenda,
+} from "../../utils/queries/agenda";
+import { AgendaTypeSchema } from "../../schema";
 import { z } from "zod";
+import { Warning, WarningCircle } from "@phosphor-icons/react";
 
 export const AgendaSchema = z.object({
+    type: z.nativeEnum(AgendaType),
+    name: z.string().min(1, "Le nom de l'agenda est obligatoire"),
     type: AgendaTypeSchema,
     name: z.string().min(1, "Name is required"),
 });
@@ -43,8 +49,8 @@ const CreateAgendaForm: React.FC = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
-            <div>
-                <label htmlFor="type">Type</label>
+            <div className="form-group">
+                <label htmlFor="type">Type de l'agenda</label>
                 <select id="type" {...register("type")}>
                     {Object.values(AgendaTypeSchema.enum).map((type) => (
                         <option key={type} value={type}>
@@ -52,15 +58,30 @@ const CreateAgendaForm: React.FC = () => {
                         </option>
                     ))}
                 </select>
-                {errors.type && <p>{errors.type.message}</p>}
+                {errors.type && (
+                    <p className="error-message">
+                        <Warning size={20} weight="bold" />
+                        {errors.type.message}
+                    </p>
+                )}
             </div>
-            <div>
-                <label htmlFor="name">Name</label>
+            <div className="form-group">
+                <label htmlFor="name">Nom de l'agenda</label>
                 <input type="text" id="name" {...register("name")} />
-                {errors.name && <p>{errors.name.message}</p>}
+                {errors.name && (
+                    <p className="error-message">
+                        <Warning size={20} weight="bold" />
+                        {errors.name.message}
+                    </p>
+                )}
             </div>
-            {/* @ts-ignore */}
-            <input type="submit" value={"create agenda"} onSubmit={onSubmit} />
+            <input
+                type="submit"
+                value={"Créer"}
+              {/* @ts-ignore */}
+                onSubmit={onSubmit}
+                className="btn main"
+            />
         </form>
     );
 };

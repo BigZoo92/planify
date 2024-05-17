@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from "react";
-import CreateAgendaForm from "../../components/Form/CreateAgendaForm";
-import { Agenda, Event } from "../../schema";
-import { getAgenda } from "../../utils/queries/agenda";
-import { useUser } from "../../providers";
-import "./AgendaAdmin.scss";
-import { useParams } from "react-router-dom";
-import { listEvents } from "../../utils/queries";
+import { useParams, useNavigate } from "react-router-dom";
+
+// Components
 import CreateEventForm from "../../components/Form/CreateEventForm";
 
-const AgendaAdmin: React.FC = () => {
+// Schema
+import { Agenda as AgendaBackend, Event } from "../../schema";
+
+// Queries
+import { getAgenda } from "../../utils/queries/agenda";
+
+// Queries
+import { listEvents } from "../../utils/queries";
+
+// Styles
+import styles from "./AgendaUnique.module.scss";
+
+const AgendaUnique: React.FC = () => {
     const { agendaId } = useParams<{ agendaId: string }>();
-    const [agenda, setAgenda] = useState<Agenda | null>(null);
+    const [agenda, setAgenda] = useState<AgendaBackend | null>(null);
     const [events, setEvents] = useState<Event[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (!agendaId) return;
@@ -31,10 +40,16 @@ const AgendaAdmin: React.FC = () => {
         fetchAgenda();
     }, [agendaId]);
     if (!agenda) return null;
+
     return (
-        <section className="agenda_admin_container">
+        <main className={styles.agendaAdminWrapper}>
+            <button onClick={() => navigate("/agenda")}>
+                Go back to Agenda
+            </button>
             <h1>{agenda.name}</h1>
-            <CreateEventForm agendaId={parseInt(agendaId)}></CreateEventForm>
+            <CreateEventForm
+                agendaId={parseInt(agendaId) - 1}
+            ></CreateEventForm>
             {events.map((e, index) => (
                 <div key={index}>
                     <div>{e.summary}</div>
@@ -43,8 +58,8 @@ const AgendaAdmin: React.FC = () => {
                     <div>{e.location}</div>
                 </div>
             ))}
-        </section>
+        </main>
     );
 };
 
-export default AgendaAdmin;
+export default AgendaUnique;

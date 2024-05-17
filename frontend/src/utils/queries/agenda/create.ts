@@ -1,8 +1,8 @@
-import { Agenda, AgendaSchema } from "../../../schema";
+import { Agenda } from "../../../schema";
 import { isAuth } from "../auth";
 
 export enum AgendaType {
-    ACADEMIC = "ACADEMIC",
+    ACADEMIC = "Académique",
 }
 
 export enum RoleAgendaAcademic {
