@@ -8,7 +8,7 @@ import {
     createAgenda,
 } from "../../utils/queries/agenda";
 import { z } from "zod";
-import { Warning } from "@phosphor-icons/react";
+import { Warning, WarningCircle } from "@phosphor-icons/react";
 
 export const AgendaSchema = z.object({
     type: z.nativeEnum(AgendaType),
@@ -69,16 +69,6 @@ const CreateAgendaForm: React.FC = () => {
                     <p className="error-message">
                         <Warning size={20} weight="bold" />
                         {errors.name.message}
-                    </p>
-                )}
-            </div>
-            <div className="form-group">
-                <label htmlFor="prive">Privé</label>
-                <input type="checkbox" id="prive" {...register("prive")} />
-                {errors.type && (
-                    <p className="error-message">
-                        <Warning size={20} weight="bold" />
-                        {errors.type.message}
                     </p>
                 )}
             </div>
