@@ -26,15 +26,38 @@ import { Calendrier } from "./pages/Calendrier";
 import { Agenda } from "./pages/Agenda";
 import { Notifications } from "./pages/Notifications";
 import { Messagerie } from "./pages/Messagerie";
+import { AgendasAdmin } from "./pages/AgendasAdmin";
+import { AgendaAdmin } from "./pages/AgendaAdmin";
 
 // Styles
 import "./assets/styles/Main.scss";
+
+// Providers
+import { UserProvider, TimetableProvider } from "./providers";
+
 
 const App: React.FC = () => {
     return (
         <Router>
             <UserProvider>
                 <TimetableProvider>
+                    <Routes>
+                        <Route path="/" element={<Auth />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/signup" element={<Signup />} />
+                        <Route
+                            path="/agendasAdmin"
+                            element={<AgendasAdmin />}
+                        />
+                        <Route
+                            path="/agendaAdmin/:agendaId"
+                            element={<AgendaAdmin />}
+                        />
+                        <Route
+                            path="/*"
+                            element={<MainContent toggleModal={toggleModal} />}
+                        />
+                    </Routes>
                     <MainContentWrapper />
                 </TimetableProvider>
             </UserProvider>

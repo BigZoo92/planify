@@ -1,7 +1,7 @@
 export async function removeAgenda(id: number) {
     try {
         const response = await fetch(
-            `${process.env.SERVER_URL}/agenda/remove`,
+            `${import.meta.env.VITE_SERVER_BACKEND_URL}/agenda/remove`,
             {
                 method: "POST",
                 headers: {

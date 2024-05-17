@@ -1,22 +1,35 @@
-import { z } from "zod";
-import { AgendaSchema } from "../../../schema";
+import { Agenda, AgendaSchema } from "../../../schema";
+import { isAuth } from "../auth";
 
-export async function createAgenda(agendaData: z.infer<typeof AgendaSchema>) {
-    const parsedAgendaData = AgendaSchema.safeParse(agendaData);
-    if (!parsedAgendaData.success) {
-        console.error("Validation des données échouée", parsedAgendaData.error);
-        return null;
-    }
+export enum AgendaType {
+    ACADEMIC = "ACADEMIC",
+}
 
+export enum RoleAgendaAcademic {
+    ADMIN = "ADMIN",
+    TEACHER = "TEACHER",
+    STUDENT = "STUDENT",
+}
+
+export interface CreatAgendaProps {
+    agendaData: Agenda;
+    role: RoleAgendaAcademic;
+}
+
+export async function createAgenda(agendaCreateProps: CreatAgendaProps) {
+    const user = await isAuth();
+    console.log(user);
+    if (!user.id) return;
+    console.log({ ...agendaCreateProps, userId: user.id });
     try {
         const response = await fetch(
-            `${process.env.SERVER_URL}/agenda/create`,
+            `${import.meta.env.VITE_SERVER_BACKEND_URL}/agenda/create`,
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(parsedAgendaData.data),
+                body: JSON.stringify({ ...agendaCreateProps, userId: user.id }),
             }
         );
 

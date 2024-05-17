@@ -1,22 +1,21 @@
-import { z } from "zod";
-import { EventSchema } from "../../../schema";
+import { Event } from "../../../schema";
 
-export async function createEvent(eventData: z.infer<typeof EventSchema>) {
-    const parsedEventData = EventSchema.safeParse(eventData);
-    if (!parsedEventData.success) {
-        console.error("Validation des données échouée", parsedEventData.error);
-        return null;
-    }
+interface CreateEventProps extends Event {
+    agendaId?: number;
+    userId?: number;
+}
 
+export async function createEvent(eventData: CreateEventProps) {
+    console.log(eventData);
     try {
         const response = await fetch(
-            process.env.SERVER_URL + "/events/create",
+            import.meta.env.VITE_SERVER_BACKEND_URL + "/events/create",
             {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(parsedEventData.data),
+                body: JSON.stringify(eventData),
             }
         );
 

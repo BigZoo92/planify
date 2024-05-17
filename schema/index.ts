@@ -4,15 +4,17 @@ import { z } from 'zod';
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','email','password','firstName','lastName','urls','createdAt','updatedAt']);
+export const UserScalarFieldEnumSchema = z.enum(['id','email','password','firstName','lastName','urls','createdAt','updatedAt','darkMode']);
 
-export const AgendaScalarFieldEnumSchema = z.enum(['id','type','active','createdAt','updatedAt']);
+export const AgendaScalarFieldEnumSchema = z.enum(['id','type','name','createdAt','updatedAt']);
 
-export const AgendaUserScalarFieldEnumSchema = z.enum(['agendaId','userId','role','createdAt','updatedAt']);
+export const AgendaUserScalarFieldEnumSchema = z.enum(['agendaId','userId','role','active','createdAt','updatedAt']);
 
 export const EventScalarFieldEnumSchema = z.enum(['id','summary','location','start','end','data','createdAt','updatedAt']);
 
 export const EventAgendaScalarFieldEnumSchema = z.enum(['eventId','agendaId','createdAt','updatedAt']);
+
+export const EventUserScalarFieldEnumSchema = z.enum(['eventId','userId','createdAt','updatedAt']);
 
 export const MessageScalarFieldEnumSchema = z.enum(['id','content','senderId','receiverId','createdAt']);
 
@@ -40,6 +42,7 @@ export const UserSchema = z.object({
   urls: z.string().array(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  darkMode: z.boolean(),
 })
 
 export type User = z.infer<typeof UserSchema>
@@ -51,7 +54,7 @@ export type User = z.infer<typeof UserSchema>
 export const AgendaSchema = z.object({
   id: z.number(),
   type: z.string(),
-  active: z.boolean(),
+  name: z.string(),
   createdAt: z.date(),
   updatedAt: z.date(),
 })
@@ -66,6 +69,7 @@ export const AgendaUserSchema = z.object({
   agendaId: z.number(),
   userId: z.number(),
   role: z.string(),
+  active: z.boolean(),
   createdAt: z.date(),
   updatedAt: z.date(),
 })
@@ -80,8 +84,8 @@ export const EventSchema = z.object({
   id: z.number(),
   summary: z.string(),
   location: z.string(),
-  start: z.date(),
-  end: z.date(),
+  start: z.string(),
+  end: z.string(),
   data: z.any(),
   createdAt: z.date(),
   updatedAt: z.date(),
@@ -101,6 +105,19 @@ export const EventAgendaSchema = z.object({
 })
 
 export type EventAgenda = z.infer<typeof EventAgendaSchema>
+
+/////////////////////////////////////////
+// EVENT USER SCHEMA
+/////////////////////////////////////////
+
+export const EventUserSchema = z.object({
+  eventId: z.number(),
+  userId: z.number(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+})
+
+export type EventUser = z.infer<typeof EventUserSchema>
 
 /////////////////////////////////////////
 // MESSAGE SCHEMA

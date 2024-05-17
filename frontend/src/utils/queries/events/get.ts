@@ -13,7 +13,7 @@ export async function getEventById(eventId: number) {
     }
 
     try {
-        const response = await fetch(process.env.SERVER_URL + "/events/get", {
+        const response = await fetch(import.meta.env.VITE_SERVER_BACKEND_URL + "/events/get", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

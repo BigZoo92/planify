@@ -13,10 +13,6 @@ export const list = async (req: Request<{ agendaId: number }>, res: Response) =>
       where: { id: agendaUser?.eventId }, 
     });
 
-    if (!events.length) {
-      return res.status(404).json({ message: "No events found for provided agenda IDs." });
-    }
-
     res.status(200).json({ events });
   } catch (error: any) {
     console.error("Error fetching events:", error);
