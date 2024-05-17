@@ -6,6 +6,7 @@ import { remove } from "./remove";
 import { list } from "./list";
 import { Request } from "express";
 import { ParsedQs } from "qs";
+import { getUniversityEvent } from "./getUniversityEvent";
 
 const eventsRouter = express.Router();
 
@@ -17,5 +18,6 @@ eventsRouter.post('/get', (req: Req, res) => get(req, res))
 eventsRouter.post('/remove', (req: Req, res) => remove(req, res))
 eventsRouter.post('/update', (req: Req, res) => update(req, res))
 eventsRouter.post('/list', (req: ReqAgendaId, res) => list(req, res))
+eventsRouter.post('/getUniversityEvent', (req: Req, res) => getUniversityEvent(req, res))
 
 export default eventsRouter;
