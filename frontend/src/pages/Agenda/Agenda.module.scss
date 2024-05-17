@@ -14,20 +14,28 @@
         button {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: $size-small;
-            width: 100%;
-            padding: $size-small;
-            border-radius: $size-small;
-            border: 1px solid $color_blue_50;
-            background-color: $color_blue_10;
-            color: $color_blue_50;
+            border: none;
+            padding: 0;
+            background-color: transparent;
+            color: $color_black_25;
+            font-weight: bold;
             transition: all 0.3s ease-in-out;
+            position: relative;
+            padding-bottom: $size-small;
         }
         .active {
-            background-color: $color_blue_100;
-            color: $color_white_100;
-            font-weight: bold;
+            color: $color_blue_100;
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 25px;
+                height: 2px;
+                border-radius: $size-small;
+                background-color: $color_blue_100;
+            }
         }
     }
     .agendaList {
