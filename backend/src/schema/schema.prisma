@@ -32,6 +32,7 @@ model User {
     createdAt        DateTime     @default(now())
     updatedAt        DateTime     @updatedAt
     agendas          AgendaUser[]
+    darkMode         Boolean      @default(false)
     messagesSent     Message[]    @relation("MessageSender")
     messagesReceived Message[]    @relation("MessageReceiver")
 }
@@ -41,9 +42,10 @@ model Agenda {
     type      String
     users     AgendaUser[]
     events    EventAgenda[]
-    active    Boolean       @default(true)
+    name      String
     createdAt DateTime      @default(now())
     updatedAt DateTime      @updatedAt
+    EventUser EventUser[]
 }
 
 model AgendaUser {
@@ -52,6 +54,7 @@ model AgendaUser {
     user      User     @relation(fields: [userId], references: [id])
     userId    Int
     role      String
+    active    Boolean  @default(true)
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
@@ -62,12 +65,13 @@ model Event {
     id        Int           @id @default(autoincrement())
     summary   String
     location  String
-    start     DateTime
-    end       DateTime
+    start     String
+    end       String
     data      Json
     createdAt DateTime      @default(now())
     updatedAt DateTime      @updatedAt
     agendas   EventAgenda[]
+    EventUser EventUser[]
 }
 
 model EventAgenda {
@@ -79,6 +83,17 @@ model EventAgenda {
     updatedAt DateTime @updatedAt
 
     @@id([eventId, agendaId])
+}
+
+model EventUser {
+    event     Event    @relation(fields: [eventId], references: [id])
+    eventId   Int
+    user      Agenda   @relation(fields: [userId], references: [id])
+    userId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@id([eventId, userId])
 }
 
 model Message {

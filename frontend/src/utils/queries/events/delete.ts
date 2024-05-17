@@ -14,7 +14,7 @@ export async function deleteEvent(eventId: number) {
 
     try {
         const response = await fetch(
-            `${process.env.SERVER_URL}/events/delete`,
+            `${import.meta.env.VITE_SERVER_BACKEND_URL}/events/delete`,
             {
                 method: "POST",
                 headers: {

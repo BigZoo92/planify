@@ -23,6 +23,8 @@ import { Compte } from "./pages/Compte";
 // Styles
 import "./assets/styles/Main.scss";
 import { UserProvider, TimetableProvider } from "./providers";
+import { AgendasAdmin } from "./pages/AgendasAdmin";
+import { AgendaAdmin } from "./pages/AgendaAdmin";
 
 const App: React.FC = () => {
     const [openModal, setModalOpen] = useState(false);
@@ -36,6 +38,14 @@ const App: React.FC = () => {
                         <Route path="/" element={<Auth />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/signup" element={<Signup />} />
+                        <Route
+                            path="/agendasAdmin"
+                            element={<AgendasAdmin />}
+                        />
+                        <Route
+                            path="/agendaAdmin/:agendaId"
+                            element={<AgendaAdmin />}
+                        />
                         <Route
                             path="/*"
                             element={<MainContent toggleModal={toggleModal} />}

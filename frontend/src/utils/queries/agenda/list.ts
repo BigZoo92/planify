@@ -1,12 +1,15 @@
 export async function listAgendas(userId: number) {
     try {
-        const response = await fetch(`${process.env.SERVER_URL}/agenda/list`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ userId }),
-        });
+        const response = await fetch(
+            `${import.meta.env.VITE_SERVER_BACKEND_URL}/agenda/list`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ userId }),
+            }
+        );
 
         if (!response.ok) {
             if (response.status === 404) {
