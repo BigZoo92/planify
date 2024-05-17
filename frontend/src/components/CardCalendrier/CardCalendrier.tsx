@@ -39,6 +39,10 @@ const getAdjustedColor = (subject: string): string => {
     }
 };
 
+const capitalizeFirstLetter = (string: string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 const CardCalendrier: React.FC<CalendarCardProps> = ({
     group,
     subject,
@@ -88,16 +92,16 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
 
         if (startDate > now) {
             if (diffDays === 0) {
-                text = `À ${starttime}`;
+                text = `À ${capitalizeFirstLetter(starttime)}`;
             } else if (diffDays === 1) {
-                text = `Demain - À ${starttime}`;
+                text = `Demain - À ${capitalizeFirstLetter(starttime)}`;
             } else if (diffDays === 2) {
-                text = `Après-demain - À ${starttime}`;
+                text = `Après-demain - À ${capitalizeFirstLetter(starttime)}`;
             } else {
                 const dayOfWeek = startDate.toLocaleDateString("fr-FR", {
                     weekday: "long",
                 });
-                text = `${dayOfWeek} - À ${starttime}`;
+                text = `${capitalizeFirstLetter(dayOfWeek)} - À ${capitalizeFirstLetter(starttime)}`;
             }
         } else if (now >= startDate && now <= endDate) {
             text = "En cours";

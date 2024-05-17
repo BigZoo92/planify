@@ -1,6 +1,6 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
+import { v4 as uuidv4 } from "uuid";
 
 // Components
 import { CardCalendrier } from "../../components/CardCalendrier";
@@ -19,7 +19,11 @@ const Calendrier: React.FC = () => {
         (async () => {
             const url = import.meta.env.VITE_URL_SCRAPING;
             const coursFictifs = await getTimetableFromCelcat(url);
-            setCours(coursFictifs);
+            const coursAvecId = coursFictifs.map((course) => ({
+                ...course,
+                id: course.id || uuidv4(),
+            }));
+            setCours(coursAvecId);
         })();
     }, []);
 

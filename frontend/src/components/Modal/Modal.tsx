@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { X } from "@phosphor-icons/react";
 import { gsap } from "gsap";
@@ -31,33 +31,41 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     useEffect(() => {
         if (isOpen) {
             document.body.classList.add("no-scroll");
-            gsap.to(overlayRef.current, {
-                opacity: 1,
-                visibility: "visible",
-                duration: 0.5,
-                ease: "power3.out",
-            });
-            gsap.fromTo(
-                modalRef.current,
-                { y: "100%" },
-                { y: "0%", duration: 0.5, ease: "power3.out" }
-            );
+            if (overlayRef.current) {
+                gsap.to(overlayRef.current, {
+                    opacity: 1,
+                    visibility: "visible",
+                    duration: 0.5,
+                    ease: "power3.out",
+                });
+            }
+            if (modalRef.current) {
+                gsap.fromTo(
+                    modalRef.current,
+                    { y: "100%" },
+                    { y: "0%", duration: 0.5, ease: "power3.out" }
+                );
+            }
         } else {
-            gsap.to(overlayRef.current, {
-                opacity: 0,
-                visibility: "hidden",
-                duration: 0.5,
-                ease: "power3.in",
-            });
-            gsap.to(modalRef.current, {
-                y: "100%",
-                duration: 0.5,
-                ease: "power3.in",
-                onComplete: () => {
-                    document.body.classList.remove("no-scroll");
-                    reset();
-                },
-            });
+            if (overlayRef.current) {
+                gsap.to(overlayRef.current, {
+                    opacity: 0,
+                    visibility: "hidden",
+                    duration: 0.5,
+                    ease: "power3.in",
+                });
+            }
+            if (modalRef.current) {
+                gsap.to(modalRef.current, {
+                    y: "100%",
+                    duration: 0.5,
+                    ease: "power3.in",
+                    onComplete: () => {
+                        document.body.classList.remove("no-scroll");
+                        reset();
+                    },
+                });
+            }
         }
 
         return () => {
