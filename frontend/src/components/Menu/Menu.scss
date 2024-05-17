@@ -1,6 +1,6 @@
 @import "../../assets/styles/Variables.scss";
 
-.header-wrapper {
+.header-container {
     padding: $size-large $size-large 0 $size-large;
     display: flex;
     flex-direction: column;
@@ -17,8 +17,6 @@
         .hamburger {
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            align-items: flex-end;
             width: fit-content;
             gap: $size-small;
             cursor: pointer;
@@ -26,26 +24,38 @@
 
             span {
                 display: block;
-                width: 30px;
+                width: 1.875rem;
                 height: 2px;
+                border-radius: $size-medium;
                 background-color: $color_black_100;
                 transition: all 0.3s;
 
                 &:nth-child(2) {
-                    width: 15px;
+                    width: 0.9375rem;
                 }
             }
 
             &.open span {
                 &:first-child {
-                    transform: translateY(10px) rotate(45deg);
+                    transform: rotate(45deg);
                 }
 
                 &:nth-child(2) {
-                    transform: rotate(-45deg);
+                    transform: translateY(-10px) rotate(-45deg);
                     width: 30px;
                 }
             }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 101%;
+            height: 101%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 9997;
+            transition: opacity 0.5s ease-in-out;
         }
 
         .menu-items {
@@ -55,15 +65,21 @@
             justify-content: space-between;
             gap: 2rem;
             position: fixed;
-            width: 100%;
+            width: 80%;
             height: 100vh;
             top: 0;
-            left: 0;
+            left: -100%;
             background-color: $color_white_100;
             list-style: none;
             padding: $size-large;
-            transition: all 0.3s ease-in-out;
+            transition: all 0.5s ease-in-out;
             z-index: 9998;
+            padding-top: 60px;
+
+            &.menu-open {
+                left: 0;
+            }
+
             .li-wrapper {
                 display: flex;
                 justify-content: center;
@@ -75,7 +91,7 @@
                         display: flex;
                         align-items: center;
                         gap: $size-small;
-                        padding: 12px 8px;
+                        padding: $size-medium $size-small;
                     }
                     .active {
                         font-weight: 600;
@@ -86,13 +102,14 @@
                 }
             }
             .logo-wrapper {
+                margin: 0 0 0 auto;
                 justify-content: space-between;
             }
             .menu-content {
                 display: flex;
                 flex-direction: column;
                 width: 100%;
-                gap: 1.5rem;
+                gap: $size-large;
             }
             .menu-footer {
                 display: flex;
@@ -135,7 +152,7 @@
                     }
                     .user-logout {
                         padding: $size-small $size-medium;
-                        border-radius: $size-extra-small;
+                        border-radius: $size-small;
                         display: flex;
                         background-color: $color_white_100;
                         border: 1px solid $color_black_25;

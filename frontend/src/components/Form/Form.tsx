@@ -49,7 +49,9 @@ const Form = <T extends Record<string, any>>({
                     )}
                 </div>
             ))}
-            <button type="submit">{buttonName}</button>
+            <button className="btn secondary" type="submit">
+                {buttonName}
+            </button>
         </form>
     );
 };

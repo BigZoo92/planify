@@ -14,8 +14,7 @@
         width: 100%;
         align-self: stretch;
         border-radius: $size-small;
-        border: 1px solid $color_black_10;
-        background-color: $color_white_100;
+        background-color: rgba(234, 235, 236, 1);
         position: relative;
         input {
             padding-left: 24px;
@@ -23,6 +22,7 @@
             font-family: $font;
             font-size: 0.875rem;
             border: none;
+            background-color: transparent;
         }
         &::before {
             content: "";
