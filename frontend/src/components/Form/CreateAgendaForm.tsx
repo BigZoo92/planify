@@ -9,6 +9,7 @@ import { Warning } from "@phosphor-icons/react";
 export const AgendaSchema = z.object({
     type: AgendaTypeSchema,
     name: z.string().min(1, "Name is required"),
+    private: z.boolean().optional(),
 });
 
 type AgendaFormData = z.infer<typeof AgendaSchema>;
@@ -69,6 +70,10 @@ const CreateAgendaForm: React.FC = () => {
                         {errors.name.message}
                     </p>
                 )}
+            </div>
+            <div className="form-group">
+                <label htmlFor="private">Privé</label>
+                <input type="checkbox" id="private" {...register("private")} />
             </div>
             <input
                 type="submit"
