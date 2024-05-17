@@ -1,24 +1,22 @@
 // Dependencies
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 
 // Components
-import CalendarCard from "../../components/CardCalendrier/CardCalendrier";
+import { CardCalendrier } from "../../components/CardCalendrier";
+import Searchbar from "../../components/SearchBar/Searchbar";
 
 // Utils
-import { getTimetableFromCelcat } from "../../utils/queries";
 import { useUser } from "../../providers/UserProvider";
-
-// Schema
-import { Event } from "../../schema";
+import { useTimetable } from "../../providers";
 
 // Styles
 import "./Accueil.scss";
 import { Calendar, MapPin, WarningCircle } from "@phosphor-icons/react";
-import Searchbar from "../../components/SearchBar/Searchbar";
+
+// Types
+import { Event } from "../../schema";
 
 const Accueil: React.FC = () => {
-    const [timetables, setTimetables] = useState<Event[]>([]);
     const [weather, setWeather] = useState({
         temp: "",
         condition: "",
@@ -28,89 +26,94 @@ const Accueil: React.FC = () => {
     });
 
     const { user } = useUser();
+    const { events } = useTimetable();
 
     useEffect(() => {
-        (async () => {
-            const newTimetables = await getTimetableFromCelcat(
-                import.meta.env.VITE_URL_SCRAPING
+        const fetchWeatherData = async () => {
+            try {
+                const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
+                const response = await fetch(
+                    `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=48.787899,2.190408&days=1&aqi=no&alerts=no&lang=fr`
+                );
+                const data = await response.json();
+                setWeather({
+                    temp: `${data.current.temp_c} °C`,
+                    condition: data.current.condition.text,
+                    sunrise: data.forecast.forecastday[0].astro.sunrise,
+                    sunset: data.forecast.forecastday[0].astro.sunset,
+                    location: data.location.name,
+                });
+            } catch (error) {
+                console.error("Error fetching weather data:", error);
+            }
+        };
+
+        fetchWeatherData();
+    }, []);
+
+    const filterEventsByWeek = useCallback(
+        (allCourses: Event[], weekOffset = 0) => {
+            const currentDate = new Date();
+            const startOfWeek = new Date(
+                currentDate.setDate(
+                    currentDate.getDate() -
+                        currentDate.getDay() +
+                        weekOffset * 7
+                )
             );
-            setTimetables(newTimetables);
-            console.log(newTimetables);
-            fetchWeatherData();
-        })();
-    }, [setTimetables]);
-
-    const fetchWeatherData = async () => {
-        const apiKey = import.meta.env.VITE_WEATHER_API_KEY;
-        const response = await fetch(
-            `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=48.787899,2.190408&days=1&aqi=no&alerts=no&lang=fr`
-        );
-        const data = await response.json();
-        setWeather({
-            temp: `${data.current.temp_c} °C`,
-            condition: data.current.condition.text,
-            sunrise: data.forecast.forecastday[0].astro.sunrise,
-            sunset: data.forecast.forecastday[0].astro.sunset,
-            location: data.location.name,
-        });
-    };
-
-    const dateActuelle = new Date();
-    const optionsJour = { weekday: "long" };
-    const nomDuJour = dateActuelle.toLocaleDateString("fr-FR", optionsJour);
-    const optionsDate = { day: "2-digit", month: "long" };
-    const dateDuJour = dateActuelle.toLocaleDateString("fr-FR", optionsDate);
-
-    const filterEventsByWeek = (allCourses, weekOffset = 0) => {
-        const currentDate = new Date();
-        const currentWeekDay = currentDate.getDay();
-        const startOfWeek = new Date(
-            currentDate.setDate(
-                currentDate.getDate() - currentWeekDay + weekOffset * 7
-            )
-        );
-        const endOfWeek = new Date(
-            currentDate.setDate(startOfWeek.getDate() + 6)
-        );
-
-        return allCourses.filter((course) => {
-            const [day, month, year] = course.data.date.split("/");
-            const courseDate = new Date(`${year}-${month}-${day}`);
-            const courseStartTime = new Date(
-                `${year}-${month}-${day}T${course.start}:00`
-            ).getTime();
-            const courseEndTime = new Date(
-                `${year}-${month}-${day}T${course.end}:00`
-            ).getTime();
-            const currentTime = new Date().getTime();
-
-            return (
-                courseDate >= startOfWeek &&
-                courseDate <= endOfWeek &&
-                courseEndTime >= currentTime
+            const endOfWeek = new Date(
+                currentDate.setDate(startOfWeek.getDate() + 6)
             );
-        });
-    };
 
-    const filterEventsByDay = (allCourses) => {
+            return allCourses.filter((course) => {
+                if (!course.data || !course.data.date) return false;
+
+                const [day, month, year] = course.data.date.split("/");
+                const courseDate = new Date(`${year}-${month}-${day}`);
+                const courseEndTime = new Date(
+                    `${year}-${month}-${day}T${course.end}:00`
+                ).getTime();
+                const currentTime = Date.now();
+
+                return (
+                    courseDate >= startOfWeek &&
+                    courseDate <= endOfWeek &&
+                    courseEndTime >= currentTime
+                );
+            });
+        },
+        []
+    );
+
+    const filterEventsByDay = useCallback((allCourses: Event[]) => {
         const currentDate = new Date().toISOString().split("T")[0];
         return allCourses.filter((course) => {
+            if (!course.data || !course.data.date) return false;
+
             const [day, month, year] = course.data.date.split("/");
             const courseDate = new Date(`${year}-${month}-${day}`)
                 .toISOString()
                 .split("T")[0];
             return courseDate === currentDate;
         });
-    };
+    }, []);
 
-    const eventsThisWeek = filterEventsByWeek(timetables);
-    const eventsNextWeek = filterEventsByWeek(timetables, 1);
-    const eventsToday = filterEventsByDay(timetables);
-    const nbCoursesToday = eventsToday.length;
+    const eventsToday = useMemo(
+        () => filterEventsByDay(events),
+        [events, filterEventsByDay]
+    );
+    const eventsThisWeek = useMemo(
+        () => filterEventsByWeek(events),
+        [events, filterEventsByWeek]
+    );
+    const eventsNextWeek = useMemo(
+        () => filterEventsByWeek(events, 1),
+        [events, filterEventsByWeek]
+    );
 
     const recapText =
-        nbCoursesToday > 0
-            ? `Vous avez ${nbCoursesToday} évènements aujourd'hui`
+        eventsToday.length > 0
+            ? `Vous avez ${eventsToday.length} évènements aujourd'hui`
             : "Vous n'avez pas d'évènements pour aujourd'hui";
 
     if (!user) {
@@ -145,14 +148,10 @@ const Accueil: React.FC = () => {
                 <span className="span-calendar">Cette semaine</span>
                 {eventsThisWeek.length > 0 ? (
                     eventsThisWeek.map((timetable, index) => (
-                        <CalendarCard
+                        <CardCalendrier
                             key={index}
-                            group={timetable.data.group}
+                            {...timetable.data}
                             subject={timetable.summary}
-                            staff={timetable.data.staff}
-                            classroom={timetable.location}
-                            date={timetable.data.date}
-                            notes={timetable.data.notes}
                             starttime={timetable.start}
                             endtime={timetable.end}
                         />
@@ -166,14 +165,10 @@ const Accueil: React.FC = () => {
                 <span className="span-calendar">Semaine prochaine</span>
                 {eventsNextWeek.length > 0 ? (
                     eventsNextWeek.map((timetable, index) => (
-                        <CalendarCard
+                        <CardCalendrier
                             key={index}
-                            group={timetable.data.group}
+                            {...timetable.data}
                             subject={timetable.summary}
-                            staff={timetable.data.staff}
-                            classroom={timetable.location}
-                            date={timetable.data.date}
-                            notes={timetable.data.notes}
                             starttime={timetable.start}
                             endtime={timetable.end}
                         />

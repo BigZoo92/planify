@@ -1,19 +1,55 @@
 import React, {
     createContext,
     useContext,
-    useState,
+    useReducer,
     ReactNode,
     useEffect,
+    useMemo,
 } from "react";
 import { useUser } from "./UserProvider";
 import { getTimetableFromCelcat, listEvents } from "../utils/queries";
-import { Agenda, Event } from "../schema";
+import { Event } from "../schema";
 import { listAgendas } from "../utils/queries/agenda";
 
-interface TimetableContextProps {
+interface TimetableState {
     loading: boolean;
     events: Event[];
+    error: string | null;
 }
+
+type TimetableAction =
+    | { type: "FETCH_INIT" }
+    | { type: "FETCH_SUCCESS"; payload: Event[] }
+    | { type: "FETCH_FAILURE"; error: string };
+
+const timetableReducer = (
+    state: TimetableState,
+    action: TimetableAction
+): TimetableState => {
+    switch (action.type) {
+        case "FETCH_INIT":
+            return { ...state, loading: true, error: null };
+        case "FETCH_SUCCESS":
+            return {
+                ...state,
+                loading: false,
+                events: action.payload,
+                error: null,
+            };
+        case "FETCH_FAILURE":
+            return { ...state, loading: false, error: action.error };
+        default:
+            throw new Error(`Unhandled action type: "FETCH_FAILURE"`);
+    }
+};
+
+const initialState: TimetableState = {
+    loading: false,
+    events: [],
+    error: null,
+};
+
+interface TimetableContextProps extends TimetableState {}
 
 const TimetableContext = createContext<TimetableContextProps | undefined>(
     undefined
@@ -26,50 +62,50 @@ interface TimetableProviderProps {
 export const TimetableProvider: React.FC<TimetableProviderProps> = ({
     children,
 }) => {
-    const [loading, setLoading] = useState(true);
-    const [events, setEvents] = useState<Event[]>([]);
+    const [state, dispatch] = useReducer(timetableReducer, initialState);
     const { user } = useUser();
 
     useEffect(() => {
         const fetchEvents = async () => {
-            setLoading(true);
-            setEvents([]);
+            dispatch({ type: "FETCH_INIT" });
 
             if (!user || !Array.isArray(user.urls)) {
-                setLoading(false);
+                dispatch({
+                    type: "FETCH_FAILURE",
+                    error: "User or URLs not available",
+                });
                 return;
             }
 
-            const { urls } = user;
-            const allEvents: Event[] = [];
+            try {
+                const { urls } = user;
 
-            for (const url of urls) {
-                const newEvents = await getTimetableFromCelcat(url);
-                allEvents.push(...newEvents);
+                const [eventsFromUrls, agendas] = await Promise.all([
+                    Promise.all(urls.map((url) => getTimetableFromCelcat(url))),
+                    listAgendas(user.id),
+                ]);
+
+                const allEvents: Event[] = eventsFromUrls.flat();
+
+                const eventsFromAgendas = await Promise.all(
+                    agendas.map((agenda) => listEvents(agenda.id))
+                );
+
+                allEvents.push(...eventsFromAgendas.flat());
+
+                dispatch({ type: "FETCH_SUCCESS", payload: allEvents });
+            } catch (error) {
+                dispatch({ type: "FETCH_FAILURE", error: error.message });
             }
-
-            const agendas: Agenda[] = await listAgendas(user.id);
-            for (const agenda of agendas) {
-                if (agenda.active) {
-                    const newEvents = await listEvents(agenda.id);
-                    allEvents.push(...newEvents);
-                }
-            }
-
-            setEvents(allEvents);
-            setLoading(false);
         };
 
         fetchEvents();
     }, [user]);
 
+    const value = useMemo(() => state, [state]);
+
     return (
-        <TimetableContext.Provider
-            value={{
-                loading,
-                events,
-            }}
-        >
+        <TimetableContext.Provider value={value}>
             {children}
         </TimetableContext.Provider>
     );

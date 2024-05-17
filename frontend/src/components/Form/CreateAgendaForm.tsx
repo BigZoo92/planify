@@ -1,18 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Agenda } from "../../schema";
-import {
-    AgendaType,
-    RoleAgendaAcademic,
-    createAgenda,
-} from "../../utils/queries/agenda";
+import { Agenda, AgendaTypeSchema } from "../../schema";
+import { RoleAgendaAcademic, createAgenda } from "../../utils/queries/agenda";
 import { z } from "zod";
 
 export const AgendaSchema = z.object({
-    type: z.nativeEnum(AgendaType),
+    type: AgendaTypeSchema,
     name: z.string().min(1, "Name is required"),
 });
+
+type AgendaFormData = z.infer<typeof AgendaSchema>;
 
 const CreateAgendaForm: React.FC = () => {
     const {
@@ -20,17 +18,17 @@ const CreateAgendaForm: React.FC = () => {
         handleSubmit,
         formState: { errors },
         reset,
-    } = useForm<Agenda>({
+    } = useForm<AgendaFormData>({
         resolver: zodResolver(AgendaSchema),
     });
 
-    const onSubmit = async (data: Agenda) => {
+    const onSubmit = async (data: AgendaFormData) => {
         console.log("Form data:", data);
         try {
             const response = await createAgenda({
                 agendaData: {
                     ...data,
-                    type: AgendaType.ACADEMIC,
+                    type: AgendaTypeSchema.enum.UNIVERSITAIRE,
                 },
                 role: RoleAgendaAcademic.ADMIN,
             });
@@ -48,7 +46,7 @@ const CreateAgendaForm: React.FC = () => {
             <div>
                 <label htmlFor="type">Type</label>
                 <select id="type" {...register("type")}>
-                    {Object.values(AgendaType).map((type) => (
+                    {Object.values(AgendaTypeSchema.enum).map((type) => (
                         <option key={type} value={type}>
                             {type}
                         </option>
@@ -61,6 +59,7 @@ const CreateAgendaForm: React.FC = () => {
                 <input type="text" id="name" {...register("name")} />
                 {errors.name && <p>{errors.name.message}</p>}
             </div>
+            {/* @ts-ignore */}
             <input type="submit" value={"create agenda"} onSubmit={onSubmit} />
         </form>
     );
