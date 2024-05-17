@@ -42,8 +42,8 @@ const UpdateAgendaForm: React.FC<UpdateAgendaFormProps> = ({ initialData }) => {
             </div>
             <div>
                 <label htmlFor="active">Active</label>
-                <input type="checkbox" id="active" {...register("active")} />
-                {errors.active && <p>{errors.active.message}</p>}
+                <input type="checkbox" id="active" {...register("private")} />
+                {errors.private && <p>{errors.private.message}</p>}
             </div>
             <button type="submit" disabled={isSubmitting}>
                 Update Agenda

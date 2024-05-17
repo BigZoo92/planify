@@ -5,12 +5,14 @@ export const list = async (req: Request<{ agendaId: number }>, res: Response) =>
   try {
     const { agendaId } = req.body;
 
-    const agendaUser = await prisma.eventAgenda.findFirst({
-        where: {agendaId}
-    })
+    const eventAgendas = await prisma.eventAgenda.findMany({
+      where: { agendaId }
+    });
+
+    const eventIds = eventAgendas.map(ea => ea.eventId);
 
     const events = await prisma.event.findMany({
-      where: { id: agendaUser?.eventId }, 
+      where: { id: { in: eventIds } }
     });
 
     res.status(200).json({ events });
