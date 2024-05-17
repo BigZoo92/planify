@@ -1,0 +1,9 @@
+@import "../../assets/styles/Variables.scss";
+
+.notificationsWrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: $size-medium;
+    padding: $size-large;
+}

@@ -2,27 +2,30 @@
 
 .btn {
     display: flex;
-    padding: $size-medium-large;
     justify-content: center;
     align-items: center;
-    gap: 10px;
+    gap: $size-medium;
+    padding: $size-medium-large;
     align-self: stretch;
-    border-radius: $size-small;
+    border-radius: $size-medium;
     border: 1px solid;
-    font-weight: 600;
+    font-weight: bold;
     font-family: $font;
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.05rem;
     &.main {
-        background-color: $color_white_100;
-        color: $color_blue_100;
+        background-color: $color_blue_100;
+        color: $color_white_100;
         border-color: $color_white_100;
     }
 
     &.secondary {
-        background-color: $color_blue_100;
-        color: $color_white_100;
-        border-color: $color_white_100;
+        background-color: $color_white_100;
+        color: $color_blue_100;
+        border-color: $color_black_10;
+    }
+    &.full {
+        width: 100%;
     }
 }
