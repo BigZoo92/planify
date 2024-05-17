@@ -43,6 +43,7 @@ model Agenda {
     users     AgendaUser[]
     events    EventAgenda[]
     name      String
+    private   Boolean       @default(true)
     createdAt DateTime      @default(now())
     updatedAt DateTime      @updatedAt
     EventUser EventUser[]

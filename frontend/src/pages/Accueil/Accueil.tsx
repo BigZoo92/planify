@@ -55,12 +55,6 @@ const Accueil: React.FC = () => {
         });
     };
 
-    const dateActuelle = new Date();
-    const optionsJour = { weekday: "long" };
-    const nomDuJour = dateActuelle.toLocaleDateString("fr-FR", optionsJour);
-    const optionsDate = { day: "2-digit", month: "long" };
-    const dateDuJour = dateActuelle.toLocaleDateString("fr-FR", optionsDate);
-
     const filterEventsByWeek = (allCourses, weekOffset = 0) => {
         const currentDate = new Date();
         const currentWeekDay = currentDate.getDay();

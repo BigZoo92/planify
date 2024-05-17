@@ -44,19 +44,19 @@ const CreateEventForm = ({
 
     return (
         <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
-            <div>
+            <div className="form-group">
                 <label htmlFor="summary">Summary</label>
                 <input id="summary" {...register("summary")} />
                 {errors.summary && <p>{errors.summary.message}</p>}
             </div>
 
-            <div>
+            <div className="form-group">
                 <label htmlFor="location">Location</label>
                 <input id="location" {...register("location")} />
                 {errors.location && <p>{errors.location.message}</p>}
             </div>
 
-            <div>
+            <div className="form-group">
                 <label htmlFor="start">Start</label>
                 <input
                     type="datetime-local"
@@ -66,13 +66,13 @@ const CreateEventForm = ({
                 {errors.start && <p>{errors.start.message}</p>}
             </div>
 
-            <div>
+            <div className="form-group">
                 <label htmlFor="end">End</label>
                 <input type="datetime-local" id="end" {...register("end")} />
                 {errors.end && <p>{errors.end.message}</p>}
             </div>
 
-            <div>
+            <div className="form-group">
                 <label htmlFor="data">Data</label>
                 <textarea id="data" {...register("data")} />
                 {errors.data && <p>{errors.data.message as string}</p>}

@@ -2,4 +2,90 @@
 
 .agendaWrapper {
     padding: $size-large;
+    display: flex;
+    flex-direction: column;
+    gap: $size-large;
+    width: 100%;
+    .agendaNav {
+        display: flex;
+        align-items: center;
+        gap: $size-medium;
+        width: 100%;
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: $size-small;
+            width: 100%;
+            padding: $size-small;
+            border-radius: $size-small;
+            border: 1px solid $color_blue_50;
+            background-color: $color_blue_10;
+            color: $color_blue_50;
+            transition: all 0.3s ease-in-out;
+        }
+        .active {
+            background-color: $color_blue_100;
+            color: $color_white_100;
+            font-weight: bold;
+        }
+    }
+    .agendaList {
+        display: flex;
+        flex-direction: column;
+        gap: $size-medium;
+        .agendaCard {
+            display: flex;
+            flex-direction: column;
+            border-radius: $size-medium;
+            border: 1px solid $color_blue_50;
+            background-color: $color_blue_10;
+            font-size: 0.875rem;
+            color: $color_blue_100;
+            width: 100%;
+            overflow: hidden;
+            .agendaHeader {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background-color: $color_blue_100;
+                color: $color_white_100;
+                padding: $size-small $size-medium;
+                h2 {
+                    font-size: clamp(1.25rem, 1.875vw, 2rem);
+                    text-transform: uppercase;
+                    letter-spacing: 0.1rem;
+                }
+                .agendaActions {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: $color_white_100;
+                    padding: 0;
+                    border: none;
+                    background-color: transparent;
+                    svg {
+                        color: inherit;
+                    }
+                }
+            }
+            .agendaContent {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: $size-medium-large $size-medium;
+                .agendaItems {
+                    display: flex;
+                    align-items: center;
+                    gap: $size-small;
+                    color: $color_blue_75;
+                    span {
+                        font-size: 0.875rem;
+                    }
+                }
+                .agendaLink {
+                }
+            }
+        }
+    }
 }
