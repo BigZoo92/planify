@@ -14,7 +14,7 @@ export async function updateEvent(
 
     try {
         const response = await fetch(
-            `${process.env.SERVER_URL}/events/update`,
+            `${import.meta.env.VITE_SERVER_BACKEND_URL}/events/update`,
             {
                 method: "POST",
                 headers: {

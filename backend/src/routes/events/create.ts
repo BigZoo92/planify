@@ -2,31 +2,52 @@ import { Request, Response } from "express";
 import { EventSchema, Event } from "../../schema";
 import { prisma } from "../../schema/prismaClient";
 
-export const create = async (req: Request<{}, {}, Event>, res: Response) => {
+interface CreateEventProps extends Event {
+  agendaId?: number;
+  userId?: number;
+}
+
+export const create = async (req: Request<{}, {}, CreateEventProps>, res: Response) => {
   try {
     const {
-        id,
+        agendaId,
+        userId,
         summary,
         location,
         start,
         end,
         data,
-        createdAt,
-        updatedAt,
-    } = EventSchema.parse(req.body);
+    } = req.body;
 
     const newEvent = await prisma.event.create({
         data: {
-            id,
             summary,
             location,
             start,
             end,
             data: data as any,
-            createdAt,
-            updatedAt,
         },
       });
+      
+      const eventId = newEvent.id
+
+      if(userId){
+      const newEventUser = await prisma.eventUser.create({
+        data: {
+          eventId,
+          userId
+        },
+      });
+      }
+
+      if(agendaId){
+        const newEventAgenda = await prisma.eventAgenda.create({
+          data: {
+            eventId,
+            agendaId
+          },
+        });
+      }
 
     res.status(201).json({ event: newEvent });
   } catch (error: any) {

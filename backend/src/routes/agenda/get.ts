@@ -3,7 +3,7 @@ import { prisma } from "../../schema/prismaClient";
 
 export const get = async (req: Request<{ id: number }>, res: Response) => {
   try {
-    const { id } = req.params;
+    const { id } = req.body;
 
     const agenda = await prisma.agenda.findUnique({
       where: { id },
