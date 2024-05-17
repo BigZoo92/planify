@@ -14,7 +14,8 @@ export async function getEventById(eventId: number) {
 
     try {
         const response = await fetch(
-            import.meta.env.VITE_SERVER_BACKEND_URL + "/events/get",
+            import.meta.env.VITE_SERVER_BACKEND_URL +
+                "/events/getUniversityEvent",
             {
                 method: "POST",
                 headers: {
@@ -32,8 +33,9 @@ export async function getEventById(eventId: number) {
             }
             return null;
         }
+        const universityDataResponse = await response.json();
 
-        return await response.json();
+        return universityDataResponse.universityData;
     } catch (error) {
         console.error("Erreur lors de la récupération de l’événement:", error);
         return null;
