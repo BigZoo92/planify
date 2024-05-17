@@ -3,6 +3,15 @@ const formatDate = (date) => {
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 };
 const MessageList = () => {
+  const downloadFile = (uri, fileName) => {
+    const link = document.createElement('a');
+    link.href = uri;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   const date = new Date();
 
   return (
@@ -65,7 +74,7 @@ const MessageList = () => {
         focus={false}
         type="photo"
         title={formatDate(date)}
-        text="jfdgsirfojqzroo egflbnfk c  bf,v"
+        text=""
         titleColor="#000"
         data={{
           uri: 'https://blog.hubspot.com/hs-fs/hubfs/parts-url_1.webp?width=595&height=400&name=parts-url_1.webp',
@@ -78,6 +87,62 @@ const MessageList = () => {
         status="read"
         notch={false}
         retracted={false}
+      />
+      <MessageBox
+        id="6"
+        position="right"
+        focus={false}
+        type="file"
+        title={formatDate(date)}
+        text="Please find the attached file."
+        titleColor="#000"
+        data={{
+          uri: 'C:/Users/quent/OneDrive/Images/power-of-attorney.pdf',
+          status: { click: false, loading: 0 },
+          size: '100KB',
+          extension: 'pdf',
+        }}
+        date={new Date()}
+        replyButton={false}
+        forwarded={false}
+        removeButton={false}
+        status="sent"
+        notch={false}
+        retracted={false}
+        onClick={() =>
+          downloadFile(
+            'https://drive.google.com/file/d/1NO6eUqfqlNNnkOBdeCwS3lrGRYlKirYp/view?usp=sharing',
+            'test.pdf'
+          )
+        }
+      />
+      <MessageBox
+        id="7"
+        position="left"
+        focus={false}
+        type="file"
+        title={formatDate(date)}
+        text="Please find the attached file."
+        titleColor="#000"
+        data={{
+          uri: 'C:/Users/quent/OneDrive/Images/power-of-attorney.pdf',
+          status: { click: false, loading: 0 },
+          size: '100KB',
+          extension: 'pdf',
+        }}
+        date={new Date()}
+        replyButton={false}
+        forwarded={false}
+        removeButton={false}
+        status="sent"
+        notch={false}
+        retracted={false}
+        onClick={() =>
+          downloadFile(
+            'https://drive.google.com/file/d/1NO6eUqfqlNNnkOBdeCwS3lrGRYlKirYp/view?usp=sharing',
+            'test.pdf'
+          )
+        }
       />
     </div>
   );

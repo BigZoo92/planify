@@ -2,6 +2,41 @@
   margin: 16px 0 0 0;
   width: 100vw;
   padding: 0 0 56px 0;
+
+  .rce-mbox-file {
+    button {
+      background: none;
+      border: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    .rce-mbox-file--buttons {
+      display: none;
+    }
+    .rce-mbox-file--text {
+      color: rgb(250, 250, 250);
+      font-size: 10px;
+      background: rgb(0, 0, 0, 0.1);
+      padding: 4px 4px 4px 32px;
+      position: relative;
+    }
+    .rce-mbox-file--text:before {
+      content: '';
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="%23ffffff" viewBox="0 0 256 256"><path d="M224,144v64a8,8,0,0,1-8,8H40a8,8,0,0,1-8-8V144a8,8,0,0,1,16,0v56H208V144a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,124.69V32a8,8,0,0,0-16,0v92.69L93.66,98.34a8,8,0,0,0-11.32,11.32Z"/></svg>');
+      display: block;
+      width: 18px;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      height: 18px;
+      position: absolute;
+      background-position: center;
+      background-size: cover;
+      left: 4px;
+    }
+    .rce-mbox-file--icon {
+      display: none;
+    }
+  }
   .rce-container-mbox:not(:first-of-type) {
     margin: 15px 0;
   }
@@ -9,22 +44,24 @@
     display: none;
   }
   .rce-mbox-text,
-  .rce-mbox-photo {
+  .rce-mbox-photo,
+  .rce-mbox-file {
     border-radius: 15px;
-    line-height: 1.35rem;
     padding: 8px 12px;
     width: fit-content;
     max-width: calc(100% - 19px);
     font-size: 14px;
     color: $color_white_100;
   }
-  .rce-mbox .rce-mbox-photo {
+  .rce-mbox .rce-mbox-photo,
+  .rce-mbox .rce-mbox-file {
     align-self: flex-start;
     border-bottom-left-radius: 5px;
     background: $color_blue;
     order: 1;
   }
-  .rce-mbox-right .rce-mbox-photo {
+  .rce-mbox-right .rce-mbox-photo,
+  .rce-mbox-right .rce-mbox-file {
     align-self: flex-end;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 12px;
@@ -53,9 +90,13 @@
       img {
         height: fit-content;
         width: 100%;
+        max-width: 33vh;
       }
     }
-
+    .rce-mbox-text {
+      line-height: 1.35rem;
+      padding: 0;
+    }
     .rce-mbox-text.left {
       align-self: flex-start;
       border-bottom-left-radius: 5px;
@@ -70,6 +111,9 @@
     .rce-mbox-text.right ~ div,
     .rce-mbox-text.right ~ div > span {
       text-align: right;
+    }
+    > .rce-mbox-text {
+      padding: 8px 12px;
     }
   }
   .rce-mbox-right {
@@ -86,11 +130,9 @@
   .chat-bar {
     left: 0;
     right: 0;
-    background: #fff;
-    width: calc(100% - 16px);
-    margin: auto;
+    background: $color_white_100;
     bottom: 0;
-    padding: 0 0 18px 0;
+    padding: 0 8px 12px 8px;
     position: fixed;
     .rce-container-input {
       display: flex;
@@ -119,15 +161,15 @@
             cursor: pointer;
             height: 20px;
             position: relative;
-            bottom: 6px;
+            bottom: 5px;
             svg {
               margin: auto;
             }
           }
           #emoji-button {
             position: absolute;
-            right: 30px;
-            bottom: 24px;
+            right: 38px;
+            bottom: 18px;
           }
         }
       }
@@ -138,7 +180,6 @@
     }
     .file-preview {
       width: 100%;
-      margin: 0 0 8px 0;
       display: flex;
       justify-content: flex-start;
       align-items: flex-start;
