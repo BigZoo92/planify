@@ -10,7 +10,7 @@ export async function updateAgenda(updateData: z.infer<typeof AgendaSchema>) {
 
     try {
         const response = await fetch(
-            `${process.env.SERVER_URL}/agendas/update`,
+            `${import.meta.env.VITE_SERVER_BACKEND_URL}/agendas/update`,
             {
                 method: "POST",
                 headers: {
