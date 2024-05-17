@@ -27,7 +27,6 @@ body {
   margin-bottom: 110px;
 }
 
-body,
 button,
 input,
 textarea {
@@ -91,7 +90,8 @@ body.no-scroll {
   overflow: hidden;
 }
 
-.deactivated {
+.deactivated,
+.error-message {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,4 +104,12 @@ body.no-scroll {
   font-size: 0.875rem;
   color: $color_pink_50;
   width: 100%;
+}
+
+.error-message {
+  background-color: transparent;
+  padding: 0;
+  border: none;
+  border-radius: $size-small;
+  width: fit-content;
 }
