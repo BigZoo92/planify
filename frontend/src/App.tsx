@@ -1,9 +1,7 @@
 import './sass/main.scss';
-import DetailMessage from './pages/Messagerie/Details/detailMessage'
+import HubMessage from './pages/Messagerie/Chathub/chathub.tsx';
 function App() {
-  return (
-    <DetailMessage />
-  );
+  return <HubMessage />;
 }
 
 export default App;
