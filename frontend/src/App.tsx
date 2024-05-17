@@ -8,9 +8,6 @@ import {
 } from "react-router-dom";
 import { gsap } from "gsap";
 
-// Utils
-import { UserProvider, TimetableProvider } from "./providers";
-
 // Components
 import { Menu } from "./components/Menu";
 import { Navbar } from "./components/Navbar";
@@ -35,29 +32,11 @@ import "./assets/styles/Main.scss";
 // Providers
 import { UserProvider, TimetableProvider } from "./providers";
 
-
 const App: React.FC = () => {
     return (
         <Router>
             <UserProvider>
                 <TimetableProvider>
-                    <Routes>
-                        <Route path="/" element={<Auth />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/signup" element={<Signup />} />
-                        <Route
-                            path="/agendasAdmin"
-                            element={<AgendasAdmin />}
-                        />
-                        <Route
-                            path="/agendaAdmin/:agendaId"
-                            element={<AgendaAdmin />}
-                        />
-                        <Route
-                            path="/*"
-                            element={<MainContent toggleModal={toggleModal} />}
-                        />
-                    </Routes>
                     <MainContentWrapper />
                 </TimetableProvider>
             </UserProvider>
@@ -144,6 +123,22 @@ const MainContent: React.FC = () => {
                     element={
                         <PageWrapper>
                             <Notifications />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="/agendasAdmin"
+                    element={
+                        <PageWrapper>
+                            <AgendasAdmin />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="/agendaAdmin/:agendaId"
+                    element={
+                        <PageWrapper>
+                            <AgendaAdmin />
                         </PageWrapper>
                     }
                 />
