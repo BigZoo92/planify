@@ -13,6 +13,8 @@ const Agenda: React.FC = () => {
     const [selectedType, setSelectedType] = useState<string>("Tous");
     const { user } = useUser();
 
+    console.log(agendas);
+
     useEffect(() => {
         if (!user) return;
 
@@ -60,15 +62,17 @@ const Agenda: React.FC = () => {
                     Tous
                 </button>
                 <button
-                    onClick={() => handleTypeChange("ACADEMIC")}
-                    className={selectedType === "ACADEMIC" ? styles.active : ""}
+                    onClick={() => handleTypeChange("UNIVERSITAIRE")}
+                    className={
+                        selectedType === "UNIVERSITAIRE" ? styles.active : ""
+                    }
                 >
-                    Académique
+                    Universitaire
                 </button>
                 <button
-                    onClick={() => handleTypeChange("Personnel")}
+                    onClick={() => handleTypeChange("PERSONNEL")}
                     className={
-                        selectedType === "Personnel" ? styles.active : ""
+                        selectedType === "PERSONNEL" ? styles.active : ""
                     }
                 >
                     Personnel

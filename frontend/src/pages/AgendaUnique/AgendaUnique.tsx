@@ -56,6 +56,7 @@ const AgendaUnique: React.FC = () => {
                     <div>{e.start.toString()}</div>
                     <div>{e.end.toString()}</div>
                     <div>{e.location}</div>
+                    <div>{e.type}</div>
                 </div>
             ))}
         </main>
