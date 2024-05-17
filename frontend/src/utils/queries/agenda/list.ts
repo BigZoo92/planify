@@ -18,8 +18,8 @@ export async function listAgendas(userId: number) {
             }
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-
-        return await response.json();
+        const agendasResponse = await response.json();
+        return agendasResponse.agendas;
     } catch (error) {
         console.error("Error fetching user agendas:", error);
         return null;
