@@ -22,6 +22,20 @@ generator zod {
     coerceDate               = false
 }
 
+enum AgendaType {
+    UNIVERSITAIRE
+    PERSONNEL
+}
+
+enum UniversityEventType {
+    TD
+    TP
+    CM
+    REUNION
+    SOUTENANCE
+    AUTRE
+}
+
 model User {
     id               Int          @id @default(autoincrement())
     email            String       @unique
@@ -35,11 +49,12 @@ model User {
     darkMode         Boolean      @default(false)
     messagesSent     Message[]    @relation("MessageSender")
     messagesReceived Message[]    @relation("MessageReceiver")
+    EventUser        EventUser[]
 }
 
 model Agenda {
     id        Int           @id @default(autoincrement())
-    type      String
+    type      AgendaType    @default(PERSONNEL)
     users     AgendaUser[]
     events    EventAgenda[]
     name      String
@@ -63,16 +78,28 @@ model AgendaUser {
 }
 
 model Event {
-    id        Int           @id @default(autoincrement())
-    summary   String
-    location  String
-    start     String
-    end       String
-    data      Json
-    createdAt DateTime      @default(now())
-    updatedAt DateTime      @updatedAt
-    agendas   EventAgenda[]
-    EventUser EventUser[]
+    id               Int                  @id @default(autoincrement())
+    summary          String
+    location         String
+    start            String
+    end              String
+    data             Json
+    universityData   UniversityEventData? @relation(fields: [universityDataId], references: [id])
+    universityDataId Int?
+    createdAt        DateTime             @default(now())
+    updatedAt        DateTime             @updatedAt
+    agendas          EventAgenda[]
+    EventUser        EventUser[]
+}
+
+model UniversityEventData {
+    id     Int                 @id @default(autoincrement())
+    group  String[]
+    type   UniversityEventType
+    staff  String[]
+    note   String
+    course String
+    Event  Event[]
 }
 
 model EventAgenda {
@@ -89,10 +116,12 @@ model EventAgenda {
 model EventUser {
     event     Event    @relation(fields: [eventId], references: [id])
     eventId   Int
-    user      Agenda   @relation(fields: [userId], references: [id])
+    user      User     @relation(fields: [userId], references: [id])
     userId    Int
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+    Agenda    Agenda?  @relation(fields: [agendaId], references: [id])
+    agendaId  Int?
 
     @@id([eventId, userId])
 }

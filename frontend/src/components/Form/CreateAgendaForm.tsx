@@ -1,19 +1,22 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Agenda as AgendaBackend } from "../../schema";
 import {
-    AgendaType,
     RoleAgendaAcademic,
     createAgenda,
 } from "../../utils/queries/agenda";
+import { AgendaTypeSchema } from "../../schema";
 import { z } from "zod";
 import { Warning, WarningCircle } from "@phosphor-icons/react";
 
 export const AgendaSchema = z.object({
     type: z.nativeEnum(AgendaType),
     name: z.string().min(1, "Le nom de l'agenda est obligatoire"),
+    type: AgendaTypeSchema,
+    name: z.string().min(1, "Name is required"),
 });
+
+type AgendaFormData = z.infer<typeof AgendaSchema>;
 
 const CreateAgendaForm: React.FC = () => {
     const {
@@ -21,17 +24,17 @@ const CreateAgendaForm: React.FC = () => {
         handleSubmit,
         formState: { errors },
         reset,
-    } = useForm<AgendaBackend>({
+    } = useForm<AgendaFormData>({
         resolver: zodResolver(AgendaSchema),
     });
 
-    const onSubmit = async (data: AgendaBackend) => {
+    const onSubmit = async (data: AgendaFormData) => {
         console.log("Form data:", data);
         try {
             const response = await createAgenda({
                 agendaData: {
                     ...data,
-                    type: AgendaType.ACADEMIC,
+                    type: AgendaTypeSchema.enum.UNIVERSITAIRE,
                 },
                 role: RoleAgendaAcademic.ADMIN,
             });
@@ -49,7 +52,7 @@ const CreateAgendaForm: React.FC = () => {
             <div className="form-group">
                 <label htmlFor="type">Type de l'agenda</label>
                 <select id="type" {...register("type")}>
-                    {Object.values(AgendaType).map((type) => (
+                    {Object.values(AgendaTypeSchema.enum).map((type) => (
                         <option key={type} value={type}>
                             {type}
                         </option>
@@ -75,6 +78,7 @@ const CreateAgendaForm: React.FC = () => {
             <input
                 type="submit"
                 value={"Créer"}
+              {/* @ts-ignore */}
                 onSubmit={onSubmit}
                 className="btn main"
             />

@@ -1,38 +1,29 @@
 import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
-import { v4 as uuidv4 } from "uuid";
 
 // Components
 import { CardCalendrier } from "../../components/CardCalendrier";
-import { getTimetableFromCelcat } from "../../utils/queries";
 
 // Styles
 import "react-calendar/dist/Calendar.css";
 import "./Calendrier.scss";
 import { WarningCircle } from "@phosphor-icons/react";
+import { useTimetable } from "../../providers";
 
 const Calendrier: React.FC = () => {
     const [dateSelectionnee, setDateSelectionnee] = useState(new Date());
-    const [cours, setCours] = useState([]);
+    const { events } = useTimetable();
 
-    useEffect(() => {
-        (async () => {
-            const url = import.meta.env.VITE_URL_SCRAPING;
-            const coursFictifs = await getTimetableFromCelcat(url);
-            const coursAvecId = coursFictifs.map((course) => ({
-                ...course,
-                id: course.id || uuidv4(),
-            }));
-            setCours(coursAvecId);
-        })();
-    }, []);
-
-    const onChangeDate = (date) => {
+    const onChangeDate = (date: Date) => {
         setDateSelectionnee(date);
     };
 
-    const filtreCours = cours.filter((course) => {
+    const filtreCours = events.filter((course) => {
+        if (!course.data || !course.data.date) return false;
+
         const dateParts = course.data.date.split("/");
+        if (dateParts.length !== 3) return false;
+
         const formattedDate = `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`;
         const dateCours = new Date(formattedDate);
 
@@ -43,14 +34,15 @@ const Calendrier: React.FC = () => {
         );
     });
 
-    const formateDate = (date) => {
+    const formateDate = (date: Date) => {
         const options = { day: "numeric", month: "long", year: "numeric" };
+        //@ts-ignore
         const formattedDate = date.toLocaleDateString("fr-FR", options);
         const [day, month, year] = formattedDate.split(" ");
         return { day, month, year };
     };
 
-    const getRelativeDayText = (selectedDate) => {
+    const getRelativeDayText = (selectedDate: Date) => {
         const today = new Date();
         const tomorrow = new Date(today);
         tomorrow.setDate(today.getDate() + 1);
@@ -99,9 +91,9 @@ const Calendrier: React.FC = () => {
                         Aucun évènement trouvé
                     </p>
                 ) : (
-                    filtreCours.map((course) => (
+                    filtreCours.map((course, index) => (
                         <CardCalendrier
-                            key={course.id}
+                            key={index}
                             group={course.data.group}
                             subject={course.summary}
                             staff={course.data.staff}
