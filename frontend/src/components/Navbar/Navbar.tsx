@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Calendar, House, User, Plus, ChatCircle } from "@phosphor-icons/react";
-import "./Navbar.scss";
+import styles from "./Navbar.module.scss";
 
 interface NavbarProps {
     onNewEvent: () => void;
@@ -9,19 +9,19 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ onNewEvent }) => {
     const leftNavLink = [
-        { path: "/", icon: <House size={20} weight="bold" /> },
+        { path: "/accueil", icon: <House size={20} weight="bold" /> },
         { path: "/calendrier", icon: <Calendar size={20} weight="bold" /> },
     ];
 
     const rightNavLink = [
         { path: "/messagerie", icon: <ChatCircle size={20} weight="bold" /> },
-        { path: "/compte", icon: <User size={20} weight="bold" /> },
+        { path: "/profile", icon: <User size={20} weight="bold" /> },
     ];
 
     return (
-        <div className="navbar">
+        <nav className={styles.navbar}>
             <svg
-                id="navbar-background"
+                className={styles.navbarBackground}
                 width="390"
                 height="117"
                 viewBox="0 0 390 117"
@@ -33,24 +33,41 @@ const Navbar: React.FC<NavbarProps> = ({ onNewEvent }) => {
                     fill="white"
                 />
             </svg>
-            <ul className="nav-link-wrapper">
+            <ul className={styles.navLinkWrapper}>
                 {leftNavLink.map((link, index) => (
-                    <li key={index} className="nav-link">
-                        <NavLink to={link.path}>{link.icon}</NavLink>
+                    <li key={index} className={styles.navLink}>
+                        <NavLink
+                            to={link.path}
+                            className={({ isActive }) =>
+                                `${styles.navLink} ${isActive ? styles.active : ""}`
+                            }
+                        >
+                            {link.icon}
+                        </NavLink>
                     </li>
                 ))}
-                <li className="nav-event">
-                    <button className="btn-event" onClick={onNewEvent}>
+                <li className={styles.navEvent}>
+                    <button className={styles.btnEvent} onClick={onNewEvent}>
                         <Plus size={20} weight="bold" />
                     </button>
                 </li>
                 {rightNavLink.map((link, index) => (
-                    <li key={index + leftNavLink.length} className="nav-link">
-                        <NavLink to={link.path}>{link.icon}</NavLink>
+                    <li
+                        key={index + leftNavLink.length}
+                        className={styles.navLink}
+                    >
+                        <NavLink
+                            to={link.path}
+                            className={({ isActive }) =>
+                                `${styles.navLink} ${isActive ? styles.active : ""}`
+                            }
+                        >
+                            {link.icon}
+                        </NavLink>
                     </li>
                 ))}
             </ul>
-        </div>
+        </nav>
     );
 };
 

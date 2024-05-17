@@ -39,6 +39,10 @@ const getAdjustedColor = (subject: string): string => {
     }
 };
 
+const capitalizeFirstLetter = (string: string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+};
+
 const CardCalendrier: React.FC<CalendarCardProps> = ({
     group,
     subject,
@@ -77,16 +81,27 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
 
         let text, className;
 
-        const diffTime = startDate.getTime() - now.getTime();
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const startOfDay = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate()
+        );
+        const diffDays = Math.floor(
+            (startDate.getTime() - startOfDay.getTime()) / (1000 * 60 * 60 * 24)
+        );
 
         if (startDate > now) {
             if (diffDays === 0) {
-                text = `À ${starttime}`;
+                text = `À ${capitalizeFirstLetter(starttime)}`;
             } else if (diffDays === 1) {
-                text = `Demain - À ${starttime}`;
+                text = `Demain - À ${capitalizeFirstLetter(starttime)}`;
+            } else if (diffDays === 2) {
+                text = `Après-demain - À ${capitalizeFirstLetter(starttime)}`;
             } else {
-                text = `À ${starttime}`;
+                const dayOfWeek = startDate.toLocaleDateString("fr-FR", {
+                    weekday: "long",
+                });
+                text = `${capitalizeFirstLetter(dayOfWeek)} - À ${capitalizeFirstLetter(starttime)}`;
             }
         } else if (now >= startDate && now <= endDate) {
             text = "En cours";
@@ -133,7 +148,7 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
                 </div>
                 <div className="card-description">
                     <div className="card-header">
-                        <h2 className="card-titre">{subject}</h2>
+                        <p className="card-titre">{subject}</p>
                         <span className={status.className}>{status.text}</span>
                     </div>
                     {notes && <p className="notes">{notes}</p>}

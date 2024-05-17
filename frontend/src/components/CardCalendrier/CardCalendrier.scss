@@ -65,17 +65,17 @@
                     align-items: center;
                     justify-content: space-between;
                     width: 100%;
-                    h2 {
+                    .card-titre {
                         font-family: $font;
-                        font-size: 14px;
+                        font-size: 0.875rem;
                         font-weight: 600;
                         text-transform: uppercase;
                     }
                     span {
                         background-color: $color_white_100;
                         color: $color_black_100;
-                        font-size: 12px;
-                        padding: 4px 8px;
+                        font-size: $size-medium;
+                        padding: $size-extra-small $size-small;
                         border-radius: $size-small;
                         font-weight: 500;
                         text-wrap: nowrap;

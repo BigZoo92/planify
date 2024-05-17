@@ -1,3 +1,5 @@
+@import "Variables";
+
 * {
   box-sizing: border-box;
   scroll-behavior: smooth;
@@ -14,10 +16,15 @@ body {
   align-items: center;
   flex-direction: column;
   font-size: clamp(0.9375rem, 0.75vw, 1rem);
+  font-family: $font;
 }
 
 #root {
   width: 100%;
+}
+
+.mb {
+  margin-bottom: 110px;
 }
 
 body,
@@ -36,16 +43,37 @@ h6 {
   font-family: $font-title;
 }
 
+h1 {
+  font-size: clamp(2rem, 2.5vw, 3rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 1.875vw, 2.25rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 1.563vw, 1.875rem);
+}
+
+h4 {
+  font-size: clamp(1.125rem, 1.406vw, 1.688rem);
+}
+
+h5 {
+  font-size: clamp(1rem, 1.25vw, 1.5rem);
+}
+
+h6 {
+  font-size: clamp(0.875rem, 1.094vw, 1.313rem);
+}
+
 .page-wrapper {
   display: flex;
   padding: $size-large;
-  min-height: 100vh;
-  overflow-y: scroll;
   width: 100%;
   flex-direction: column;
   align-items: flex-start;
   gap: $size-large;
-  margin-bottom: 30px;
 }
 
 .logo-wrapper {
@@ -53,7 +81,27 @@ h6 {
   justify-content: center;
   align-items: center;
   align-self: stretch;
+
   #calendrier-logo {
     width: 100px;
   }
+}
+
+body.no-scroll {
+  overflow: hidden;
+}
+
+.deactivated {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $size-small;
+  padding: $size-medium;
+  border-radius: $size-medium;
+  border: 1px solid $color_pink_25;
+  background-color: $color_pink_10;
+  font-weight: bold;
+  font-size: 0.875rem;
+  color: $color_pink_50;
+  width: 100%;
 }
