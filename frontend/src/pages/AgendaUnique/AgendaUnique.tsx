@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-// Components
-import CreateEventForm from "../../components/Form/CreateEventForm";
-
 // Schema
 import { Agenda as AgendaBackend, Event } from "../../schema";
 
 // Queries
 import { getAgenda } from "../../utils/queries/agenda";
-
-// Queries
 import { listEvents } from "../../utils/queries";
 
 // Styles
@@ -39,6 +34,7 @@ const AgendaUnique: React.FC = () => {
 
         fetchAgenda();
     }, [agendaId]);
+
     if (!agenda) return null;
 
     return (
@@ -47,16 +43,13 @@ const AgendaUnique: React.FC = () => {
                 Go back to Agenda
             </button>
             <h1>{agenda.name}</h1>
-            <CreateEventForm
-                agendaId={parseInt(agendaId) - 1}
-            ></CreateEventForm>
             {events.map((e, index) => (
                 <div key={index}>
                     <div>{e.summary}</div>
                     <div>{e.start.toString()}</div>
                     <div>{e.end.toString()}</div>
                     <div>{e.location}</div>
-                    <div>{e.type}</div>
+                    {/* <div>{e.type}</div> */}
                 </div>
             ))}
         </main>

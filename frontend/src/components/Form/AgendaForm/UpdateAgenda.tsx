@@ -2,13 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { AgendaSchema, Agenda } from "../../schema";
+import { AgendaSchema, Agenda } from "../../../schema";
 
-interface UpdateAgendaFormProps {
+interface UpdateAgendaProps {
     initialData: Agenda;
 }
 
-const UpdateAgendaForm: React.FC<UpdateAgendaFormProps> = ({ initialData }) => {
+const UpdateAgenda: React.FC<UpdateAgendaProps> = ({ initialData }) => {
     const {
         register,
         handleSubmit,
@@ -52,4 +52,4 @@ const UpdateAgendaForm: React.FC<UpdateAgendaFormProps> = ({ initialData }) => {
     );
 };
 
-export default UpdateAgendaForm;
+export default UpdateAgenda;

@@ -58,65 +58,7 @@
 
             h2 {
                 text-align: center;
-                font-size: 1.5rem;
-            }
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: $size-large;
-
-            .form-wrapper {
-                display: flex;
-                flex-direction: column;
-                gap: $size-extra-small;
-
-                label {
-                    display: none;
-                }
-
-                input,
-                textarea {
-                    padding: $size-small;
-                    height: 50px;
-                    border-radius: $size-small;
-                    border: 1px solid $color_black_10;
-                    width: 100%;
-                }
-
-                textarea {
-                    height: 100px;
-                }
-            }
-
-            .grid-wrapper {
-                display: grid;
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-
-            .btn-wrapper {
-                display: flex;
-                align-items: center;
-                width: 100%;
-                gap: $size-large;
-
-                input,
-                button {
-                    border-radius: $size-small;
-                    width: 100%;
-                    border: none;
-                    background-color: $color_blue_100;
-                    color: $color_white_100;
-                    font-weight: 500;
-                    font-size: 1rem;
-                    padding: $size-medium $size-extra-large;
-                }
-
-                button {
-                    background-color: $color_pink_100;
-                }
+                font-size: 1.25rem;
             }
         }
     }

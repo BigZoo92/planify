@@ -1,7 +1,16 @@
+// Dependencies
 import React, { useEffect, useRef } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useLocation, matchPath } from "react-router-dom";
+
+// Components
+import { CreateAgenda } from "../Form/AgendaForm";
+import { CreateEvent } from "../Form/EventForm";
+
+// Assets
 import { X } from "@phosphor-icons/react";
 import { gsap } from "gsap";
+
+// Styles
 import "./Modal.scss";
 
 interface ModalProps {
@@ -9,22 +18,16 @@ interface ModalProps {
     onClose: () => void;
 }
 
-interface EventFormInputs {
-    nom: string;
-    description: string;
-    date: string;
-    heureDebut: string;
-    heureFin: string;
-    lieu: string;
-}
-
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm<EventFormInputs>();
+    const location = useLocation();
+    const isAgendaPage = location.pathname === "/agenda";
+    const match = matchPath("/agenda/:agendaId", location.pathname);
+    const isEventPage = !!match;
+
+    const agendaId = match?.params.agendaId
+        ? parseInt(match.params.agendaId)
+        : null;
+
     const modalRef = useRef<HTMLDivElement | null>(null);
     const overlayRef = useRef<HTMLDivElement | null>(null);
 
@@ -62,7 +65,6 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     ease: "power3.in",
                     onComplete: () => {
                         document.body.classList.remove("no-scroll");
-                        reset();
                     },
                 });
             }
@@ -70,18 +72,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
 
         return () => {
             document.body.classList.remove("no-scroll");
-            reset();
         };
-    }, [isOpen, reset]);
-
-    const onSubmit: SubmitHandler<EventFormInputs> = (data) => {
-        console.log(data);
-        onClose();
-    };
+    }, [isOpen]);
 
     const handleCancel = () => {
         onClose();
-        reset();
     };
 
     if (!isOpen) return null;
@@ -92,128 +87,29 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             <div className="modal visible" ref={modalRef}>
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h2>Ajouter un évènement</h2>
+                        {isAgendaPage ? (
+                            <h2>Créez un nouvel agenda</h2>
+                        ) : isEventPage ? (
+                            <h2>Ajouter un évènement</h2>
+                        ) : (
+                            <h2>Ajouter un élément</h2>
+                        )}
                         <button className="close-button" onClick={handleCancel}>
                             <X size={20} weight="bold" />
                         </button>
                     </div>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="form-wrapper">
-                            <label htmlFor="nom">Nom de l'événement:</label>
-                            <input
-                                {...register("nom", {
-                                    required: "Ce champ est requis",
-                                })}
-                                type="text"
-                                id="nom"
-                                name="nom"
-                                placeholder="Nom de l'évènement"
-                            />
-                            {errors.nom && (
-                                <p className="error-message">
-                                    {errors.nom.message}
-                                </p>
-                            )}
-                        </div>
-                        <div className="form-wrapper">
-                            <label htmlFor="description">
-                                Description de l'événement:
-                            </label>
-                            <textarea
-                                {...register("description", {
-                                    required: "Ce champ est requis",
-                                })}
-                                id="description"
-                                name="description"
-                                placeholder="Description de l'évènement"
-                            ></textarea>
-                            {errors.description && (
-                                <p className="error-message">
-                                    {errors.description.message}
-                                </p>
-                            )}
-                        </div>
-                        <div className="form-wrapper">
-                            <label htmlFor="date">Date de l'événement:</label>
-                            <input
-                                {...register("date", {
-                                    required: "Ce champ est requis",
-                                })}
-                                type="date"
-                                id="date"
-                                name="date"
-                                placeholder="Date"
-                            />
-                            {errors.date && (
-                                <p className="error-message">
-                                    {errors.date.message}
-                                </p>
-                            )}
-                        </div>
-                        <div className="grid-wrapper">
-                            <div className="form-wrapper">
-                                <label htmlFor="heureDebut">
-                                    Heure de début:
-                                </label>
-                                <input
-                                    {...register("heureDebut", {
-                                        required: "Ce champ est requis",
-                                    })}
-                                    type="time"
-                                    id="heureDebut"
-                                    name="heureDebut"
-                                />
-                                {errors.heureDebut && (
-                                    <p className="error-message">
-                                        {errors.heureDebut.message}
-                                    </p>
-                                )}
-                            </div>
-                            <div className="form-wrapper">
-                                <label htmlFor="heureFin">Heure de fin:</label>
-                                <input
-                                    {...register("heureFin", {
-                                        required: "Ce champ est requis",
-                                    })}
-                                    type="time"
-                                    id="heureFin"
-                                    name="heureFin"
-                                />
-                                {errors.heureFin && (
-                                    <p className="error-message">
-                                        {errors.heureFin.message}
-                                    </p>
-                                )}
-                            </div>
-                        </div>
-                        <div className="form-wrapper">
-                            <label htmlFor="lieu">Lieu de l'événement:</label>
-                            <input
-                                {...register("lieu", {
-                                    required: "Ce champ est requis",
-                                })}
-                                type="text"
-                                id="lieu"
-                                name="lieu"
-                                placeholder="Lieu de l'évènement"
-                            />
-                            {errors.lieu && (
-                                <p className="error-message">
-                                    {errors.lieu.message}
-                                </p>
-                            )}
-                        </div>
-                        <div className="btn-wrapper">
-                            <button
-                                type="button"
-                                className="btn-cancel"
-                                onClick={handleCancel}
-                            >
-                                Annuler
-                            </button>
-                            <input type="submit" value="Créer l'évènement" />
-                        </div>
-                    </form>
+                    {isAgendaPage ? (
+                        <CreateAgenda
+                            onCancel={handleCancel}
+                            onClose={onClose}
+                        />
+                    ) : isEventPage ? (
+                        <CreateEvent
+                            agendaId={parseInt(agendaId)}
+                            onCancel={handleCancel}
+                            onClose={onClose}
+                        />
+                    ) : null}
                 </div>
             </div>
         </>

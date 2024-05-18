@@ -1,54 +1,26 @@
-// Dependencies
-import React, { memo } from "react";
-
-// Utils
+import React, { memo, useState, useCallback } from "react";
 import { useUser } from "../../../providers/UserProvider";
-
-// Assets
 import ImageUser from "../../../assets/images/users-image/placeholder.png";
-
-// Styles
+import {
+    Pencil,
+    Moon,
+    Lock,
+    FileText,
+    Shield,
+    SignOut,
+    Calendar,
+} from "@phosphor-icons/react";
+import { Switch } from "../../../components/Switch";
+import ProfileItem from "./ProfileItem";
 import styles from "./Profile.module.scss";
-
-interface User {
-    id?: number;
-    email?: string;
-    password?: string;
-    firstName?: string;
-    lastName?: string;
-    urls?: string[];
-    createdAt?: Date;
-    updatedAt?: Date;
-}
-
-interface UserProfileProps {
-    user: User;
-    title: string;
-}
-
-const ProfileSection: React.FC<UserProfileProps> = memo(
-    function ProfileSection({ title, user }) {
-        return (
-            <section>
-                <h2>{title}</h2>
-                <div className={styles.profileInfo}>
-                    <p>
-                        <strong>Prénom:</strong> {user.firstName}
-                    </p>
-                    <p>
-                        <strong>Nom:</strong> {user.lastName}
-                    </p>
-                    <p>
-                        <strong>Email:</strong> {user.email}
-                    </p>
-                </div>
-            </section>
-        );
-    }
-);
 
 const Profile: React.FC = memo(function Profile() {
     const { user } = useUser();
+    const [darkMode, setDarkMode] = useState(false);
+
+    const handleToggle = useCallback(() => {
+        setDarkMode((prevMode) => !prevMode);
+    }, []);
 
     if (!user) {
         return null;
@@ -57,7 +29,7 @@ const Profile: React.FC = memo(function Profile() {
     return (
         <main className={styles.profileWrapper}>
             <div className={styles.oval}>
-                <img src={ImageUser} alt="User" />
+                <img src={ImageUser} alt="Utilisateur" />
             </div>
             <header className={styles.profileHeader}>
                 <h1>
@@ -66,9 +38,37 @@ const Profile: React.FC = memo(function Profile() {
                 <span>{user.email}</span>
             </header>
             <div className={styles.profileContent}>
-                <ProfileSection title="Informations" user={user} />
-                <ProfileSection title="Préférences" user={user} />
-                <ProfileSection title="Paramètres" user={user} />
+                <ProfileItem
+                    icon={<Calendar size={16} weight="bold" />}
+                    text="Mes agendas"
+                />
+                <ProfileItem
+                    icon={<Pencil size={16} weight="bold" />}
+                    text="Modifier les données du profil"
+                />
+                <ProfileItem
+                    icon={<Moon size={16} weight="bold" />}
+                    text="Dark mode"
+                    action={
+                        <Switch isOn={darkMode} handleToggle={handleToggle} />
+                    }
+                />
+                <ProfileItem
+                    icon={<Lock size={16} weight="bold" />}
+                    text="Changer le mot de passe"
+                />
+                <ProfileItem
+                    icon={<FileText size={16} weight="bold" />}
+                    text="Termes et conditions"
+                />
+                <ProfileItem
+                    icon={<Shield size={16} weight="bold" />}
+                    text="Politique de confidentialité"
+                />
+                <ProfileItem
+                    icon={<SignOut size={16} weight="bold" />}
+                    text="Déconnexion"
+                />
             </div>
         </main>
     );
