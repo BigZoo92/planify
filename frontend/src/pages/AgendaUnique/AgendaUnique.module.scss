@@ -2,7 +2,7 @@
 
 .agendaAdminWrapper {
     width: 100%;
-    padding: $size-large;
+    padding: $size-large $size-large 0 $size-large;
     display: flex;
     flex-direction: column;
     gap: $size-large;

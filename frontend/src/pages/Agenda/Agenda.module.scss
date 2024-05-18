@@ -1,39 +1,53 @@
 @import "../../assets/styles/Variables.scss";
 
 .agendaWrapper {
-    padding: $size-large;
+    padding: $size-large $size-large 0 $size-large;
     display: flex;
     flex-direction: column;
     gap: $size-large;
     width: 100%;
+
     .agendaNav {
         display: flex;
         align-items: center;
         gap: $size-medium;
         width: 100%;
+
         button {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: $size-small;
-            width: 100%;
-            padding: $size-small;
-            border-radius: $size-small;
-            border: 1px solid $color_blue_50;
-            background-color: $color_blue_10;
-            color: $color_blue_50;
-            transition: all 0.3s ease-in-out;
-        }
-        .active {
-            background-color: $color_blue_100;
-            color: $color_white_100;
+            border: none;
+            padding: 0;
+            background-color: transparent;
+            color: $color_black_25;
             font-weight: bold;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            padding-bottom: $size-small;
+        }
+
+        .active {
+            color: $color_blue_100;
+
+            &::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 25px;
+                height: 2px;
+                border-radius: $size-small;
+                background-color: $color_blue_100;
+            }
         }
     }
+
     .agendaList {
         display: flex;
         flex-direction: column;
         gap: $size-medium;
+
         .agendaCard {
             display: flex;
             flex-direction: column;
@@ -43,7 +57,8 @@
             font-size: 0.875rem;
             color: $color_blue_100;
             width: 100%;
-            overflow: hidden;
+            position: relative;
+
             .agendaHeader {
                 display: flex;
                 align-items: center;
@@ -51,11 +66,14 @@
                 background-color: $color_blue_100;
                 color: $color_white_100;
                 padding: $size-small $size-medium;
+                border-radius: $size-medium $size-medium 0 0;
+
                 h2 {
                     font-size: clamp(1.25rem, 1.875vw, 2rem);
                     text-transform: uppercase;
                     letter-spacing: 0.1rem;
                 }
+
                 .agendaActions {
                     display: flex;
                     align-items: center;
@@ -64,28 +82,89 @@
                     padding: 0;
                     border: none;
                     background-color: transparent;
+                    position: relative;
+
                     svg {
                         color: inherit;
                     }
                 }
+
+                .actionModal {
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: center;
+                    flex-direction: column;
+                    gap: $size-small;
+                    position: absolute;
+                    top: -$size-medium;
+                    right: -$size-medium;
+                    background-color: $color_white_100;
+                    border: 1px solid $color_black_10;
+                    box-shadow: 0px 0px $size-large rgba(0, 0, 0, 0.1);
+                    padding: $size-small;
+                    border-radius: $size-medium;
+                    opacity: 0;
+                    animation: fadeIn 0.3s forwards;
+                    z-index: 9999;
+
+                    &.fadeOut {
+                        animation: fadeOut 0.3s forwards;
+                    }
+
+                    button {
+                        display: flex;
+                        align-items: center;
+                        justify-content: flex-end;
+                        gap: $size-small;
+                        width: 100%;
+                        border: none;
+                        background: none;
+                        text-align: left;
+                        cursor: pointer;
+                        padding: 0;
+                    }
+                }
             }
+
             .agendaContent {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 padding: $size-medium-large $size-medium;
+
                 .agendaItems {
                     display: flex;
                     align-items: center;
                     gap: $size-small;
                     color: $color_blue_75;
+
                     span {
                         font-size: 0.875rem;
                     }
                 }
-                .agendaLink {
-                }
             }
         }
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
     }
 }

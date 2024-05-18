@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from "react";
-import CreateAgendaForm from "../../components/Form/CreateAgendaForm";
+import React, { useEffect, useState, useRef } from "react";
 import { Agenda as AgendaBackend } from "../../schema";
 import { listAgendasAdmin } from "../../utils/queries/agenda";
 import { useUser } from "../../providers";
 import { Link } from "react-router-dom";
-
 import styles from "./Agenda.module.scss";
-import { Calendar, DotsThree, User } from "@phosphor-icons/react";
+import {
+    Calendar,
+    DotsThree,
+    Pen,
+    TrashSimple,
+    User,
+} from "@phosphor-icons/react";
 
 const Agenda: React.FC = () => {
     const [agendas, setAgendas] = useState<AgendaBackend[]>([]);
     const [selectedType, setSelectedType] = useState<string>("Tous");
+    const [showActions, setShowActions] = useState<number | null>(null);
+    const [isFadingOut, setIsFadingOut] = useState<number | null>(null);
     const { user } = useUser();
+    const actionsRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         if (!user) return;
@@ -27,6 +34,28 @@ const Agenda: React.FC = () => {
 
         fetchAgendas();
     }, [user]);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                actionsRef.current &&
+                !actionsRef.current.contains(event.target as Node)
+            ) {
+                if (showActions !== null) {
+                    setIsFadingOut(showActions);
+                    setTimeout(() => {
+                        setShowActions(null);
+                        setIsFadingOut(null);
+                    }, 300);
+                }
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [showActions]);
 
     const formatDate = (dateString: string) => {
         const options: Intl.DateTimeFormatOptions = {
@@ -49,6 +78,27 @@ const Agenda: React.FC = () => {
         setSelectedType(type);
     };
 
+    const toggleActions = (agendaId: number) => {
+        if (showActions === agendaId) {
+            setIsFadingOut(agendaId);
+            setTimeout(() => {
+                setShowActions(null);
+                setIsFadingOut(null);
+            }, 300);
+        } else {
+            setShowActions(agendaId);
+            setIsFadingOut(null);
+        }
+    };
+
+    const handleEdit = (agendaId: number) => {
+        console.log(`Edit agenda ${agendaId}`);
+    };
+
+    const handleDelete = (agendaId: number) => {
+        console.log(`Delete agenda ${agendaId}`);
+    };
+
     return (
         <main className={styles.agendaWrapper}>
             <h1>Agenda</h1>
@@ -60,15 +110,17 @@ const Agenda: React.FC = () => {
                     Tous
                 </button>
                 <button
-                    onClick={() => handleTypeChange("ACADEMIC")}
-                    className={selectedType === "ACADEMIC" ? styles.active : ""}
+                    onClick={() => handleTypeChange("UNIVERSITAIRE")}
+                    className={
+                        selectedType === "UNIVERSITAIRE" ? styles.active : ""
+                    }
                 >
-                    Académique
+                    Universitaire
                 </button>
                 <button
-                    onClick={() => handleTypeChange("Personnel")}
+                    onClick={() => handleTypeChange("PERSONNEL")}
                     className={
-                        selectedType === "Personnel" ? styles.active : ""
+                        selectedType === "PERSONNEL" ? styles.active : ""
                     }
                 >
                     Personnel
@@ -83,35 +135,64 @@ const Agenda: React.FC = () => {
             <div className={styles.agendaList}>
                 {filterAgendas(selectedType).length !== 0 ? (
                     filterAgendas(selectedType).map((agenda) => (
-                        <Link to={`/agenda/${agenda.id}`} key={agenda.id}>
-                            <div className={styles.agendaCard}>
-                                <div className={styles.agendaHeader}>
-                                    <h2>{agenda.name}</h2>
-                                    <button className={styles.agendaActions}>
-                                        <DotsThree size={30} weight="bold" />
-                                    </button>
+                        <div key={agenda.id} className={styles.agendaCard}>
+                            <div className={styles.agendaHeader}>
+                                <h2>{agenda.name}</h2>
+                                <button
+                                    className={styles.agendaActions}
+                                    onClick={() => toggleActions(agenda.id)}
+                                >
+                                    <DotsThree size={30} weight="bold" />
+                                </button>
+                                {(showActions === agenda.id ||
+                                    isFadingOut === agenda.id) && (
+                                    <div
+                                        ref={actionsRef}
+                                        className={`${styles.actionModal} ${
+                                            isFadingOut === agenda.id
+                                                ? styles.fadeOut
+                                                : ""
+                                        }`}
+                                    >
+                                        <button
+                                            onClick={() =>
+                                                handleEdit(agenda.id)
+                                            }
+                                        >
+                                            Modifier
+                                            <Pen size={15} />
+                                        </button>
+                                        <button
+                                            onClick={() =>
+                                                handleDelete(agenda.id)
+                                            }
+                                        >
+                                            Supprimer
+                                            <TrashSimple size={15} />
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                            <div className={styles.agendaContent}>
+                                <div className={styles.agendaItems}>
+                                    <User size={15} weight="bold" />
+                                    <span>3</span>
                                 </div>
-                                <div className={styles.agendaContent}>
-                                    <div className={styles.agendaItems}>
-                                        <User size={15} weight="bold" />
-                                        <span>3</span>
-                                    </div>
-                                    <div className={styles.agendaItems}>
-                                        <Calendar size={15} weight="bold" />
-                                        <span>
-                                            {formatDate(agenda.createdAt)}
-                                        </span>
-                                    </div>
+                                <div className={styles.agendaItems}>
+                                    <Calendar size={15} weight="bold" />
+                                    <span>
+                                        {formatDate(
+                                            agenda.createdAt.toString()
+                                        )}
+                                    </span>
                                 </div>
                             </div>
-                        </Link>
+                        </div>
                     ))
                 ) : (
                     <div>Vous n'avez pas encore d'agenda</div>
                 )}
             </div>
-            <h2>Créez un agenda</h2>
-            <CreateAgendaForm />
         </main>
     );
 };

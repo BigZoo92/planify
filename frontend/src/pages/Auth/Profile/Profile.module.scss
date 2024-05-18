@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: column;
     gap: $size-large;
-    padding: $size-large;
+    padding: $size-large $size-large 0 $size-large;
     .oval {
         width: 100%;
         height: 12.5rem;
@@ -41,20 +41,31 @@
     .profileContent {
         display: flex;
         flex-direction: column;
-        gap: $size-extra-large;
-        section {
+        gap: $size-medium-large;
+        width: 100%;
+        .profileItems {
             display: flex;
-            flex-direction: column;
-            gap: $size-extra-large;
-        }
-        .profileInfo {
-            display: flex;
-            flex-direction: column;
-            gap: $size-small;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            background-color: $color_white_100;
             border: 1px solid $color_black_10;
-            // box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px;
-            padding: $size-large $size-medium;
-            border-radius: $size-medium;
+            border-radius: $size-small;
+            padding: $size-medium;
+            .profileItemsContent {
+                display: flex;
+                align-items: center;
+                gap: $size-small;
+                span {
+                    font-family: $font-title;
+                }
+                svg {
+                    color: $color_black_100;
+                }
+            }
+            svg {
+                color: $color_black_25;
+            }
         }
     }
 }
