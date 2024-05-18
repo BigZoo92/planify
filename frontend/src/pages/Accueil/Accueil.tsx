@@ -1,5 +1,12 @@
 // Dependencies
-import React, { useState, useEffect, useCallback, useMemo } from "react";
+import React, {
+    useState,
+    useEffect,
+    useRef,
+    useCallback,
+    useMemo,
+} from "react";
+import { gsap } from "gsap";
 
 // Components
 import { CardCalendrier } from "../../components/CardCalendrier";
@@ -27,6 +34,11 @@ const Accueil: React.FC = () => {
 
     const { user } = useUser();
     const { events } = useTimetable();
+
+    const cardsRefThisWeek = useRef<HTMLDivElement[]>([]);
+    const cardsRefNextWeek = useRef<HTMLDivElement[]>([]);
+    const deactivatedThisWeekRef = useRef<HTMLParagraphElement>(null);
+    const deactivatedNextWeekRef = useRef<HTMLParagraphElement>(null);
 
     useEffect(() => {
         const fetchWeatherData = async () => {
@@ -111,6 +123,46 @@ const Accueil: React.FC = () => {
         [events, filterEventsByWeek]
     );
 
+    useEffect(() => {
+        if (cardsRefThisWeek.current.length > 0) {
+            gsap.fromTo(
+                cardsRefThisWeek.current,
+                { y: 50, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.5, stagger: 0.2 }
+            );
+        }
+    }, [eventsThisWeek]);
+
+    useEffect(() => {
+        if (cardsRefNextWeek.current.length > 0) {
+            gsap.fromTo(
+                cardsRefNextWeek.current,
+                { y: 50, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.5, stagger: 0.2 }
+            );
+        }
+    }, [eventsNextWeek]);
+
+    useEffect(() => {
+        if (eventsThisWeek.length === 0 && deactivatedThisWeekRef.current) {
+            gsap.fromTo(
+                deactivatedThisWeekRef.current,
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.5 }
+            );
+        }
+    }, [eventsThisWeek]);
+
+    useEffect(() => {
+        if (eventsNextWeek.length === 0 && deactivatedNextWeekRef.current) {
+            gsap.fromTo(
+                deactivatedNextWeekRef.current,
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.5 }
+            );
+        }
+    }, [eventsNextWeek]);
+
     const recapText =
         eventsToday.length > 0
             ? `Vous avez ${eventsToday.length} évènements aujourd'hui`
@@ -148,16 +200,23 @@ const Accueil: React.FC = () => {
                 <span className="span-calendar">Cette semaine</span>
                 {eventsThisWeek.length > 0 ? (
                     eventsThisWeek.map((timetable, index) => (
-                        <CardCalendrier
+                        <div
+                            style={{ width: "100%" }}
                             key={index}
-                            {...timetable.data}
-                            subject={timetable.summary}
-                            starttime={timetable.start}
-                            endtime={timetable.end}
-                        />
+                            ref={(el) => {
+                                if (el) cardsRefThisWeek.current[index] = el;
+                            }}
+                        >
+                            <CardCalendrier
+                                {...timetable.data}
+                                subject={timetable.summary}
+                                starttime={timetable.start}
+                                endtime={timetable.end}
+                            />
+                        </div>
                     ))
                 ) : (
-                    <p className="deactivated">
+                    <p className="deactivated" ref={deactivatedThisWeekRef}>
                         <WarningCircle size={20} weight="bold" />
                         Aucun évènement cette semaine
                     </p>
@@ -165,16 +224,23 @@ const Accueil: React.FC = () => {
                 <span className="span-calendar">Semaine prochaine</span>
                 {eventsNextWeek.length > 0 ? (
                     eventsNextWeek.map((timetable, index) => (
-                        <CardCalendrier
+                        <div
+                            style={{ width: "100%" }}
                             key={index}
-                            {...timetable.data}
-                            subject={timetable.summary}
-                            starttime={timetable.start}
-                            endtime={timetable.end}
-                        />
+                            ref={(el) => {
+                                if (el) cardsRefNextWeek.current[index] = el;
+                            }}
+                        >
+                            <CardCalendrier
+                                {...timetable.data}
+                                subject={timetable.summary}
+                                starttime={timetable.start}
+                                endtime={timetable.end}
+                            />
+                        </div>
                     ))
                 ) : (
-                    <p className="deactivated">
+                    <p className="deactivated" ref={deactivatedNextWeekRef}>
                         <WarningCircle size={20} weight="bold" />
                         Aucun évènement trouvé
                     </p>
