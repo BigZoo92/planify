@@ -5,9 +5,9 @@
     justify-content: center;
     align-items: center;
     gap: $size-medium;
-    padding: $size-medium-large;
+    padding: $size-medium;
     align-self: stretch;
-    border-radius: $size-medium;
+    border-radius: $size-small;
     border: 1px solid;
     font-weight: bold;
     font-family: $font;
@@ -22,7 +22,7 @@
 
     &.secondary {
         background-color: $color_white_100;
-        color: $color_blue_100;
+        color: $color_black_25;
         border-color: $color_black_10;
     }
     &.full {
