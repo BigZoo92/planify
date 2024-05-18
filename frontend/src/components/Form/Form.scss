@@ -4,35 +4,112 @@ form {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: $size-medium;
+    gap: $size-large;
+
+    .form-wrapper {
+        display: grid;
+        align-items: center;
+        grid-template-columns: repeat(2, 1fr);
+        gap: $size-medium;
+        width: 100%;
+    }
+
     .form-group {
         display: flex;
-        align-items: flex-start;
         flex-direction: column;
         gap: $size-small;
-        input {
+        width: 100%;
+
+        input,
+        textarea {
             width: 100%;
             border: none;
             background-color: rgba(234, 235, 236, 1);
             border-radius: $size-small;
+            border: 0.5px solid $color_black_10;
             padding: $size-medium $size-medium-large;
         }
+
         select {
             width: 100%;
             border-radius: $size-small;
             background-color: rgba(234, 235, 236, 1);
             padding: $size-medium $size-medium-large;
         }
+
         input[type="checkbox"] {
             width: fit-content;
+        }
+
+        label {
             font-family: $font-title;
         }
+
+        .hide-label {
+            display: none;
+        }
+
+        .type-selector {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            gap: $size-extra-large;
+
+            .type-option {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                gap: $size-small;
+                transition: all 0.3s ease-in-out;
+                cursor: pointer;
+
+                .type-image-wrapper {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    width: 50px;
+                    height: 50px;
+                    border: 1px solid $color_black_10;
+                    border-radius: $br-50;
+                    object-fit: contain;
+                    transition:
+                        background-color 0.3s ease-in-out,
+                        border-color 0.3s ease-in-out;
+
+                    svg {
+                        color: $color_black_10;
+                    }
+
+                    &.selected {
+                        border-color: transparent;
+                        background-color: $color_blue_100;
+
+                        svg {
+                            color: $color_white_100;
+                        }
+                    }
+                }
+
+                span {
+                    font-family: $font-title;
+                    font-size: 0.75rem;
+                    font-weight: bold;
+                    color: $color_black_10;
+                    transition: color 0.3s ease-in-out;
+
+                    &.selected {
+                        color: $color_black_100;
+                    }
+                }
+            }
+        }
     }
-    button {
-        width: 100%;
-        border: 1px solid $color_black_25;
-        border-radius: $size-small;
-        padding: $size-medium $size-medium-large;
-        font-weight: bold;
+    .button-group {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        gap: $size-medium;
     }
 }

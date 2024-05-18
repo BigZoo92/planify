@@ -21,6 +21,7 @@ const Calendrier: React.FC = () => {
     const tagRef = useRef<HTMLSpanElement>(null);
     const cardsRef = useRef<HTMLDivElement[]>([]);
     const deactivatedRef = useRef<HTMLParagraphElement>(null);
+    const mainRef = useRef<HTMLElement>(null);
 
     const onChangeDate = (date: Date) => {
         setDateSelectionnee(date);
@@ -78,7 +79,7 @@ const Calendrier: React.FC = () => {
     const relativeDayText = getRelativeDayText(dateSelectionnee);
 
     const bind = useGesture({
-        onDrag: ({ direction: [dx, dy] }) => {
+        onDrag: ({ direction: [dy] }) => {
             if (dy < 0) {
                 gsap.to(calendarRef.current, {
                     y: -100,
@@ -146,6 +147,12 @@ const Calendrier: React.FC = () => {
         }
     }, [filtreCours]);
 
+    useEffect(() => {
+        if (mainRef.current) {
+            mainRef.current.style.touchAction = "none";
+        }
+    }, []);
+
     const getWeekDays = (date: Date) => {
         const startDate = new Date(date);
         const day = startDate.getDay();
@@ -162,7 +169,7 @@ const Calendrier: React.FC = () => {
     const weekDays = getWeekDays(dateSelectionnee);
 
     return (
-        <main className="calendrier-wrapper" {...bind()}>
+        <main className="calendrier-wrapper" {...bind()} ref={mainRef}>
             <div className="react-calendar-wrapper" ref={calendarRef}>
                 {view === "month" ? (
                     <Calendar
