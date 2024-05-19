@@ -10,9 +10,9 @@ export async function updateAgenda(updateData: z.infer<typeof AgendaSchema>) {
 
     try {
         const response = await fetch(
-            `${import.meta.env.VITE_SERVER_BACKEND_URL}/agendas/update`,
+            `${import.meta.env.VITE_SERVER_BACKEND_URL}/agenda/update/${updateData.id}`,
             {
-                method: "POST",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -22,15 +22,15 @@ export async function updateAgenda(updateData: z.infer<typeof AgendaSchema>) {
 
         if (!response.ok) {
             if (response.status === 404) {
-                console.error("Agenda with provided ID not found.");
+                console.error("Agenda avec l'ID fourni non trouvé.");
                 return null;
             }
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`Erreur HTTP ! statut : ${response.status}`);
         }
 
         return await response.json();
     } catch (error) {
-        console.error("Error updating agenda:", error);
+        console.error("Erreur lors de la mise à jour de l'agenda:", error);
         return null;
     }
 }
