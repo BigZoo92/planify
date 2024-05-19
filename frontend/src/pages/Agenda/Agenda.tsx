@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Agenda as AgendaBackend } from "../../schema";
 import { listAgendasAdmin } from "../../utils/queries/agenda";
+import { removeAgenda } from "../../utils/queries/agenda/delete";
+import { updateAgenda } from "../../utils/queries/agenda/update";
 import { useUser } from "../../providers";
 import { Link } from "react-router-dom";
+import { ModalEdit } from "../../components/Agenda/ModalEdit";
 import styles from "./Agenda.module.scss";
 import {
     Calendar,
@@ -10,15 +13,20 @@ import {
     Pen,
     TrashSimple,
     User,
+    WarningCircle,
 } from "@phosphor-icons/react";
+import gsap from "gsap";
 
 const Agenda: React.FC = () => {
     const [agendas, setAgendas] = useState<AgendaBackend[]>([]);
     const [selectedType, setSelectedType] = useState<string>("Tous");
     const [showActions, setShowActions] = useState<number | null>(null);
     const [isFadingOut, setIsFadingOut] = useState<number | null>(null);
+    const [editAgenda, setEditAgenda] = useState<AgendaBackend | null>(null);
     const { user } = useUser();
     const actionsRef = useRef<HTMLDivElement | null>(null);
+    const agendaListRef = useRef<HTMLDivElement | null>(null);
+    const deactivatedRef = useRef<HTMLParagraphElement | null>(null);
 
     useEffect(() => {
         if (!user) return;
@@ -27,6 +35,13 @@ const Agenda: React.FC = () => {
             try {
                 const fetchedAgendas = await listAgendasAdmin(user.id);
                 setAgendas(fetchedAgendas);
+                if (agendaListRef.current) {
+                    gsap.fromTo(
+                        agendaListRef.current.children,
+                        { opacity: 0, y: 20 },
+                        { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 }
+                    );
+                }
             } catch (error) {
                 console.error("Error fetching agendas:", error);
             }
@@ -34,6 +49,24 @@ const Agenda: React.FC = () => {
 
         fetchAgendas();
     }, [user]);
+
+    useEffect(() => {
+        if (agendaListRef.current) {
+            gsap.fromTo(
+                agendaListRef.current.children,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 }
+            );
+        }
+
+        if (deactivatedRef.current) {
+            gsap.fromTo(
+                deactivatedRef.current,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.5 }
+            );
+        }
+    }, [selectedType]);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -91,12 +124,28 @@ const Agenda: React.FC = () => {
         }
     };
 
-    const handleEdit = (agendaId: number) => {
-        console.log(`Edit agenda ${agendaId}`);
+    const handleEdit = (agenda: AgendaBackend) => {
+        setEditAgenda(agenda);
     };
 
-    const handleDelete = (agendaId: number) => {
-        console.log(`Delete agenda ${agendaId}`);
+    const handleDelete = async (agendaId: number) => {
+        const success = await removeAgenda(agendaId);
+        if (success) {
+            setAgendas((prevAgendas) =>
+                prevAgendas.filter((agenda) => agenda.id !== agendaId)
+            );
+        }
+    };
+
+    const handleSaveEdit = async (updatedAgenda: AgendaBackend) => {
+        const success = await updateAgenda(updatedAgenda);
+        if (success) {
+            setAgendas((prevAgendas) =>
+                prevAgendas.map((agenda) =>
+                    agenda.id === updatedAgenda.id ? updatedAgenda : agenda
+                )
+            );
+        }
     };
 
     return (
@@ -132,7 +181,7 @@ const Agenda: React.FC = () => {
                     URL
                 </button>
             </div>
-            <div className={styles.agendaList}>
+            <div className={styles.agendaList} ref={agendaListRef}>
                 {filterAgendas(selectedType).length !== 0 ? (
                     filterAgendas(selectedType).map((agenda) => (
                         <div key={agenda.id} className={styles.agendaCard}>
@@ -155,9 +204,7 @@ const Agenda: React.FC = () => {
                                         }`}
                                     >
                                         <button
-                                            onClick={() =>
-                                                handleEdit(agenda.id)
-                                            }
+                                            onClick={() => handleEdit(agenda)}
                                         >
                                             Modifier
                                             <Pen size={15} />
@@ -173,26 +220,38 @@ const Agenda: React.FC = () => {
                                     </div>
                                 )}
                             </div>
-                            <div className={styles.agendaContent}>
-                                <div className={styles.agendaItems}>
-                                    <User size={15} weight="bold" />
-                                    <span>3</span>
+                            <Link to={`/agenda/${agenda.id}`} key={agenda.id}>
+                                <div className={styles.agendaContent}>
+                                    <div className={styles.agendaItems}>
+                                        <User size={15} weight="bold" />
+                                        <span>3</span>
+                                    </div>
+                                    <div className={styles.agendaItems}>
+                                        <Calendar size={15} weight="bold" />
+                                        <span>
+                                            {formatDate(
+                                                agenda.createdAt.toString()
+                                            )}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className={styles.agendaItems}>
-                                    <Calendar size={15} weight="bold" />
-                                    <span>
-                                        {formatDate(
-                                            agenda.createdAt.toString()
-                                        )}
-                                    </span>
-                                </div>
-                            </div>
+                            </Link>
                         </div>
                     ))
                 ) : (
-                    <div>Vous n'avez pas encore d'agenda</div>
+                    <p className="deactivated" ref={deactivatedRef}>
+                        <WarningCircle size={20} weight="bold" />
+                        Vous n'avez pas encore d'agendas
+                    </p>
                 )}
             </div>
+            {editAgenda && (
+                <ModalEdit
+                    agenda={editAgenda}
+                    onClose={() => setEditAgenda(null)}
+                    onSave={handleSaveEdit}
+                />
+            )}
         </main>
     );
 };
