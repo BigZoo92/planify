@@ -1,5 +1,8 @@
+// React and React Router
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+
+// Animation Library
 import gsap from "gsap";
 
 // Schema
@@ -12,9 +15,12 @@ import { listEvents } from "../../utils/queries";
 // Assets
 import NoEvents from "../../assets/images/element/no-events.svg";
 
+// Icons
+import { CaretLeft, DotsThreeVertical } from "@phosphor-icons/react";
+
 // Styles
 import styles from "./AgendaUnique.module.scss";
-import { CaretLeft, DotsThreeVertical } from "@phosphor-icons/react";
+import { CreateEvent } from "../../components/Form/EventForm";
 
 const AgendaUnique: React.FC = () => {
     const { agendaId } = useParams<{ agendaId: string }>();
@@ -35,7 +41,10 @@ const AgendaUnique: React.FC = () => {
                 setAgenda(fetchedAgenda);
                 setEvents(fetchedEvents);
             } catch (error) {
-                console.error("Error fetching agenda or events:", error);
+                console.error(
+                    "Erreur lors de la récupération des événements : ",
+                    error
+                );
             }
         };
 
@@ -77,14 +86,43 @@ const AgendaUnique: React.FC = () => {
                 </button>
             </div>
             {events.length > 0 ? (
-                <div ref={eventsRef}>
-                    {events.map((e, index) => (
+                <div className={styles.eventWrapper} ref={eventsRef}>
+                    <span>{events.length} évènements trouvés</span>
+                    {events.map((event, index) => (
                         <div key={index} className={styles.eventCard}>
-                            <div>{e.summary}</div>
-                            <div>{e.start.toString()}</div>
-                            <div>{e.end.toString()}</div>
-                            <div>{e.location}</div>
-                            {/* <div>{e.type}</div> */}
+                            <h2>{event.summary}</h2>
+                            <div className={styles.eventDateWrapper}>
+                                <div className={styles.eventDate}>
+                                    <h3>Date</h3>
+                                    <p>
+                                        {new Date(
+                                            event.start
+                                        ).toLocaleDateString()}
+                                    </p>
+                                    <p>
+                                        {new Date(
+                                            event.end
+                                        ).toLocaleDateString()}
+                                    </p>
+                                </div>
+                                <div className={styles.eventDate}>
+                                    <h3>Heure</h3>
+                                    <p>
+                                        {new Date(
+                                            event.start
+                                        ).toLocaleTimeString()}
+                                    </p>
+                                    <p>
+                                        {new Date(
+                                            event.end
+                                        ).toLocaleTimeString()}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className={styles.eventLocation}>
+                                <h3>Lieu de l'évènement</h3>
+                                {event.location}
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -94,6 +132,7 @@ const AgendaUnique: React.FC = () => {
                     <p>Vous n'avez pas encore d'événements</p>
                 </div>
             )}
+            <CreateEvent agendaId={parseInt(agendaId)} />
         </main>
     );
 };

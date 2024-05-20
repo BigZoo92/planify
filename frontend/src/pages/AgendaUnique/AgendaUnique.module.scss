@@ -30,6 +30,53 @@
             background-color: transparent;
         }
     }
+    .eventWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: $size-medium;
+        width: 100%;
+        span {
+            color: $color_black_50;
+            font-style: italic;
+            font-family: $font-title;
+        }
+        .eventCard {
+            display: flex;
+            flex-direction: column;
+            gap: $size-medium;
+            width: 100%;
+            background-color: $color_white_100;
+            border: 1px solid $color_black_25;
+            border-radius: $size-small;
+            padding: $size-medium;
+            .eventDateWrapper {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: $size-medium;
+                .eventDate {
+                    display: flex;
+                    flex-direction: column;
+                    gap: $size-small;
+                    padding: $size-small $size-medium;
+                    border: 1px solid $color_black_10;
+                    border-radius: $size-small;
+                    width: 100%;
+                }
+            }
+            .eventLocation {
+                display: flex;
+                flex-direction: column;
+                gap: $size-small;
+                padding: $size-small $size-medium;
+                border: 1px solid $color_black_10;
+                border-radius: $size-small;
+                width: 100%;
+            }
+            h3 {
+                font-size: 1rem;
+            }
+        }
+    }
     .noEvents {
         display: flex;
         align-items: center;
