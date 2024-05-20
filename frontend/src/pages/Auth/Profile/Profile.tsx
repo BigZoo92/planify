@@ -9,6 +9,8 @@ import {
     Shield,
     SignOut,
     Calendar,
+    Translate,
+    Bell,
 } from "@phosphor-icons/react";
 import { Switch } from "../../../components/Switch";
 import ProfileItem from "./ProfileItem";
@@ -38,6 +40,7 @@ const Profile: React.FC = memo(function Profile() {
                 <span>{user.email}</span>
             </header>
             <div className={styles.profileContent}>
+                <h2>Paramètres du compte</h2>
                 <ProfileItem
                     icon={<Calendar size={16} weight="bold" />}
                     text="Mes agendas"
@@ -47,16 +50,26 @@ const Profile: React.FC = memo(function Profile() {
                     text="Modifier les données du profil"
                 />
                 <ProfileItem
+                    icon={<Lock size={16} weight="bold" />}
+                    text="Changer le mot de passe"
+                />
+                <h2>Paramètres de l'appli</h2>
+                <ProfileItem
                     icon={<Moon size={16} weight="bold" />}
-                    text="Dark mode"
+                    text="Apparence"
                     action={
                         <Switch isOn={darkMode} handleToggle={handleToggle} />
                     }
                 />
                 <ProfileItem
-                    icon={<Lock size={16} weight="bold" />}
-                    text="Changer le mot de passe"
+                    icon={<Translate size={16} weight="bold" />}
+                    text="Langue"
                 />
+                <ProfileItem
+                    icon={<Bell size={16} weight="bold" />}
+                    text="Notifications"
+                />
+                <h2>Assistance</h2>
                 <ProfileItem
                     icon={<FileText size={16} weight="bold" />}
                     text="Termes et conditions"
@@ -65,6 +78,7 @@ const Profile: React.FC = memo(function Profile() {
                     icon={<Shield size={16} weight="bold" />}
                     text="Politique de confidentialité"
                 />
+                <hr />
                 <ProfileItem
                     icon={<SignOut size={16} weight="bold" />}
                     text="Déconnexion"
