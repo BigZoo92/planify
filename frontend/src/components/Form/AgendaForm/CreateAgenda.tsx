@@ -45,7 +45,6 @@ const CreateAgenda: React.FC<CreateAgendaProps> = ({ onCancel, onClose }) => {
     }, [setValue]);
 
     const onSubmit = async (data: AgendaFormData) => {
-        console.log("Form data:", data);
         try {
             const response = await createAgenda({
                 agendaData: {
@@ -73,7 +72,7 @@ const CreateAgenda: React.FC<CreateAgendaProps> = ({ onCancel, onClose }) => {
     return (
         <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
             <div className="form-group">
-                <label className="hide-label">Type de l'agenda</label>
+                <label>Type de l'agenda</label>
                 <div className="type-selector">
                     {Object.keys(AgendaTypeSchema.enum).map((type) => (
                         <div
@@ -131,18 +130,6 @@ const CreateAgenda: React.FC<CreateAgendaProps> = ({ onCancel, onClose }) => {
             <div className="form-group">
                 <label htmlFor="private">Privé</label>
                 <input type="checkbox" id="private" {...register("private")} />
-            </div>
-            <div className="button-group">
-                <button
-                    type="button"
-                    className="btn secondary full"
-                    onClick={onCancel}
-                >
-                    Annuler
-                </button>
-                <button type="submit" className="btn main full">
-                    Créer
-                </button>
             </div>
         </form>
     );

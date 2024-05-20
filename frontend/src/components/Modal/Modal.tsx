@@ -1,13 +1,11 @@
-// Dependencies
 import React, { useEffect, useRef } from "react";
-import { useLocation, matchPath } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 // Components
 import { CreateAgenda } from "../Form/AgendaForm";
 import { CreateEvent } from "../Form/EventForm";
 
 // Assets
-import { X } from "@phosphor-icons/react";
 import { gsap } from "gsap";
 
 // Styles
@@ -20,13 +18,9 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const location = useLocation();
+    const { agendaId } = useParams<{ agendaId: string }>();
     const isAgendaPage = location.pathname === "/agenda";
-    const match = matchPath("/agenda/:agendaId", location.pathname);
-    const isEventPage = !!match;
-
-    const agendaId = match?.params.agendaId
-        ? parseInt(match.params.agendaId)
-        : null;
+    const isEventPage = !!agendaId;
 
     const modalRef = useRef<HTMLDivElement | null>(null);
     const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -76,28 +70,54 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }, [isOpen]);
 
     const handleCancel = () => {
-        onClose();
+        if (overlayRef.current) {
+            gsap.to(overlayRef.current, {
+                opacity: 0,
+                visibility: "hidden",
+                duration: 0.5,
+                ease: "power3.in",
+            });
+        }
+        if (modalRef.current) {
+            gsap.to(modalRef.current, {
+                y: "100%",
+                duration: 0.5,
+                ease: "power3.in",
+                onComplete: () => {
+                    document.body.classList.remove("no-scroll");
+                    onClose();
+                },
+            });
+        } else {
+            onClose();
+        }
     };
 
     if (!isOpen) return null;
 
     return (
         <>
-            <div className="modal-overlay" ref={overlayRef}></div>
+            <div
+                className="modal-overlay"
+                ref={overlayRef}
+                onClick={handleCancel}
+            ></div>
             <div className="modal visible" ref={modalRef}>
+                <div className="hr-actions"></div>
+                <div className="modal-header">
+                    <button
+                        className="cancel"
+                        type="button"
+                        onClick={handleCancel}
+                    >
+                        Annuler
+                    </button>
+                    <h2>Créer un agenda</h2>
+                    <button className="submit" type="submit">
+                        Créer
+                    </button>
+                </div>
                 <div className="modal-content">
-                    <div className="modal-header">
-                        {isAgendaPage ? (
-                            <h2>Créez un nouvel agenda</h2>
-                        ) : isEventPage ? (
-                            <h2>Ajouter un évènement</h2>
-                        ) : (
-                            <h2>Ajouter un élément</h2>
-                        )}
-                        <button className="close-button" onClick={handleCancel}>
-                            <X size={20} weight="bold" />
-                        </button>
-                    </div>
                     {isAgendaPage ? (
                         <CreateAgenda
                             onCancel={handleCancel}
@@ -105,11 +125,17 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                         />
                     ) : isEventPage ? (
                         <CreateEvent
-                            agendaId={parseInt(agendaId)}
+                            agendaId={parseInt(agendaId!)}
                             onCancel={handleCancel}
                             onClose={onClose}
                         />
-                    ) : null}
+                    ) : (
+                        <CreateEvent
+                            agendaId={parseInt(agendaId!)}
+                            onCancel={handleCancel}
+                            onClose={onClose}
+                        />
+                    )}
                 </div>
             </div>
         </>

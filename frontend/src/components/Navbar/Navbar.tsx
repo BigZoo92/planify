@@ -47,7 +47,12 @@ const Navbar: React.FC<NavbarProps> = ({ onNewEvent }) => {
                     </li>
                 ))}
                 <li className={styles.navEvent}>
-                    <button className={styles.btnEvent} onClick={onNewEvent}>
+                    <button
+                        className={styles.btnEvent}
+                        onClick={() => {
+                            onNewEvent();
+                        }}
+                    >
                         <Plus size={20} weight="bold" />
                     </button>
                 </li>

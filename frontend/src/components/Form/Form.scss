@@ -27,7 +27,7 @@ form {
             background-color: rgba(234, 235, 236, 1);
             border-radius: $size-small;
             border: 0.5px solid $color_black_10;
-            padding: $size-medium $size-medium-large;
+            padding: 0.625rem $size-medium-large;
         }
 
         select {
@@ -105,11 +105,5 @@ form {
                 }
             }
         }
-    }
-    .button-group {
-        display: flex;
-        align-items: center;
-        flex-direction: row;
-        gap: $size-medium;
     }
 }

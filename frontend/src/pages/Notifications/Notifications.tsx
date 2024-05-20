@@ -4,6 +4,9 @@ import React, { useEffect, useState } from "react";
 // Utils
 import { useUser } from "../../providers/UserProvider";
 
+// Images
+import PushNotifications from "../../assets/images/element/push-notifications.svg";
+
 // Styles
 import styles from "./Notifications.module.scss";
 
@@ -33,7 +36,7 @@ const Notifications: React.FC = () => {
         <main className={styles.notificationsWrapper}>
             <h2>Notifications d'événements</h2>
             {events.length === 0 ? (
-                <p>Aucune notification pour le moment.</p>
+                <img src={PushNotifications} alt="Push notifications" />
             ) : (
                 <ul>
                     {events.map((event) => (

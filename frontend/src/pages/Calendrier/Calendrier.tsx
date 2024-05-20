@@ -204,7 +204,7 @@ const Calendrier: React.FC = () => {
                         ))}
                     </div>
                 )}
-                <div className="calendrier-actions"></div>
+                <div className="hr-actions"></div>
             </div>
             {filtreCours.length > 0 && (
                 <div className="date-display">

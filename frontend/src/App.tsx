@@ -62,7 +62,9 @@ const MainContentWrapper: React.FC = () => {
 const MainContent: React.FC = () => {
     const location = useLocation();
     const [openModal, setModalOpen] = useState(false);
-    const toggleModal = () => setModalOpen(!openModal);
+    const toggleModal = () => {
+        setModalOpen(!openModal);
+    };
 
     const hideMenu =
         ["/", "/login", "/signup", "/calendrier", "/profile"].includes(

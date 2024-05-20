@@ -76,26 +76,20 @@ const CreateEvent: React.FC<CreateEventProps> = ({
                 {errors.location && <p>{errors.location.message}</p>}
             </div>
 
-            <div className="form-wrapper">
-                <div className="form-group">
-                    <label htmlFor="start">Début</label>
-                    <input
-                        type="datetime-local"
-                        id="start"
-                        {...register("start")}
-                    />
-                    {errors.start && <p>{errors.start.message}</p>}
-                </div>
+            <div className="form-group">
+                <label htmlFor="start">Début</label>
+                <input
+                    type="datetime-local"
+                    id="start"
+                    {...register("start")}
+                />
+                {errors.start && <p>{errors.start.message}</p>}
+            </div>
 
-                <div className="form-group">
-                    <label htmlFor="end">Fin</label>
-                    <input
-                        type="datetime-local"
-                        id="end"
-                        {...register("end")}
-                    />
-                    {errors.end && <p>{errors.end.message}</p>}
-                </div>
+            <div className="form-group">
+                <label htmlFor="end">Fin</label>
+                <input type="datetime-local" id="end" {...register("end")} />
+                {errors.end && <p>{errors.end.message}</p>}
             </div>
 
             <div className="form-group">
