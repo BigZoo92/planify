@@ -64,13 +64,11 @@ const MainContent: React.FC = () => {
     const [openModal, setModalOpen] = useState(false);
     const toggleModal = () => setModalOpen(!openModal);
 
-    const hideMenu = [
-        "/",
-        "/login",
-        "/signup",
-        "/calendrier",
-        "/profile",
-    ].includes(location.pathname);
+    const hideMenu =
+        ["/", "/login", "/signup", "/calendrier", "/profile"].includes(
+            location.pathname
+        ) || /\/agenda\/\d+/.test(location.pathname);
+
     const hideNavbar = ["/", "/login", "/signup"].includes(location.pathname);
 
     return (

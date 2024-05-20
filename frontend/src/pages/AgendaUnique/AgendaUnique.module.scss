@@ -1,27 +1,46 @@
 @import "../../assets/styles/Variables.scss";
 
-.agendaAdminWrapper {
+.agendaUnique {
     width: 100%;
     padding: $size-large $size-large 0 $size-large;
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: $size-large;
-    h1 {
-        color: $color_blue_100;
-    }
-    .agenda_chip_container {
+    .agendaUniqueHeader {
         display: flex;
-        flex-direction: column;
-        gap: $size-large;
+        align-items: center;
+        justify-content: space-between;
         width: 100%;
-        .agenda_chip {
-            width: 100%;
-            height: 40px;
+        .agendaUniqueHeaderLeft {
             display: flex;
-            justify-content: center;
             align-items: center;
-            border: 1px solid black;
-            border-radius: $size-medium-large;
+            gap: $size-medium;
+            h1 {
+                font-size: 1.625rem;
+            }
+        }
+        .agendaNavigation,
+        .agendaActions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+    }
+    .noEvents {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: $size-small;
+        p {
+            text-align: center;
+            font-size: 1.25rem;
+            font-family: $font-title;
+            color: $color_blue_100;
         }
     }
 }
