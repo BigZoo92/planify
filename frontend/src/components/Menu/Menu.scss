@@ -151,11 +151,14 @@
                         }
                     }
                     .user-logout {
-                        padding: $size-small $size-medium;
-                        border-radius: $size-small;
                         display: flex;
+                        padding: $size-small;
+                        border-radius: $size-medium;
                         background-color: $color_white_100;
-                        border: 1px solid $color_black_25;
+                        border: 0.5px solid $color_black_10;
+                        svg {
+                            color: $color_black_75;
+                        }
                     }
                 }
             }

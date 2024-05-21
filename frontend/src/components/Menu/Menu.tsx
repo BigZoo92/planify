@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
-import Searchbar from "../SearchBar/SearchBar";
+import { Searchbar } from "../SearchBar";
 import UserImage from "../../assets/images/users-image/placeholder.png";
 import {
     House,

@@ -25,13 +25,21 @@ const Login: React.FC = () => {
         label: string;
         type: string;
         required: boolean;
+        placeholder?: string;
     }[] = [
-        { name: "email", label: "Email", type: "email", required: true },
+        {
+            name: "email",
+            label: "Email",
+            type: "email",
+            required: true,
+            placeholder: "Entrez votre email",
+        },
         {
             name: "password",
             label: "Mot de passe",
             type: "password",
             required: true,
+            placeholder: "Entrez votre mot de passe",
         },
     ];
 

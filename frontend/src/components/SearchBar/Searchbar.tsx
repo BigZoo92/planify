@@ -1,17 +1,17 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { gsap } from "gsap";
 import styles from "./SearchBar.module.scss";
 import { listAgendas } from "../../utils/queries/agenda/list";
 import { listEvents } from "../../utils/queries/events/list";
 import { useUser } from "../../providers/UserProvider";
 import { Agenda, Event } from "../../schema";
 
-// Fonction debounce pour limiter la fréquence des appels API
-function debounce(fn: Function, delay: number) {
+function debounce<T extends (...args: any[]) => void>(fn: T, delay: number): T {
     let timeoutId: NodeJS.Timeout;
-    return (...args: any[]) => {
+    return ((...args: Parameters<T>) => {
         clearTimeout(timeoutId);
         timeoutId = setTimeout(() => fn(...args), delay);
-    };
+    }) as T;
 }
 
 interface SearchBarProps {
@@ -25,6 +25,7 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
         agendas: Agenda[];
         events: Event[];
     }>({ agendas: [], events: [] });
+    const resultWrapperRef = useRef<HTMLDivElement>(null);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
@@ -45,54 +46,81 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
                 const agendaEvents = await listEvents(agenda.id, term);
                 events.push(...agendaEvents);
             }
-            setSearchResults({ agendas, events });
-            onSearch(agendas, events);
+
+            const filteredAgendas = agendas.filter(
+                (agenda) => agenda.name && agenda.name.includes(term)
+            );
+            const filteredEvents = events.filter(
+                (event) => event.name && event.name.includes(term)
+            );
+
+            setSearchResults({
+                agendas: filteredAgendas,
+                events: filteredEvents,
+            });
+            onSearch(filteredAgendas, filteredEvents);
         },
         [user.id, onSearch]
     );
 
-    // Débouncer la fonction fetchSearchResults
     const debouncedFetchSearchResults = useCallback(
         debounce(fetchSearchResults, 300),
         [fetchSearchResults]
     );
 
     useEffect(() => {
-        debouncedFetchSearchResults(searchTerm);
+        if (searchTerm) {
+            debouncedFetchSearchResults(searchTerm);
+        }
     }, [searchTerm, debouncedFetchSearchResults]);
+
+    useEffect(() => {
+        if (
+            resultWrapperRef.current &&
+            searchResults.agendas.length + searchResults.events.length > 0
+        ) {
+            gsap.fromTo(
+                resultWrapperRef.current,
+                { opacity: 0, y: -20 },
+                { opacity: 1, y: 0, duration: 0.5 }
+            );
+        }
+    }, [searchResults]);
 
     return (
         <div className={styles.searchWrapper}>
             <div className={styles.inputWrapper}>
                 <input
                     type="text"
-                    placeholder="Rechercher..."
+                    placeholder="Rechercher un évènement, un agenda..."
                     value={searchTerm}
                     onChange={handleChange}
                 />
             </div>
-            <div className={styles.resultWrapper}>
-                <h3>Résultats de recherche</h3>
-                {searchResults.agendas.length === 0 &&
-                searchResults.events.length === 0 ? (
-                    <p>Aucun résultat trouvé</p>
-                ) : (
-                    <>
-                        <h4>Agendas</h4>
-                        <ul>
-                            {searchResults.agendas.map((agenda) => (
-                                <li key={agenda.id}>{agenda.name}</li>
-                            ))}
-                        </ul>
-                        <h4>Événements</h4>
-                        <ul>
-                            {searchResults.events.map((event) => (
-                                <li key={event.id}>{event.name}</li>
-                            ))}
-                        </ul>
-                    </>
-                )}
-            </div>
+            {searchTerm && (
+                <div ref={resultWrapperRef} className={styles.resultWrapper}>
+                    <h2>Résultats de recherche</h2>
+                    {searchResults.agendas.length === 0 &&
+                    searchResults.events.length === 0 ? (
+                        <p>Aucun résultat trouvé</p>
+                    ) : (
+                        <>
+                            <h3>Agendas</h3>
+                            <ul>
+                                {searchResults.agendas.map((agenda) => (
+                                    <li key={agenda.id}>{agenda.name}</li>
+                                ))}
+                            </ul>
+                            <h3>Événements</h3>
+                            <ul>
+                                {searchResults.events.map((event) => (
+                                    <li key={event.id}>{event.name}</li>
+                                ))}
+                            </ul>
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
