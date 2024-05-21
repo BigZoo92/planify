@@ -79,22 +79,10 @@ const Calendrier: React.FC = () => {
     const relativeDayText = getRelativeDayText(dateSelectionnee);
 
     const bind = useGesture({
-        onDrag: ({ direction: [dy] }) => {
-            if (dy < 0) {
-                gsap.to(calendarRef.current, {
-                    y: -100,
-                    opacity: 0,
-                    duration: 0.5,
-                    onComplete: () => {
-                        setView("week");
-                        gsap.fromTo(
-                            calendarRef.current,
-                            { y: 100, opacity: 0 },
-                            { y: 0, opacity: 1, duration: 0.5 }
-                        );
-                    },
-                });
-            } else if (dy > 0 && view !== "month") {
+        onDrag: ({ direction: [dx, dy], event }) => {
+            // Prevent vertical scrolling on drag
+            event.preventDefault();
+            if (dy > 0 && view !== "month") {
                 gsap.to(calendarRef.current, {
                     y: 100,
                     opacity: 0,
@@ -104,6 +92,21 @@ const Calendrier: React.FC = () => {
                         gsap.fromTo(
                             calendarRef.current,
                             { y: -100, opacity: 0 },
+                            { y: 0, opacity: 1, duration: 0.5 }
+                        );
+                    },
+                });
+            }
+            if (dy < 0 && view === "month") {
+                gsap.to(calendarRef.current, {
+                    y: -100,
+                    opacity: 0,
+                    duration: 0.5,
+                    onComplete: () => {
+                        setView("week");
+                        gsap.fromTo(
+                            calendarRef.current,
+                            { y: 100, opacity: 0 },
                             { y: 0, opacity: 1, duration: 0.5 }
                         );
                     },
