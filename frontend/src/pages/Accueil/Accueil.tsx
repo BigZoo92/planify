@@ -10,7 +10,7 @@ import { gsap } from "gsap";
 
 // Components
 import { CardCalendrier } from "../../components/CardCalendrier";
-import Searchbar from "../../components/SearchBar/Searchbar";
+import { Searchbar } from "../../components/SearchBar";
 
 // Utils
 import { useUser } from "../../providers/UserProvider";
@@ -39,6 +39,14 @@ const Accueil: React.FC = () => {
     const cardsRefNextWeek = useRef<HTMLDivElement[]>([]);
     const deactivatedThisWeekRef = useRef<HTMLParagraphElement>(null);
     const deactivatedNextWeekRef = useRef<HTMLParagraphElement>(null);
+
+    const [agendas, setAgendas] = useState<Agenda[]>([]);
+    const [searchEvents, setSearchEvents] = useState<Event[]>([]);
+
+    const handleSearch = (foundAgendas: Agenda[], foundEvents: Event[]) => {
+        setAgendas(foundAgendas);
+        setSearchEvents(foundEvents);
+    };
 
     useEffect(() => {
         const fetchWeatherData = async () => {
@@ -185,7 +193,7 @@ const Accueil: React.FC = () => {
                     </div>
                 </div>
             </section>
-            <Searchbar onSearch={() => {}} />
+            <Searchbar onSearch={handleSearch} />
             <section className="recap-wrapper">
                 <h2>{recapText}</h2>
                 <div className="recap-infos">

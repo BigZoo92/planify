@@ -1,11 +1,11 @@
 @import "../../assets/styles/Variables.scss";
 
-.search-wrapper {
+.searchWrapper {
     display: flex;
     align-items: center;
+    flex-direction: column;
     gap: $size-small;
-    align-self: stretch;
-    .input-wrapper {
+    .inputWrapper {
         display: flex;
         padding: $size-medium;
         height: 40px;
@@ -37,20 +37,13 @@
             background-size: contain;
         }
     }
-    .filter-wrapper {
+    .resultWrapper {
         display: flex;
-        width: 40px;
-        height: 40px;
-        padding: $size-extra-small 10px;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
+        gap: $size-small;
         border-radius: $size-small;
-        border: 1px solid $color_black_10;
-        background-color: $color_white_100;
-        svg {
-            color: $color_black_25;
-        }
+        padding: $size-medium;
+        background-color: $color_black_10;
+        width: 100%;
     }
 }
