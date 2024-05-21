@@ -21,19 +21,16 @@ form {
         width: 100%;
 
         input,
-        textarea {
+        textarea,
+        select {
             width: 100%;
-            border: none;
-            background-color: rgba(234, 235, 236, 1);
+            background-color: $color_white_5;
             border-radius: $size-small;
+            padding: 0.625rem $size-medium;
             border: 0.5px solid $color_black_10;
-            padding: 0.625rem $size-medium-large;
         }
 
         select {
-            width: 100%;
-            border-radius: $size-small;
-            background-color: rgba(234, 235, 236, 1);
             padding: $size-medium $size-medium-large;
         }
 
@@ -43,6 +40,11 @@ form {
 
         label {
             font-family: $font-title;
+
+            span {
+                font-family: $font;
+                color: $color_pink_100;
+            }
         }
 
         .hide-label {
@@ -105,6 +107,7 @@ form {
                 }
             }
         }
+
         .event-location-list {
             display: flex;
             flex-direction: column;
@@ -114,6 +117,7 @@ form {
             .event-location-item {
                 padding: 0.625rem $size-medium-large;
                 line-height: 1.25;
+
                 &:not(:last-child) {
                     border-bottom: 1px solid $color_black_10;
                 }

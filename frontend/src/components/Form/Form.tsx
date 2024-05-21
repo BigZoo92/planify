@@ -15,6 +15,7 @@ interface FormField<T> {
     label: string;
     type: string;
     required?: boolean;
+    placeholder?: string;
 }
 
 //@ts-ignore
@@ -36,9 +37,12 @@ const Form = <T extends Record<string, any>>({
         <form onSubmit={handleSubmit(onSubmit)}>
             {fields.map((field) => (
                 <div key={String(field.name)} className="form-group">
-                    <label htmlFor={String(field.name)}>{field.label}</label>
+                    <label htmlFor={String(field.name)}>
+                        {field.label} <span>*</span>
+                    </label>
                     <input
                         type={field.type}
+                        placeholder={field.placeholder}
                         {...register(field.name as Path<T>)}
                         required={field.required}
                     />
