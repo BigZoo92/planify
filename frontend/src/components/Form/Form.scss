@@ -105,5 +105,27 @@ form {
                 }
             }
         }
+        .event-location-list {
+            display: flex;
+            flex-direction: column;
+            border-radius: $size-small;
+            border: 0.5px solid $color_black_10;
+
+            .event-location-item {
+                padding: 0.625rem $size-medium-large;
+                line-height: 1.25;
+                &:not(:last-child) {
+                    border-bottom: 1px solid $color_black_10;
+                }
+
+                .primary {
+                    font-weight: 500;
+                }
+
+                .secondary {
+                    color: $color_black_50;
+                }
+            }
+        }
     }
 }
