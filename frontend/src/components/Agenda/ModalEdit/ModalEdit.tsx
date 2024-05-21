@@ -10,7 +10,9 @@ interface ModalEditProps {
 
 const ModalEdit: React.FC<ModalEditProps> = ({ agenda, onClose, onSave }) => {
     const [name, setName] = useState(agenda.name);
-    const [type, setType] = useState(agenda.type);
+    const [type, setType] = useState<"UNIVERSITAIRE" | "PERSONNEL">(
+        agenda.type
+    );
 
     const handleSave = () => {
         onSave({ ...agenda, name, type });
@@ -33,7 +35,11 @@ const ModalEdit: React.FC<ModalEditProps> = ({ agenda, onClose, onSave }) => {
                     Type:
                     <select
                         value={type}
-                        onChange={(e) => setType(e.target.value)}
+                        onChange={(e) =>
+                            setType(
+                                e.target.value as "UNIVERSITAIRE" | "PERSONNEL"
+                            )
+                        }
                     >
                         <option value="UNIVERSITAIRE">Universitaire</option>
                         <option value="PERSONNEL">Personnel</option>

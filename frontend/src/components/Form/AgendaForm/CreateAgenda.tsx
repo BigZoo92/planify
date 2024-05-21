@@ -26,7 +26,7 @@ interface CreateAgendaProps {
     onClose: () => void;
 }
 
-const CreateAgenda: React.FC<CreateAgendaProps> = ({ onCancel, onClose }) => {
+const CreateAgenda: React.FC<CreateAgendaProps> = ({ onClose }) => {
     const [selectedType, setSelectedType] =
         useState<keyof typeof AgendaTypeSchema.enum>("UNIVERSITAIRE");
 
