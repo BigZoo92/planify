@@ -1,9 +1,11 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Form } from "../../../components/Form";
-import "./Login.scss";
 import ElementGraphique from "../../../assets/images/login/login-element--principal__2.svg";
 import { LoginSchema, login } from "../../../utils/queries";
+
+// Styles
+import styles from "./Login.module.scss";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -44,7 +46,7 @@ const Login: React.FC = () => {
     ];
 
     return (
-        <main className="login-wrapper">
+        <main className={styles.loginWrapper}>
             <img src={ElementGraphique} alt="ElementGraphique" />
             <h1>Welcome back !</h1>
             <Form
