@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Calendar from "react-calendar";
 import { useGesture } from "@use-gesture/react";
 import { gsap } from "gsap";
@@ -169,6 +169,7 @@ const Calendrier: React.FC = () => {
     const weekDays = getWeekDays(dateSelectionnee);
 
     return (
+        // @ts-ignore
         <main className="calendrier-wrapper" {...bind()} ref={mainRef}>
             <div className="react-calendar-wrapper" ref={calendarRef}>
                 {view === "month" ? (

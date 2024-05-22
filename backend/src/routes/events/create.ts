@@ -1,57 +1,54 @@
-import { Request, Response } from "express";
-import { EventSchema, Event } from "../../schema";
-import { prisma } from "../../schema/prismaClient";
+import { Request, Response } from 'express';
+import { EventSchema, Event } from '../../schema';
+import { prisma } from '../../schema/prismaClient';
 
 interface CreateEventProps extends Event {
   agendaId?: number;
   userId?: number;
 }
 
-export const create = async (req: Request<{}, {}, CreateEventProps>, res: Response) => {
+export const create = async (
+  req: Request<{}, {}, CreateEventProps>,
+  res: Response
+) => {
   try {
-    const {
-        agendaId,
-        userId,
+    const { agendaId, userId, summary, location, start, end, data } = req.body;
+
+    const newEvent = await prisma.event.create({
+      data: {
         summary,
         location,
         start,
         end,
-        data,
-    } = req.body;
+        data: data as any,
+      },
+    });
 
-    const newEvent = await prisma.event.create({
-        data: {
-            summary,
-            location,
-            start,
-            end,
-            data: data as any,
-        },
-      });
-      
-      const eventId = newEvent.id
+    const eventId = newEvent.id;
 
-      if(userId){
+    if (userId) {
       const newEventUser = await prisma.eventUser.create({
         data: {
           eventId,
-          userId
+          userId,
         },
       });
-      }
+    }
 
-      if(agendaId){
-        const newEventAgenda = await prisma.eventAgenda.create({
-          data: {
-            eventId,
-            agendaId
-          },
-        });
-      }
+    if (agendaId) {
+      const newEventAgenda = await prisma.eventAgenda.create({
+        data: {
+          eventId,
+          agendaId,
+        },
+      });
+    }
 
     res.status(201).json({ event: newEvent });
   } catch (error: any) {
-    console.error("Error creating Event:", error);
-    res.status(400).json({ message: "Event creation failed", errors: error.errors });
+    console.error('Error creating Event:', error);
+    res
+      .status(400)
+      .json({ message: 'Event creation failed', errors: error.errors });
   }
 };

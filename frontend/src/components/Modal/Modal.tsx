@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 // Components
@@ -120,7 +120,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <div className="modal-content">
                     {isAgendaPage ? (
                         <CreateAgenda
-                            onCancel={handleCancel}
+                            // onCancel={handleCancel}
                             onClose={onClose}
                         />
                     ) : isEventPage ? (

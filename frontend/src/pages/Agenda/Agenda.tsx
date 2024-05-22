@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Agenda as AgendaBackend } from "../../schema";
 import { listAgendasAdmin } from "../../utils/queries/agenda";
 import { removeAgenda } from "../../utils/queries/agenda/delete";

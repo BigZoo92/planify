@@ -25,7 +25,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Welcome to Express & TypeScript Server');
 });
 
-app.use('/api', router)
+app.use('/api', router);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);

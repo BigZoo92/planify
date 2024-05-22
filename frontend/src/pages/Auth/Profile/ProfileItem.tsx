@@ -1,4 +1,3 @@
-import React from "react";
 import { CaretRight } from "@phosphor-icons/react";
 
 // Styles

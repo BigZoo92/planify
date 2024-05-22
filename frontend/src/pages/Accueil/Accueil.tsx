@@ -1,11 +1,5 @@
 // Dependencies
-import React, {
-    useState,
-    useEffect,
-    useRef,
-    useCallback,
-    useMemo,
-} from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { gsap } from "gsap";
 
 // Components
@@ -185,7 +179,7 @@ const Accueil: React.FC = () => {
                     </div>
                 </div>
             </section>
-            <Searchbar onSearch={() => {}} />
+            <Searchbar />
             <section className="recap-wrapper">
                 <h2>{recapText}</h2>
                 <div className="recap-infos">
