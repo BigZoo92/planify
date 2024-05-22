@@ -1,1 +1,1 @@
-export {default as timetableRouter} from './router'
+export { default as timetableRouter } from './router';

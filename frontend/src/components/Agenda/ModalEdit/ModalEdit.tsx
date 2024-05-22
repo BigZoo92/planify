@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Agenda } from "../../../schema";
 import styles from "./ModalEdit.module.scss";
 
@@ -33,7 +33,11 @@ const ModalEdit: React.FC<ModalEditProps> = ({ agenda, onClose, onSave }) => {
                     Type:
                     <select
                         value={type}
-                        onChange={(e) => setType(e.target.value)}
+                        onChange={(e) =>
+                            setType(
+                                e.target.value as "UNIVERSITAIRE" | "PERSONNEL"
+                            )
+                        }
                     >
                         <option value="UNIVERSITAIRE">Universitaire</option>
                         <option value="PERSONNEL">Personnel</option>
