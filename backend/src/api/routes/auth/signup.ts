@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { hashPassword } from '../../../utils/password';
-import { prisma } from '../../../schema/prismaClient';
+import { hashPassword } from '../../utils/password';
+import { prisma } from '../../schema/prismaClient';
 import { z } from 'zod';
 
 const SignupSchema = z.object({

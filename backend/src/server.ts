@@ -7,7 +7,7 @@ import morgan from 'morgan';
 import compression from 'compression';
 import cors from 'cors';
 import router from './api/routes/router';
-import { corsOptions } from './constant';
+import { corsOptions } from './api/constant';
 import { Server, Socket } from 'socket.io';
 
 dotenv.config();
@@ -55,5 +55,9 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api', router);
 
 server.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
+
+app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });

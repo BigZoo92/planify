@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { comparePasswords } from '../../../utils/password';
-import { searchUserByEmail } from '../../../utils/search';
+import { comparePasswords } from '../../utils/password';
+import { searchUserByEmail } from '../../utils/search';
 import jwt from 'jsonwebtoken';
-import { jwtToken } from '../../../constant';
+import { jwtToken } from '../../constant';
 import { z } from 'zod';
 
 const LoginSchema = z.object({

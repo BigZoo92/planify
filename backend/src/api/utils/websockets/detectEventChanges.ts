@@ -1,6 +1,6 @@
 import { Event } from '../../schema/';
 import { prisma } from '../../schema/prismaClient';
-import { userSockets } from '../../api';
+import { userSockets } from '../..';
 import { sendPushNotification } from './sendPushNotifications';
 
 export const detectEventChanges = async (updatedEvent: Event) => {

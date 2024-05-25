@@ -8,9 +8,9 @@
     "build": "npx tsc",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
-    "cleanAndCopy:schema": "ts-node ./src/schema/cleanAndCopySchema.ts",
-    "migrate": "npx prisma db push --schema=./src/schema/schema.prisma",
-    "generate": "npx prisma generate --schema=./src/schema/schema.prisma",
+    "cleanAndCopy:schema": "ts-node ./src/api/schema/cleanAndCopySchema.ts",
+    "migrate": "npx prisma db push --schema=./src/api/schema/schema.prisma",
+    "generate": "npx prisma generate --schema=./src/api/schema/schema.prisma",
     "postgenerate": "npm run cleanAndCopy:schema",
     "prisma": "npm run migrate --create-only && npm run generate"
   },

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { AgendaSchema, Agenda } from '../../../schema';
-import { prisma } from '../../../schema/prismaClient';
+import { AgendaSchema, Agenda } from '../../schema';
+import { prisma } from '../../schema/prismaClient';
 
 interface CreateAgenda {
   agendaData: Agenda;

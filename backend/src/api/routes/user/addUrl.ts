@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { prisma } from '../../../schema/prismaClient';
+import { prisma } from '../../schema/prismaClient';
 
 export const addUrl = async (req: Request, res: Response) => {
   try {

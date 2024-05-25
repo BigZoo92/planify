@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "typeRoots": ["./node_modules/@types", "src/api/@types"],
     "rootDir": "./",
     "forceConsistentCasingInFileNames": true,            
     "strict": true,                                    
@@ -20,6 +20,6 @@
   },
   "include": [
     "src/**/*.ts",
-    "src/@types/types.d.ts"
+    "src/api/@types/types.d.ts"
   ]
 }
