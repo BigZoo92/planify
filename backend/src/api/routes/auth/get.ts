@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { prisma } from '../../schema/prismaClient';
+import { prisma } from '../../../schema/prismaClient';
 
 export const get = async (
   req: Request<object, object, { id: number }>,

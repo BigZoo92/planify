@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { scraper } from '../../utils/scrape';
+import { scraper } from '../../../utils/scrape';
 import dotenv from 'dotenv';
 import axios from 'axios';
 

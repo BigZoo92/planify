@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { prisma } from '../../schema/prismaClient';
+import { prisma } from '../../../schema/prismaClient';
 
-export const addUrl = async (req: Request, res: Response) => {
+export const deleteUrl = async (req: Request, res: Response) => {
   try {
     const { url, userId } = req.body;
 
@@ -13,14 +13,14 @@ export const addUrl = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'User not found.' });
     }
 
-    if (user.urls.includes(url))
-      return res.status(409).json({ message: 'Url Already exist' });
+    if (!user.urls.includes(url))
+      return res.status(409).json({ message: "Url don't found" });
 
     const updatedUser = await prisma.user.update({
       where: { id: user.id },
       data: {
         ...user,
-        urls: [...user.urls, url],
+        urls: user.urls.filter((u) => u !== url),
       },
     });
 
