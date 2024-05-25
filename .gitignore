@@ -25,3 +25,4 @@ backend/.env
 frontend/.env
 frontend/ios/
 
+.vercel
