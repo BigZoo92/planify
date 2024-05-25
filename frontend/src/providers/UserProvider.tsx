@@ -26,9 +26,9 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    const {setLoading} = useLoading()
+    const { setLoading } = useLoading();
     const navigate = useNavigate();
-    const location = useLocation()
+    const location = useLocation();
 
     const fetchUser = useCallback(async () => {
         const newUser = await isAuth();
@@ -42,7 +42,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             setLoading(false);
             if (restrictedPaths.includes(currentPath)) {
                 navigate("/accueil");
-            }   
+            }
         }
     }, []);
 
