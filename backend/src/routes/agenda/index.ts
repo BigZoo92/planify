@@ -1,1 +1,1 @@
-export {default as agendaRouter} from './router'
+export { default as agendaRouter } from './router';
