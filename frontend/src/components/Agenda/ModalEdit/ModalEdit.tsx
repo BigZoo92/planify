@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Agenda } from "../../../schema";
 import styles from "./ModalEdit.module.scss";
 

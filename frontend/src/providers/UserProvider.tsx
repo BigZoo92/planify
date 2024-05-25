@@ -1,14 +1,17 @@
-import React, {
+import {
     createContext,
     useContext,
     useEffect,
     useState,
     ReactNode,
     useCallback,
+    useRef,
 } from "react";
-import { User } from "../schema";
+import { Event, User } from "../schema";
 import { isAuth } from "../utils/queries";
 import { useNavigate } from "react-router-dom";
+import io, { Socket } from "socket.io-client";
+import { registerPushNotifications } from "../utils/capacitor/notification";
 
 interface UserContextProps {
     loading: boolean;
@@ -37,11 +40,25 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             setUser(newUser);
             setLoading(false);
         }
-    }, [navigate]);
+    }, []);
 
     useEffect(() => {
         (async () => await fetchUser())();
     }, [fetchUser]);
+
+    useEffect(() => {
+        if (!user) return;
+        const ws: Socket = io("http://localhost:8000");
+        ws.emit("register", user.id);
+        registerPushNotifications(user.id);
+        ws.on("event-updated", (updatedEvent: Event) => {
+            alert(`Event updated: ${updatedEvent.summary}`);
+        });
+
+        return () => {
+            ws.off("event-updated");
+        };
+    }, [user]);
 
     return (
         <UserContext.Provider

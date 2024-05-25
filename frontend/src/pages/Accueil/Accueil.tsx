@@ -1,11 +1,5 @@
 // Dependencies
-import React, {
-    useState,
-    useEffect,
-    useRef,
-    useCallback,
-    useMemo,
-} from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { gsap } from "gsap";
 
 // Components

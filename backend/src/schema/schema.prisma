@@ -51,6 +51,7 @@ model User {
     messagesSent     Message[]    @relation("MessageSender")
     messagesReceived Message[]    @relation("MessageReceiver")
     EventUser        EventUser[]
+    pushToken        String?
 }
 
 model Agenda {

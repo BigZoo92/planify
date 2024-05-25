@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { Searchbar } from "../SearchBar";
 import UserImage from "../../assets/images/users-image/placeholder.png";
@@ -71,7 +71,7 @@ const Menu: React.FC = () => {
                 )}
                 <ul className={`menu-items ${isOpen ? "menu-open" : ""}`}>
                     <div className="menu-content">
-                        <Searchbar onSearch={() => console.log("search")} />
+                        <Searchbar />
                         <div className="li-wrapper">
                             <li>
                                 <NavLink

@@ -1,4 +1,4 @@
-import React, { memo, useState, useCallback } from "react";
+import { memo, useState, useCallback } from "react";
 import { useUser } from "../../../providers/UserProvider";
 import ImageUser from "../../../assets/images/users-image/placeholder.png";
 import {
