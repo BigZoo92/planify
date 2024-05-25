@@ -9,7 +9,7 @@ interface CreateAgenda {
 }
 
 export const create = async (
-  req: Request<{}, {}, CreateAgenda>,
+  req: Request<object, object, CreateAgenda>,
   res: Response
 ) => {
   try {

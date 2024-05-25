@@ -9,7 +9,7 @@ interface CreateEventProps extends Event {
 }
 
 export const create = async (
-  req: Request<{}, {}, CreateEventProps>,
+  req: Request<object, object, CreateEventProps>,
   res: Response
 ) => {
   try {

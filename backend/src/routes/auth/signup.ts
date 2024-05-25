@@ -13,7 +13,7 @@ const SignupSchema = z.object({
 type SignupSchemaType = z.infer<typeof SignupSchema>;
 
 export const signup = async (
-  req: Request<{}, {}, SignupSchemaType>,
+  req: Request<object, object, SignupSchemaType>,
   res: Response
 ) => {
   try {
