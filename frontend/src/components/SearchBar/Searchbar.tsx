@@ -63,14 +63,13 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
         [user.id, onSearch]
     );
 
-    const debouncedFetchSearchResults = useCallback(
-        debounce(fetchSearchResults, 300),
-        [fetchSearchResults]
-    );
+    const debouncedFetchSearchResults = useCallback(() => {
+        debounce(fetchSearchResults, 300);
+    }, [fetchSearchResults]);
 
     useEffect(() => {
         if (searchTerm) {
-            debouncedFetchSearchResults(searchTerm);
+            debouncedFetchSearchResults();
         }
     }, [searchTerm, debouncedFetchSearchResults]);
 
