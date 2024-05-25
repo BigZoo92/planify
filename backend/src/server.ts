@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 
-import session from 'express-session';
 import helmet from 'helmet';
 import http from 'http';
 import morgan from 'morgan';
