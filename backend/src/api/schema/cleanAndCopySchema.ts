@@ -6,14 +6,14 @@ import { promisify } from 'util';
 const copy = promisify(ncp);
 
 // Définir les chemins source et destinations
-const schemaFilePath = path.join(__dirname, '../../../schema/index.ts');
+const schemaFilePath = path.join(__dirname, '../../../../schema/index.ts');
 const backendDestPath = path.join(
   __dirname,
-  '../../../backend/src/schema/index.ts'
+  '../../../../backend/src/api/schema/index.ts'
 );
 const frontendDestPath = path.join(
   __dirname,
-  '../../../frontend/src/schema/index.ts'
+  '../../../../frontend/src/schema/index.ts'
 );
 
 async function cleanSchema() {
