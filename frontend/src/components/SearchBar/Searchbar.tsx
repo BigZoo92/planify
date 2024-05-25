@@ -40,10 +40,10 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
             }
 
             const userId = user.id;
-            const agendas = await listAgendas(userId, term);
+            const agendas = await listAgendas(userId);
             const events: Event[] = [];
             for (const agenda of agendas) {
-                const agendaEvents = await listEvents(agenda.id, term);
+                const agendaEvents = await listEvents(agenda.id);
                 events.push(...agendaEvents);
             }
 
@@ -51,7 +51,7 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
                 (agenda) => agenda.name && agenda.name.includes(term)
             );
             const filteredEvents = events.filter(
-                (event) => event.name && event.name.includes(term)
+                (event) => event.summary && event.summary.includes(term)
             );
 
             setSearchResults({
@@ -114,7 +114,7 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
                             <h3>Événements</h3>
                             <ul>
                                 {searchResults.events.map((event) => (
-                                    <li key={event.id}>{event.name}</li>
+                                    <li key={event.id}>{event.summary}</li>
                                 ))}
                             </ul>
                         </>

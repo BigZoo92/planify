@@ -15,7 +15,7 @@ import "./Accueil.scss";
 import { Calendar, MapPin, WarningCircle } from "@phosphor-icons/react";
 
 // Types
-import { Event } from "../../schema";
+import { Agenda, Event } from "../../schema";
 
 const Accueil: React.FC = () => {
     const [weather, setWeather] = useState({

@@ -5,16 +5,15 @@ import {
     useState,
     ReactNode,
     useCallback,
-    useRef,
 } from "react";
 import { Event, User } from "../schema";
 import { isAuth } from "../utils/queries";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import io, { Socket } from "socket.io-client";
 import { registerPushNotifications } from "../utils/capacitor/notification";
+import { useLoading } from "./LoadingProvider";
 
 interface UserContextProps {
-    loading: boolean;
     user: User | null;
     fetchUser: () => Promise<void>;
 }
@@ -27,18 +26,23 @@ interface UserProviderProps {
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const [user, setUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState(true);
+    const {setLoading} = useLoading()
     const navigate = useNavigate();
+    const location = useLocation()
 
     const fetchUser = useCallback(async () => {
         const newUser = await isAuth();
-
         if (!newUser) {
-            // navigate("/");
+            navigate("/");
             setLoading(false);
         } else {
+            const currentPath = location.pathname;
+            const restrictedPaths = ["/", "/login", "/signup"];
             setUser(newUser);
             setLoading(false);
+            if (restrictedPaths.includes(currentPath)) {
+                navigate("/accueil");
+            }   
         }
     }, []);
 
@@ -63,7 +67,6 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     return (
         <UserContext.Provider
             value={{
-                loading,
                 user,
                 fetchUser,
             }}
