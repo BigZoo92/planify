@@ -19,6 +19,7 @@ export const UserScalarFieldEnumSchema = z.enum([
   'createdAt',
   'updatedAt',
   'darkMode',
+  'pushToken',
 ]);
 
 export const AgendaScalarFieldEnumSchema = z.enum([
@@ -123,6 +124,7 @@ export const UserSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   darkMode: z.boolean(),
+  pushToken: z.string().nullable(),
 });
 
 export type User = z.infer<typeof UserSchema>;
