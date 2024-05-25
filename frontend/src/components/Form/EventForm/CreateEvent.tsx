@@ -1,8 +1,11 @@
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createEvent } from "../../../utils/queries";
 import { Event } from "../../../schema";
 import { z } from "zod";
+import { getAdress } from "../../../utils/queries/events/geopify";
+import { gsap } from "gsap";
 
 export const EventSchemaForm = z.object({
     summary: z.string().nonempty("Le titre est requis"),
@@ -33,6 +36,32 @@ const CreateEvent: React.FC<CreateEventProps> = ({
         resolver: zodResolver(EventSchemaForm),
     });
 
+    const [locationInput, setLocationInput] = useState("");
+    const [suggestions, setSuggestions] = useState<any[]>([]);
+    const listRef = useRef<HTMLUListElement>(null);
+
+    useEffect(() => {
+        if (locationInput.length > 2) {
+            const fetchSuggestions = async () => {
+                const results = await getAdress(locationInput);
+                setSuggestions(results);
+            };
+            fetchSuggestions();
+        } else {
+            setSuggestions([]);
+        }
+    }, [locationInput]);
+
+    useEffect(() => {
+        if (suggestions.length > 0 && listRef.current) {
+            gsap.fromTo(
+                listRef.current.children,
+                { opacity: 0, y: -10 },
+                { opacity: 1, y: 0, stagger: 0.1, duration: 0.5 }
+            );
+        }
+    }, [suggestions]);
+
     const onSubmit = async (data: Event) => {
         const result = await createEvent({
             ...data,
@@ -53,6 +82,11 @@ const CreateEvent: React.FC<CreateEventProps> = ({
         alert("Veuillez corriger les erreurs avant de soumettre le formulaire");
     };
 
+    const formatAddress = (address: string) => {
+        const [primary, ...rest] = address.split(", ");
+        return { primary, secondary: rest.join(", ") };
+    };
+
     return (
         <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
             <div className="form-group">
@@ -71,8 +105,37 @@ const CreateEvent: React.FC<CreateEventProps> = ({
                     id="location"
                     placeholder="Entrez le lieu de l'évènement"
                     {...register("location")}
+                    value={locationInput}
+                    onChange={(e) => setLocationInput(e.target.value)}
                 />
                 {errors.location && <p>{errors.location.message}</p>}
+                {suggestions.length > 0 && (
+                    <ul className="event-location-list" ref={listRef}>
+                        {suggestions.map((suggestion, index) => {
+                            const formatted = formatAddress(
+                                suggestion.formatted
+                            );
+                            return (
+                                <li
+                                    className="event-location-item"
+                                    key={index}
+                                    onClick={() => {
+                                        setLocationInput(suggestion.formatted);
+                                        setSuggestions([]);
+                                    }}
+                                >
+                                    <span className="primary">
+                                        {formatted.primary}
+                                    </span>
+                                    ,{" "}
+                                    <span className="secondary">
+                                        {formatted.secondary}
+                                    </span>
+                                </li>
+                            );
+                        })}
+                    </ul>
+                )}
             </div>
 
             <div className="form-group">

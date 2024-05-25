@@ -121,7 +121,7 @@ const AgendaUnique: React.FC = () => {
                             </div>
                             <div className={styles.eventLocation}>
                                 <h3>Lieu de l'évènement</h3>
-                                {event.location}
+                                <p>{event.location}</p>
                             </div>
                         </div>
                     ))}

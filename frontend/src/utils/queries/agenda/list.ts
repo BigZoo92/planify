@@ -1,4 +1,4 @@
-export async function listAgendas(userId: number) {
+export async function listAgendas(userId: number, searchTerm: string) {
     try {
         const response = await fetch(
             `${import.meta.env.VITE_SERVER_BACKEND_URL}/agenda/list`,
@@ -7,14 +7,14 @@ export async function listAgendas(userId: number) {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ userId }),
+                body: JSON.stringify({ userId, searchTerm }),
             }
         );
 
         if (!response.ok) {
             if (response.status === 404) {
                 console.error("No agendas found for provided user ID.");
-                return null;
+                return [];
             }
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -22,6 +22,6 @@ export async function listAgendas(userId: number) {
         return agendasResponse.agendas;
     } catch (error) {
         console.error("Error fetching user agendas:", error);
-        return null;
+        return [];
     }
 }

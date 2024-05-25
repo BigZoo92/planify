@@ -1,4 +1,4 @@
-export async function listEvents(agendaId: number) {
+export async function listEvents(agendaId: number, searchTerm: string) {
     try {
         const response = await fetch(
             `${import.meta.env.VITE_SERVER_BACKEND_URL}/events/list`,
@@ -7,7 +7,7 @@ export async function listEvents(agendaId: number) {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ agendaId }),
+                body: JSON.stringify({ agendaId, searchTerm }),
             }
         );
 
@@ -24,6 +24,6 @@ export async function listEvents(agendaId: number) {
         return data.events;
     } catch (error) {
         console.error("Erreur lors de la récupération des événements:", error);
-        return null;
+        return [];
     }
 }
