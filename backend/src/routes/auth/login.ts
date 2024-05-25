@@ -13,7 +13,7 @@ const LoginSchema = z.object({
 type LoginSchemaType = z.infer<typeof LoginSchema>;
 
 export const login = async (
-  req: Request<{}, {}, LoginSchemaType>,
+  req: Request<object, object, LoginSchemaType>,
   res: Response
 ) => {
   try {

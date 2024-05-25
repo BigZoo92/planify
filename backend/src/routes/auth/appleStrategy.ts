@@ -19,7 +19,6 @@ export async function handleAppleLogin(req: Request, res: Response) {
   try {
     const response = await appleAuth.accessToken(req.body.code);
     const idToken = response.id_token;
-    //@ts-ignore
     const appleUser = await appleAuth.verifyIdToken(
       idToken,
       undefined,
