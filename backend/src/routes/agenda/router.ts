@@ -7,6 +7,7 @@ import { list } from './list';
 import { Request } from 'express';
 import { ParsedQs } from 'qs';
 import { listAdmin } from './listAdmin';
+import { listPublicAgendas } from './listAll';
 
 const agendaRouter = express.Router();
 
@@ -25,5 +26,6 @@ agendaRouter.post('/remove', (req: Req, res) => remove(req, res));
 agendaRouter.post('/update', (req: Req, res) => update(req, res));
 agendaRouter.post('/list', (req: ReqUserId, res) => list(req, res));
 agendaRouter.post('/listAdmin', (req: ReqUserId, res) => listAdmin(req, res));
+agendaRouter.get('/public', (req: Request, res) => listPublicAgendas(req, res));
 
 export default agendaRouter;
