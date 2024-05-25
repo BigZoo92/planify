@@ -6,7 +6,7 @@ import http from 'http';
 import morgan from 'morgan';
 import compression from 'compression';
 import cors from 'cors';
-import router from './api';
+import router from './routes';
 import { corsOptions } from './constant';
 import { Server, Socket } from 'socket.io';
 

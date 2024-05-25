@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCommitted','RepeatableRead','Serializable']);
 
-export const UserScalarFieldEnumSchema = z.enum(['id','email','password','firstName','lastName','urls','createdAt','updatedAt','darkMode','pushToken']);
+export const UserScalarFieldEnumSchema = z.enum(['id','email','password','firstName','lastName','urls','createdAt','updatedAt','darkMode','language','pushToken']);
 
 export const AgendaScalarFieldEnumSchema = z.enum(['id','type','name','private','createdAt','updatedAt']);
 
@@ -54,6 +54,7 @@ export const UserSchema = z.object({
   createdAt: z.date(),
   updatedAt: z.date(),
   darkMode: z.boolean(),
+  language: z.string().nullable(),
   pushToken: z.string().nullable(),
 })
 
