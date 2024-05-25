@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import "./CardCalendrier.scss";
 import { UsersThree, MapPin, Student } from "@phosphor-icons/react";
 
@@ -55,12 +54,6 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
 }) => {
     const setColor = getColor(subject);
     const adjustedColor = getAdjustedColor(subject);
-    const [currentTime, setCurrentTime] = useState(new Date());
-
-    useEffect(() => {
-        const timerID = setInterval(() => setCurrentTime(new Date()), 60000);
-        return () => clearInterval(timerID);
-    }, []);
 
     const courseStatus = () => {
         const now = new Date();

@@ -1,24 +1,6 @@
-import React, { useState } from "react";
-import { Sliders } from "@phosphor-icons/react";
 import "./Searchbar.scss";
 
-interface SearchBarProps {
-    onSearch: (value: string) => void;
-}
-
-const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
-    const [searchTerm, setSearchTerm] = useState("");
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchTerm(event.target.value);
-    };
-
-    const handleKeyPress = (event: React.KeyboardEvent) => {
-        if (event.key === "Enter") {
-            onSearch(searchTerm);
-        }
-    };
-
+const Searchbar: React.FC = ({}) => {
     return (
         <div className="search-wrapper">
             <div className="input-wrapper">

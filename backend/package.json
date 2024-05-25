@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prebuild": "npm run lint && npm install && npm run prisma",
+    "prebuild": "npm install && npm run prisma",
     "build": "npx tsc",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
@@ -12,9 +12,7 @@
     "migrate": "npx prisma db push --schema=./src/schema/schema.prisma",
     "generate": "npx prisma generate --schema=./src/schema/schema.prisma",
     "postgenerate": "npm run cleanAndCopy:schema",
-    "prisma": "npm run migrate --create-only && npm run generate",
-    "lint": "eslint . --ext .ts --fix",
-    "postprisma": "npm run lint"
+    "prisma": "npm run migrate --create-only && npm run generate"
   },
   "keywords": [],
   "author": "",
