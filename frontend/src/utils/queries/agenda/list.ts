@@ -1,4 +1,4 @@
-export async function listAgendas(userId: number, searchTerm: string) {
+export async function listAgendas(userId: number) {
     try {
         const response = await fetch(
             `${import.meta.env.VITE_SERVER_BACKEND_URL}/agenda/list`,
@@ -7,7 +7,7 @@ export async function listAgendas(userId: number, searchTerm: string) {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ userId, searchTerm }),
+                body: JSON.stringify({ userId }),
             }
         );
 
