@@ -29,16 +29,18 @@ import { AgendaUnique } from "./pages/AgendaUnique";
 import "./assets/styles/Main.scss";
 
 // Providers
-import { UserProvider, TimetableProvider } from "./providers";
+import { UserProvider, TimetableProvider, LoadingProvider } from "./providers";
 
 const App: React.FC = () => {
     return (
         <Router>
-            <UserProvider>
-                <TimetableProvider>
-                    <MainContentWrapper />
-                </TimetableProvider>
-            </UserProvider>
+            <LoadingProvider>
+                <UserProvider>
+                    <TimetableProvider>
+                        <MainContentWrapper />
+                    </TimetableProvider>
+                </UserProvider>
+            </LoadingProvider>
         </Router>
     );
 };
