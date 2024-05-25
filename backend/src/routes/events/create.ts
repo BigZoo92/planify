@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { EventSchema, Event } from '../../schema';
 import { prisma } from '../../schema/prismaClient';
+import { detectEventChanges } from '../../utils/websockets';
 
 interface CreateEventProps extends Event {
   agendaId?: number;
@@ -43,6 +44,8 @@ export const create = async (
         },
       });
     }
+
+    await detectEventChanges(newEvent);
 
     res.status(201).json({ event: newEvent });
   } catch (error: any) {

@@ -1,6 +1,8 @@
 import { Request, Response } from 'express';
 import { EventSchema, Event } from '../../schema';
 import { prisma } from '../../schema/prismaClient';
+import { userSockets } from '../../server';
+import { detectEventChanges } from '../../utils/websockets';
 
 export const update = async (
   req: Request<{ id: number }, {}, Event>,
@@ -33,6 +35,8 @@ export const update = async (
         updatedAt,
       },
     });
+
+    await detectEventChanges(updatedEvent);
 
     res.status(200).json({ event: updatedEvent });
   } catch (error: any) {
