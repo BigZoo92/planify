@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { EventSchema, Event } from '../../schema';
+import { Event } from '../../schema';
 import { prisma } from '../../schema/prismaClient';
 import { detectEventChanges } from '../../utils/websockets/detectEventChanges';
 
