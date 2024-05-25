@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
 import jwt from 'jsonwebtoken';
-import { jwtToken } from '../../constant';
-import { prisma } from '../../schema/prismaClient';
+import { jwtToken } from '../../../constant';
+import { prisma } from '../../../schema/prismaClient';
 
 export const isAuth = async (req: Request, res: Response) => {
   const token = req.headers.authorization?.split(' ')[1];

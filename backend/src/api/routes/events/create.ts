@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { Event } from '../../schema';
-import { prisma } from '../../schema/prismaClient';
-import { detectEventChanges } from '../../utils/websockets/detectEventChanges';
+import { Event } from '../../../schema';
+import { prisma } from '../../../schema/prismaClient';
+import { detectEventChanges } from '../../../utils/websockets/detectEventChanges';
 
 interface CreateEventProps extends Event {
   agendaId?: number;

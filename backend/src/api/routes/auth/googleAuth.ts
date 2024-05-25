@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
-import { prisma } from '../../schema/prismaClient';
+import { prisma } from '../../../schema/prismaClient';
 import jwt from 'jsonwebtoken';
-import { jwtToken } from '../../constant';
+import { jwtToken } from '../../../constant';
 
 const client = new OAuth2Client(
   process.env.GOOGLE_CLIENT_ID,
