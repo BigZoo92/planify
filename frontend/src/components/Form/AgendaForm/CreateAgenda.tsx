@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,7 +22,6 @@ export const AgendaSchema = z.object({
 type AgendaFormData = z.infer<typeof AgendaSchema>;
 
 interface CreateAgendaProps {
-    onCancel: () => void;
     onClose: () => void;
 }
 

@@ -1,7 +1,7 @@
 import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-    appId: "planify.com",
+    appId: "com.thecatchies.planify",
     appName: "planify",
     webDir: "dist",
     server: {

@@ -17,13 +17,16 @@ export function parseIcs(icsContent: string): EventData[] {
   const jcalData = ical.parse(icsContent);
   const vcalendar = new ical.Component(jcalData);
   const events = vcalendar.getAllSubcomponents('vevent');
-  const extractedEvents: EventData[] = events.map(event => {
+  const extractedEvents: EventData[] = events.map((event) => {
     const vevent = new ical.Event(event);
-    
+
     return {
       data: {
         group: vevent.getOrganizer() ? vevent.getOrganizer().cn : undefined,
-        staff: vevent.getAttendees().map(att => att.cn).join(', '),
+        staff: vevent
+          .getAttendees()
+          .map((att) => att.cn)
+          .join(', '),
         date: vevent.startDate ? vevent.startDate.toString() : undefined,
         notes: vevent.description,
       },

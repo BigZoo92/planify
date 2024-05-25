@@ -1,5 +1,5 @@
 // React and React Router
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // Animation Library
@@ -132,7 +132,11 @@ const AgendaUnique: React.FC = () => {
                     <p>Vous n'avez pas encore d'événements</p>
                 </div>
             )}
-            <CreateEvent agendaId={parseInt(agendaId)} />
+            <CreateEvent
+                agendaId={parseInt(agendaId)}
+                onCancel={() => {}}
+                onClose={() => {}}
+            />
         </main>
     );
 };

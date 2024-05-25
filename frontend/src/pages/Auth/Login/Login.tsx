@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Form } from "../../../components/Form";
 import ElementGraphique from "../../../assets/images/login/login-element--principal__2.svg";

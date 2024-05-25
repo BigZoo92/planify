@@ -1,5 +1,5 @@
 // Dependencies
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 // Utils
 import { useUser } from "../../providers/UserProvider";
