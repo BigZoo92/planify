@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { EventSchema, Event } from '../../schema';
 import { prisma } from '../../schema/prismaClient';
-import { userSockets } from '../..';
 import { detectEventChanges } from '../../utils/websockets';
 
 export const update = async (
