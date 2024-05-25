@@ -2,6 +2,7 @@ import { CorsOptions } from 'cors';
 import dotenv from 'dotenv';
 import { Socket } from 'socket.io';
 
+
 dotenv.config();
 
 // WHITELIST

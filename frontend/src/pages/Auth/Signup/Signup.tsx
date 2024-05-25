@@ -1,5 +1,5 @@
 // Dependencies
-import React from "react";
+
 import { useNavigate } from "react-router-dom";
 import { Form } from "../../../components/Form";
 import { SignupFormSchema, signup } from "../../../utils/queries";

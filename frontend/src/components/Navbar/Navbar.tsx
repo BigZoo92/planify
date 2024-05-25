@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import { Calendar, House, User, Plus, ChatCircle } from "@phosphor-icons/react";
 import styles from "./Navbar.module.scss";
