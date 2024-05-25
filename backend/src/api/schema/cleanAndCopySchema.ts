@@ -30,15 +30,24 @@ async function cleanSchema() {
     );
 
     // Supprimer la section non désirée et nettoyer les références 'Prisma'
-    const newData = [
+    let newData = [
       ...lines.slice(0, startIdx),
       ...lines.slice(endIdx + 1),
     ].join('\n');
-    const cleanedData = newData
+    let cleanedData = newData
       .split('\n')
       .filter((line) => !line.includes('Prisma'))
       .join('\n')
       .replace(/JsonValueSchema\.nullable\(\)/g, 'z.any()');
+
+    // Supprimer les imports 'import { z } from 'zod';'
+    cleanedData = cleanedData
+      .split('\n')
+      .filter((line) => !line.includes('import { z } from \'zod\';'))
+      .join('\n');
+
+    // Ajouter un seul import 'import { z } from 'zod';' en haut du fichier
+    cleanedData = `import { z } from 'zod';\n${cleanedData}`;
 
     // Réécrire les données nettoyées dans le fichier
     fs.writeFileSync(schemaFilePath, cleanedData, 'utf8');
