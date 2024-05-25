@@ -1,7 +1,11 @@
-// Dependencies
+// React
+import React from "react";
+import { useNavigate, Link } from "react-router-dom";
 
-import { useNavigate } from "react-router-dom";
+// Components
 import { Form } from "../../../components/Form";
+
+// Utils
 import { SignupFormSchema, signup } from "../../../utils/queries";
 
 // Assets
@@ -32,21 +36,35 @@ const Signup: React.FC = () => {
         label: string;
         type: string;
         required: boolean;
+        placeholder?: string;
     }[] = [
-        { name: "email", label: "Email", type: "email", required: true },
+        {
+            name: "email",
+            label: "Email",
+            type: "email",
+            required: true,
+            placeholder: "johndoe@gmail.com",
+        },
         {
             name: "password",
-            label: "Password",
+            label: "Mot de passe",
             type: "password",
             required: true,
         },
         {
             name: "firstName",
-            label: "First Name",
+            label: "Prénom",
             type: "text",
-            required: false,
+            required: true,
+            placeholder: "John",
         },
-        { name: "lastName", label: "Last Name", type: "text", required: false },
+        {
+            name: "lastName",
+            label: "Nom",
+            type: "text",
+            required: true,
+            placeholder: "Doe",
+        },
     ];
 
     return (
@@ -59,6 +77,9 @@ const Signup: React.FC = () => {
                 buttonName="Créer un compte"
                 schema={SignupFormSchema}
             />
+            <Link to="/login" className="link">
+                Déjà un compte ? <strong>Connectez-vous</strong>
+            </Link>
         </main>
     );
 };

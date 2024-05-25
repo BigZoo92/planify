@@ -47,6 +47,7 @@ model User {
     updatedAt        DateTime     @updatedAt
     agendas          AgendaUser[]
     darkMode         Boolean      @default(false)
+    language         String?      @default("fr")
     messagesSent     Message[]    @relation("MessageSender")
     messagesReceived Message[]    @relation("MessageReceiver")
     EventUser        EventUser[]

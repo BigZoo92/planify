@@ -47,7 +47,7 @@ const Profile: React.FC = memo(function Profile() {
                 />
                 <ProfileItem
                     icon={<Pencil size={16} weight="bold" />}
-                    text="Modifier les données du profil"
+                    text="Modifier mon profil"
                 />
                 <ProfileItem
                     icon={<Lock size={16} weight="bold" />}

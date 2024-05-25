@@ -1,8 +1,10 @@
 import { useNavigate, Link } from "react-router-dom";
 import { Form } from "../../../components/Form";
-import "./Login.scss";
 import ElementGraphique from "../../../assets/images/login/login-element--principal__2.svg";
 import { LoginSchema, login } from "../../../utils/queries";
+
+// Styles
+import styles from "./Login.module.scss";
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -24,18 +26,26 @@ const Login: React.FC = () => {
         label: string;
         type: string;
         required: boolean;
+        placeholder?: string;
     }[] = [
-        { name: "email", label: "Email", type: "email", required: true },
+        {
+            name: "email",
+            label: "Email",
+            type: "email",
+            required: true,
+            placeholder: "Entrez votre email",
+        },
         {
             name: "password",
             label: "Mot de passe",
             type: "password",
             required: true,
+            placeholder: "Entrez votre mot de passe",
         },
     ];
 
     return (
-        <main className="login-wrapper">
+        <main className={styles.loginWrapper}>
             <img src={ElementGraphique} alt="ElementGraphique" />
             <h1>Welcome back !</h1>
             <Form

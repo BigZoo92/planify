@@ -1,28 +1,27 @@
 @import "../../assets/styles/Variables.scss";
 
-.search-wrapper {
+.searchWrapper {
     display: flex;
     align-items: center;
+    flex-direction: column;
     gap: $size-small;
-    align-self: stretch;
-    .input-wrapper {
+    .inputWrapper {
         display: flex;
-        padding: $size-medium;
-        height: 40px;
         align-items: center;
-        gap: 6px;
-        width: 100%;
-        align-self: stretch;
-        border-radius: $size-small;
-        background-color: rgba(234, 235, 236, 1);
+        padding: $size-medium;
         position: relative;
+        height: 40px;
+        width: 100%;
+        border-radius: $size-small;
+        background-color: $color_white_5;
         input {
-            padding-left: 24px;
+            padding-left: $size-extra-large;
             color: $color_black_50;
             font-family: $font;
             font-size: 0.875rem;
             border: none;
             background-color: transparent;
+            width: 100%;
         }
         &::before {
             content: "";
@@ -31,26 +30,26 @@
             transform: translateY(-50%);
             left: $size-medium;
             top: 50%;
-            width: 15px;
-            height: 15px;
+            width: $size-medium-large;
+            height: $size-medium-large;
             background: url("../../assets/icons/phosphor/search.svg") no-repeat;
             background-size: contain;
         }
     }
-    .filter-wrapper {
+    .resultWrapper {
         display: flex;
-        width: 40px;
-        height: 40px;
-        padding: $size-extra-small 10px;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
+        gap: $size-small;
         border-radius: $size-small;
-        border: 1px solid $color_black_10;
-        background-color: $color_white_100;
-        svg {
-            color: $color_black_25;
+        padding: $size-medium;
+        background-color: $color_black_5;
+        width: 100%;
+        h2 {
+            font-size: 1rem;
+        }
+        p,
+        h3 {
+            font-size: 0.875rem;
         }
     }
 }
