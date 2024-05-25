@@ -15,22 +15,6 @@
         "src": "/(.*)",
         "dest": "/src/server.ts"
       }
-    ],
-    "env": {
-      "API_KEY": "@api-key",
-      "POSTGRES_URL": "@postgres-url",
-      "POSTGRES_PRISMA_URL": "@postgres-prisma-url",
-      "POSTGRES_URL_NO_SSL": "@postgres-url-no-ssl",
-      "POSTGRES_URL_NON_POOLING": "@postgres-url-non-pooling",
-      "POSTGRES_USER": "@postgres-user",
-      "POSTGRES_HOST": "@postgres-host",
-      "POSTGRES_PASSWORD": "@postgres-password",
-      "POSTGRES_DATABASE": "@postgres-database",
-      "SESSION_SECRET": "@session-secret",
-      "JWT_SECRET": "@jwt-secret",
-      "MDP_SECRET": "@mdp-secret",
-      "MAIL": "@mail",
-      "FCM_SERVER_KEY": "@fcm-server-key"
-    }
+    ]
   }
   
