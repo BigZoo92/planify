@@ -6,10 +6,10 @@ import { promisify } from 'util';
 const copy = promisify(ncp);
 
 // Définir les chemins source et destinations
-const schemaFilePath = path.join(__dirname, '../../../api/schema/index.ts');
+const schemaFilePath = path.join(__dirname, '../../../src/api/schema/index.ts');
 const backendDestPath = path.join(
   __dirname,
-  '../../../backend/src/schema/api/index.ts'
+  '../../../backend/src/api/schema/index.ts'
 );
 const frontendDestPath = path.join(
   __dirname,
