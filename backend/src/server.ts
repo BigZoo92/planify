@@ -32,7 +32,7 @@ export const io = new Server(server, {
 export const userSockets = new Map<number, Socket>();
 
 io.on('connection', (socket) => {
-  console.log('New client connected');
+  console.info('New client connected');
 
   socket.on('register', (userId: number) => {
     userSockets.set(userId, socket);
@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
         userSockets.delete(key);
       }
     });
-    console.log('Client disconnected');
+    console.info('Client disconnected');
   });
 });
 
