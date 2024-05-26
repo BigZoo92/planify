@@ -52,7 +52,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     useEffect(() => {
         if (!user) return;
-        const ws: Socket = io("http://localhost:8000");
+        const ws: Socket = io(import.meta.env.VITE_SERVER_BACKEND_URL);
         ws.emit("register", user.id);
         registerPushNotifications(user.id);
         ws.on("event-updated", (updatedEvent: Event) => {
