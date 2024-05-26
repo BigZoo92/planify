@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "npm install && npm run prisma",
     "build": "npx tsc",
-    "start": "node dist/server.js",
+    "start": "node dist/src/server.js",
     "dev": "nodemon src/server.ts",
     "cleanAndCopy:schema": "ts-node ./src/schema/cleanAndCopySchema.ts",
     "migrate": "npx prisma db push --schema=./src/schema/schema.prisma",
