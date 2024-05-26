@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "typeRoots": ["./node_modules/@types", "api/@types"],
+    "typeRoots": ["./node_modules/@types", "src/@types"],
     "rootDir": "./",
     "forceConsistentCasingInFileNames": true,            
     "strict": true,                                    
@@ -15,11 +15,11 @@
         "outDir": "dist",
         "baseUrl": ".",
         "paths": {
-            "*": ["node_modules/*", "api/types/*"]
+            "*": ["node_modules/*", "src/types/*"]
         }                           
   },
   "include": [
-    "api/**/*.ts",
-    "api/@types/types.d.ts"
-  ]
+    "src/**/*.ts",
+    "src/@types/types.d.ts"
+, "src/socket.ts", "src/server.ts", "src/constant.ts"  ]
 }
