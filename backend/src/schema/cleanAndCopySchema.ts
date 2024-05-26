@@ -9,7 +9,7 @@ const copy = promisify(ncp);
 const schemaFilePath = path.join(__dirname, '../../../schema/index.ts');
 const backendDestPath = path.join(
   __dirname,
-  '../../../backend/api/schema/index.ts'
+  '../../../backend/src/schema/index.ts'
 );
 const frontendDestPath = path.join(
   __dirname,
