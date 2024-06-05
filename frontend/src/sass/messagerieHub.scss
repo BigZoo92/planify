@@ -5,20 +5,20 @@
   h1 {
     font-weight: 600;
     font-size: 22px;
-    margin: 0 8px 8px 8px;
+    margin: 0 24px 24px 24px;
   }
   position: relative;
   .rce-container-citem {
     width: 100%;
-    padding: 16px 8px;
+    padding: 16px 24px;
     position: relative;
     &::before {
       content: '';
       display: block;
       position: absolute;
       height: 1px;
-      width: calc(100% - 16px);
-      right: 8px;
+      width: calc(100% - 48px);
+      right: 24px;
       bottom: 0;
       background-color: var(--color-black-25);
     }
@@ -28,11 +28,11 @@
       height: 21px;
       display: block;
       position: absolute;
-      right: 8px;
+      right: 24px;
       top: 13px;
       background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="%23000000" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg>');
       background-size: contain;
-      opacity: 0.6;
+      opacity: 0.4;
     }
     .rce-citem {
       display: flex;
@@ -58,7 +58,7 @@
           }
           .rce-citem-body--top-time {
             position: absolute;
-            right: 32px;
+            right: 49px;
             font-size: 12px;
             top: 18px;
             max-width: 30%;
@@ -83,7 +83,7 @@
             span {
               position: absolute;
               top: 8px;
-              left: 8px;
+              left: 21px;
               height: 21px;
               color: #fff;
               display: flex;

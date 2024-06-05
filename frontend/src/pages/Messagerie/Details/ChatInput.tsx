@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Input } from 'react-chat-elements';
-import EmojiPicker from 'emoji-picker-react';
 import {
   PaperPlaneTilt,
   PlusCircle,
-  Smiley,
   File,
   X,
 } from '@phosphor-icons/react';
@@ -14,7 +12,6 @@ const ChatInput = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [filePreviews, setFilePreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const handleSend = () => {
     console.log('Send message:', message);
@@ -39,13 +36,6 @@ const ChatInput = () => {
     setFilePreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
   };
 
-  const onEmojiClick = (emojiObject: any) => {
-    setMessage((prevInput) => prevInput + emojiObject.emoji);
-  };
-
-  const toggleEmojiPicker = () => {
-    setShowEmojiPicker(!showEmojiPicker);
-  };
   const handleFileRemove = (indexToRemove: number) => {
     setFiles((prevFiles) =>
       prevFiles.filter((_, index) => index !== indexToRemove)
@@ -53,14 +43,14 @@ const ChatInput = () => {
     setFilePreviews((prevPreviews) =>
       prevPreviews.filter((_, index) => index !== indexToRemove)
     );
-    if (files[indexToRemove].type.startsWith('image/')) {
+    if (files[indexToRemove]?.type.startsWith('image/')) {
       URL.revokeObjectURL(filePreviews[indexToRemove]);
     }
   };
+
   return (
     <div className="chat-bar">
-      {showEmojiPicker && <EmojiPicker onEmojiClick={onEmojiClick} />}
-      <div className="file-preview">
+      <div className={`file-preview ${filePreviews.length > 0 ? 'fill' : ''}`}>
         {filePreviews.map((preview, index) => (
           <div key={index} className="file-preview-item">
             {files[index].type.startsWith('image/') ? (
@@ -103,9 +93,6 @@ const ChatInput = () => {
         }
         rightButtons={
           <div>
-            <button onClick={toggleEmojiPicker} id="emoji-button">
-              <Smiley size={20} />
-            </button>
             <button onClick={handleSend}>
               <PaperPlaneTilt size={20} />
             </button>
