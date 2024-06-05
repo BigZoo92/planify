@@ -24,5 +24,6 @@ dist-ssr
 backend/.env
 frontend/.env
 frontend/ios/
+frontend/ios
 
 .vercel
