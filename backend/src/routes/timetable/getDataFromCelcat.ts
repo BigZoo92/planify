@@ -1,9 +1,7 @@
-import { Request, Response } from 'express';
 import * as cheerio from 'cheerio';
 import { scraper } from '../../utils/scrape';
 
-export async function getDataFromCelcat(req: Request, res: Response) {
-  const { urlToScrape } = req.body;
+export async function getDataFromCelcat(urlToScrape: string) {
   try {
     const { dataPage } = await scraper(urlToScrape);
     if (dataPage) {
@@ -50,10 +48,13 @@ export async function getDataFromCelcat(req: Request, res: Response) {
         })
         .filter((e) => e.summary && e.start);
 
-      res.send(events);
-    } else res.send([]);
+      return events
+    } else {
+      console.error('Erreur lors du scraping');
+      return null;
+    }
   } catch (error) {
     console.error('Erreur lors du scraping:', error);
-    res.send([]);
+    return null
   }
 }
