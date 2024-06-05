@@ -1,3 +1,5 @@
+// src/providers/UserProvider.tsx
+
 import {
     createContext,
     useContext,
@@ -42,17 +44,19 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             if (restrictedPaths.includes(currentPath)) {
                 navigate("/accueil");
             }
+
+            // Enregistrer le push token si l'utilisateur est authentifié
+            const pushToken = await registerPushNotifications(newUser.id);
+            console.log(pushToken);
+            if (pushToken) {
+                console.log("Push token enregistré:", pushToken);
+            }
         }
-    }, []);
+    }, [location.pathname, navigate, setLoading]);
 
     useEffect(() => {
         (async () => await fetchUser())();
     }, [fetchUser]);
-
-    useEffect(() => {
-        if (!user) return;
-        registerPushNotifications(user.id);
-    }, [user]);
 
     return (
         <UserContext.Provider
