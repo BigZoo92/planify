@@ -1,6 +1,5 @@
 import { Event } from '../../schema/';
 import { prisma } from '../../schema/prismaClient';
-import { userSockets } from '../../server';
 import { sendPushNotification } from './sendPushNotifications';
 
 export const detectEventChanges = async (updatedEvent: Event) => {
@@ -25,24 +24,19 @@ export const detectEventChanges = async (updatedEvent: Event) => {
   agendaUsers.forEach(({ userId }) => userIdsSet.add(userId));
   const userIds = Array.from(userIdsSet);
 
-  userIds.forEach((userId) => {
-    const userSocket = userSockets.get(userId);
-    if (userSocket) {
-      userSocket.emit('event-updated', updatedEvent);
-    }
-  });
-
-  for (const userId of userIds) {
+  const notificationPromises = userIds.map(async (userId) => {
     const user = await prisma.user.findUnique({
       where: { id: userId },
       select: { pushToken: true },
     });
-
+    console.log(user?.pushToken)
     if (user?.pushToken) {
-      await sendPushNotification(
+      return sendPushNotification(
         user.pushToken,
         `Event updated: ${updatedEvent.summary}`
       );
     }
-  }
+  });
+
+  await Promise.all(notificationPromises);
 };

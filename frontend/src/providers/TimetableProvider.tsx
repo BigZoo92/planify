@@ -7,7 +7,7 @@ import {
     useMemo,
 } from "react";
 import { useUser } from "./UserProvider";
-import { getTimetableFromCelcat, listEvents } from "../utils/queries";
+import { listEvents } from "../utils/queries";
 import { Event } from "../schema";
 import { listAgendas } from "../utils/queries/agenda";
 
@@ -39,7 +39,7 @@ const timetableReducer = (
         case "FETCH_FAILURE":
             return { ...state, loading: false, error: action.error };
         default:
-            throw new Error(`Unhandled action type: "FETCH_FAILURE"`);
+            throw new Error(`Unhandled action type: FETCH_FAILURE`);
     }
 };
 
@@ -69,29 +69,22 @@ export const TimetableProvider: React.FC<TimetableProviderProps> = ({
         const fetchEvents = async () => {
             dispatch({ type: "FETCH_INIT" });
 
-            if (!user || !Array.isArray(user.urls)) {
+            if (!user) {
                 dispatch({
                     type: "FETCH_FAILURE",
-                    error: "User or URLs not available",
+                    error: "User not available",
                 });
                 return;
             }
 
             try {
-                const { urls } = user;
-
-                const [eventsFromUrls, agendas] = await Promise.all([
-                    Promise.all(urls.map((url) => getTimetableFromCelcat(url))),
-                    listAgendas(user.id),
-                ]);
-
-                const allEvents: Event[] = eventsFromUrls.flat();
+                const agendas = await listAgendas(user.id);
 
                 const eventsFromAgendas = await Promise.all(
                     agendas.map((agenda) => listEvents(agenda.id))
                 );
 
-                allEvents.push(...eventsFromAgendas.flat());
+                const allEvents: Event[] = eventsFromAgendas.flat();
 
                 dispatch({ type: "FETCH_SUCCESS", payload: allEvents });
             } catch (error) {
@@ -116,7 +109,7 @@ export const useTimetable = () => {
 
     if (!context) {
         throw new Error(
-            "useTimetableContext doit être utilisé à l'intérieur d'un TimetableProvider"
+            "useTimetable doit être utilisé à l'intérieur d'un TimetableProvider"
         );
     }
 

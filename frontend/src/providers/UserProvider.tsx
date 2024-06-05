@@ -6,10 +6,9 @@ import {
     ReactNode,
     useCallback,
 } from "react";
-import { Event, User } from "../schema";
+import { User } from "../schema";
 import { isAuth } from "../utils/queries";
 import { useLocation, useNavigate } from "react-router-dom";
-import io, { Socket } from "socket.io-client";
 import { registerPushNotifications } from "../utils/capacitor/notification";
 import { useLoading } from "./LoadingProvider";
 
@@ -52,16 +51,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     useEffect(() => {
         if (!user) return;
-        const ws: Socket = io(import.meta.env.VITE_SERVER_BACKEND_URL);
-        ws.emit("register", user.id);
         registerPushNotifications(user.id);
-        ws.on("event-updated", (updatedEvent: Event) => {
-            alert(`Event updated: ${updatedEvent.summary}`);
-        });
-
-        return () => {
-            ws.off("event-updated");
-        };
     }, [user]);
 
     return (
@@ -75,6 +65,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         </UserContext.Provider>
     );
 };
+
 export const useUser = () => {
     const context = useContext(UserContext);
 
