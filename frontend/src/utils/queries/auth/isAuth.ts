@@ -1,11 +1,17 @@
 import { Preferences } from "@capacitor/preferences";
 import { User } from "../../../schema";
+import { requestForToken } from "../../../firebaseConfig";
 
 export const isAuth = async (): Promise<User | null> => {
-    console.log(import.meta.env.VITE_SERVER_BACKEND_URL)
+    console.log(import.meta.env.VITE_SERVER_BACKEND_URL);
+
     try {
         const token = await Preferences.get({ key: "jwtToken" });
         if (!token.value) return null;
+
+        // Obtenez le pushToken
+        const pushToken = await requestForToken();
+        console.log("pushToken", pushToken);
 
         const response = await fetch(
             import.meta.env.VITE_SERVER_BACKEND_URL + "/auth/isAuth",
@@ -13,7 +19,9 @@ export const isAuth = async (): Promise<User | null> => {
                 method: "POST",
                 headers: {
                     Authorization: `Bearer ${token.value}`,
+                    "Content-Type": "application/json",
                 },
+                body: JSON.stringify({ pushToken }),
             }
         );
 

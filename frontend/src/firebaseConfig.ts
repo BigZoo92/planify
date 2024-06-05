@@ -26,21 +26,23 @@ try {
     console.error("Failed to initialize Firebase Messaging", err);
 }
 
-export const requestForToken = async () => {
+export const requestForToken = async (): Promise<string | null> => {
     try {
         const currentToken = await getToken(messaging, {
             vapidKey: "your-public-vapid-key",
         });
         if (currentToken) {
             console.log("current token for client: ", currentToken);
-            // Perform any other necessary operations like saving the token to the database
+            return currentToken;
         } else {
             console.log(
                 "No registration token available. Request permission to generate one."
             );
+            return null;
         }
     } catch (err) {
         console.log("An error occurred while retrieving token. ", err);
+        return null;
     }
 };
 

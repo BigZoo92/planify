@@ -20,8 +20,10 @@ export const isAuth = async (req: Request, res: Response) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-
+    console.info('user', user);
+    console.info('pushToken', pushToken);
     if (!user.pushToken && pushToken) {
+      console.info('pushToken2', pushToken);
       await prisma.user.update({
         where: { id: user.id },
         data: { pushToken },
