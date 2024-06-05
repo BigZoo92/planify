@@ -2,6 +2,7 @@ import { Preferences } from "@capacitor/preferences";
 import { User } from "../../../schema";
 
 export const isAuth = async (): Promise<User | null> => {
+    console.log(import.meta.env.VITE_SERVER_BACKEND_URL)
     try {
         const token = await Preferences.get({ key: "jwtToken" });
         if (!token.value) return null;
