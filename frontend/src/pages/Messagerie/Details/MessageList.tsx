@@ -5,11 +5,39 @@ const formatDate = (date) => {
 };
 
 const MessageList = ({ messages }) => {
+  if (!messages || !Array.isArray(messages)) {
+    return null;
+  }
+
   return (
     <div>
       {messages.map((message, index) => (
         <div key={index}>
-          {message.text && (
+          {message.text && message.files && message.files.length > 0 ? (
+            <div className="rce-container-mbox">
+              <MessageBox
+                id={index.toString()}
+                focus={false}
+                titleColor="#000"
+                position={message.position}
+                title={formatDate(message.date)}
+                type="photo"
+                text=""
+                date={message.date}
+                replyButton={false}
+                forwarded={false}
+                removeButton={false}
+                status={message.status}
+                notch={false}
+                retracted={false}
+                data={{
+                  uri: message.files[0].uri,
+                  status: { click: false, loading: 0 },
+                }}
+                onClick={message.onClick}
+              />
+            </div>
+          ) : message.text ? (
             <MessageBox
               id={index.toString()}
               focus={false}
@@ -28,29 +56,31 @@ const MessageList = ({ messages }) => {
               data={message.data}
               onClick={message.onClick}
             />
-          )}
-          {message.files && message.files.length > 0 && (
-            <MessageBox
-              id={`${index.toString()}-files`}
-              focus={false}
-              titleColor="#000"
-              position={message.position}
-              title={formatDate(message.date)}
-              type="photo"
-              text=""
-              date={message.date}
-              replyButton={false}
-              forwarded={false}
-              removeButton={false}
-              status={message.status}
-              notch={false}
-              retracted={false}
-              data={{
-                uri: message.files[0].uri,
-                status: { click: false, loading: 0 },
-              }}
-              onClick={message.onClick}
-            />
+          ) : (
+            message.files &&
+            message.files.length > 0 && (
+              <MessageBox
+                id={`${index.toString()}-files`}
+                focus={false}
+                titleColor="#000"
+                position={message.position}
+                title={formatDate(message.date)}
+                type="photo"
+                text="" // Provide a default empty text
+                date={message.date}
+                replyButton={false}
+                forwarded={false}
+                removeButton={false}
+                status={message.status}
+                notch={false}
+                retracted={false}
+                data={{
+                  uri: message.files[0].uri,
+                  status: { click: false, loading: 0 },
+                }}
+                onClick={message.onClick}
+              />
+            )
           )}
           {message.files &&
             message.files.length > 0 &&
@@ -60,11 +90,7 @@ const MessageList = ({ messages }) => {
                 {message.files.slice(1).map((file, fileIndex) => (
                   <div key={fileIndex} className="message-file-item">
                     {file.type.startsWith('image/') ? (
-                      <img
-                        src={file.uri}
-                        alt={file.name}
-                        style={{ maxWidth: '200px' }}
-                      />
+                      <img src={file.uri} alt={file.name} />
                     ) : (
                       <div>
                         <p>{file.name}</p>

@@ -1,51 +1,54 @@
 import { useState } from 'react';
-import ChatInput from './ChatInput';
-import MessageList from './MessageList';
+import { useParams } from 'react-router-dom';
 import MessageHead from './MessageHead';
+import MessageList from './MessageList';
+import ChatInput from './ChatInput';
+import chatData from './../chatData.json';
 
 const DetailMessage = () => {
+  const { id } = useParams();
+  const contact = chatData.contacts.find((contact) => contact.id === id);
+
+  if (!contact) {
+    return <div>Contact not found</div>;
+  }
+
   const [messages, setMessages] = useState([]);
 
   const handleSendMessage = (message, files) => {
-    if (!message && files.length === 0) {
-      return; // Do not send empty messages
-    }
+    const newMessages = [
+      ...messages,
+      {
+        position: 'right',
+        type: 'text',
+        text: message,
+        date: new Date(),
+        status: 'sent',
+      },
+    ];
 
-    const newMessages = [...messages];
-
-    const newMessage = {
-      position: 'right',
-      type:
-        files.length > 0 && message
-          ? 'text'
-          : files.length > 0
-            ? 'photo'
-            : 'text',
-      text: message,
-      files: files.map((file) => ({
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        uri: URL.createObjectURL(file),
-        status: { click: false, loading: 0 },
-        extension: file.name.split('.').pop(),
-      })),
-      date: new Date(),
-      status: 'sent',
-    };
-
-    newMessages.push(newMessage);
+    files.forEach((file) => {
+      newMessages.push({
+        position: 'right',
+        type: 'file',
+        text: file.name,
+        data: {
+          uri: URL.createObjectURL(file),
+          status: { click: false, loading: 0 },
+          size: `${Math.round(file.size / 1024)} KB`,
+          extension: file.name.split('.').pop(),
+        },
+        date: new Date(),
+        status: 'sent',
+      });
+    });
 
     setMessages(newMessages);
   };
 
   return (
     <div id="detail-message">
-      <MessageHead
-        title="John Doe"
-        subtitle="Online"
-        avatarUrl="https://via.placeholder.com/150"
-      />
+      <MessageHead />
       <MessageList messages={messages} />
       <ChatInput onSendMessage={handleSendMessage} />
     </div>
