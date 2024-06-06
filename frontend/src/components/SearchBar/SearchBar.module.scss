@@ -1,0 +1,55 @@
+@import "../../assets/styles/Variables.scss";
+
+.searchWrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: $size-small;
+    .inputWrapper {
+        display: flex;
+        align-items: center;
+        padding: $size-medium;
+        position: relative;
+        height: 40px;
+        width: 100%;
+        border-radius: $size-small;
+        background-color: $color_white_5;
+        input {
+            padding-left: $size-extra-large;
+            color: $color_black_50;
+            font-family: $font;
+            font-size: 0.875rem;
+            border: none;
+            background-color: transparent;
+            width: 100%;
+        }
+        &::before {
+            content: "";
+            position: absolute;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            left: $size-medium;
+            top: 50%;
+            width: $size-medium-large;
+            height: $size-medium-large;
+            background: url("../../assets/icons/phosphor/search.svg") no-repeat;
+            background-size: contain;
+        }
+    }
+    .resultWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: $size-small;
+        border-radius: $size-small;
+        padding: $size-medium;
+        background-color: $color_black_5;
+        width: 100%;
+        h2 {
+            font-size: 1rem;
+        }
+        p,
+        h3 {
+            font-size: 0.875rem;
+        }
+    }
+}

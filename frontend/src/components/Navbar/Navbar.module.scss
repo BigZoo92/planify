@@ -1,0 +1,80 @@
+@import "../../assets/styles/Variables.scss";
+
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999;
+    width: 100%;
+    height: 60px;
+
+    .navbarBackground {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        filter: drop-shadow(0px 3px 30px $color_black_5);
+        height: 110px;
+        bottom: -30px;
+    }
+
+    .navLinkWrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: $size-small;
+        width: 100%;
+        padding-inline: $size-large;
+
+        li {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .navEvent {
+            margin-bottom: 35px;
+
+            .btnEvent {
+                color: $color_white_100;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: $color_blue_100;
+                border-radius: $br-50;
+                height: 50px;
+                width: 50px;
+                border: none;
+                box-shadow: 0px 3px 30px 0px $color_black_10;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+
+                svg {
+                    color: $color_white_100;
+                }
+            }
+        }
+
+        .navLink {
+            margin-top: $size-small;
+            width: $size-extra-large;
+            height: $size-extra-large;
+
+            svg {
+                color: $color_black_10;
+                width: $size-extra-large;
+                height: $size-extra-large;
+                transition: all 0.3s ease-in-out;
+            }
+        }
+
+        .active {
+            svg {
+                color: $color_blue_100;
+            }
+        }
+    }
+}

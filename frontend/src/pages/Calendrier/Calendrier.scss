@@ -1,0 +1,188 @@
+@import "../../assets/styles/Variables.scss";
+
+.calendrier-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    gap: $size-large;
+    .react-calendar-wrapper {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: $size-medium-large;
+        width: 100%;
+        .week-view {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: $size-large $size-large 0 $size-large;
+            .week-day {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                gap: $size-small;
+                padding-bottom: $size-small;
+                text-align: center;
+                cursor: pointer;
+                transition: all 0.3s ease-in-out;
+                color: $color_black_10;
+                font-size: 1rem;
+                text-transform: uppercase;
+                font-weight: bold;
+                position: relative;
+                &::after {
+                    content: "";
+                    left: 50%;
+                    bottom: -5px;
+                    height: 5px;
+                    width: 5px;
+                    background-color: transparent;
+                }
+            }
+            .selected {
+                color: $color_blue_100;
+                &::after {
+                    bottom: -5px;
+                    background-color: $color_blue_100;
+                    border-radius: $br-50;
+                }
+            }
+        }
+        .react-calendar {
+            width: 100%;
+            max-width: 100%;
+            background: none;
+            border: none;
+            line-height: 1.125em;
+            border-radius: $size-extra-large;
+            box-shadow: $color_black_10 0px 48px 100px 0px;
+            padding: $size-small;
+            font-family: $font;
+            font-weight: 500;
+            button {
+                transition: all 0.3s;
+            }
+            .react-calendar__navigation__arrow {
+                font-size: 1.5rem;
+            }
+            .react-calendar__navigation__label__labelText {
+                font-weight: bold;
+                font-size: 1rem;
+                text-transform: uppercase;
+                font-family: $font-title;
+            }
+
+            .react-calendar__tile--active {
+                background-color: $color_blue_100;
+            }
+            .react-calendar__tile--now {
+                background: none;
+                position: relative;
+                color: $color_black_100;
+                &::after {
+                    content: "";
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: $size-extra-small;
+                    height: $size-extra-small;
+                    background-color: $color_blue_100;
+                    border-radius: $br-50;
+                }
+                &:hover {
+                    color: $color_white_100;
+                }
+            }
+            .react-calendar__tile {
+                transition: all 0.3s;
+                border-radius: $size-small;
+                font-size: 1rem;
+            }
+            .react-calendar__tile--active:enabled:hover,
+            .react-calendar__tile--active:enabled:focus {
+                background-color: $color_blue_100;
+                border-radius: $size-small;
+            }
+        }
+    }
+    .date-display {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        padding-inline: $size-large;
+        .date-content {
+            display: flex;
+            align-items: center;
+            gap: $size-small;
+            .day {
+                font-size: 3rem;
+                font-family: $font-title;
+            }
+            .date-separator {
+                display: flex;
+                flex-direction: column;
+                gap: $size-extra-small;
+                p {
+                    color: $color_black_25;
+                    font-weight: bold;
+                }
+            }
+        }
+        .tag {
+            padding: $size-medium;
+            border-radius: $size-small;
+            background-color: $color_black_10;
+            font-weight: bold;
+            color: $color_black_75;
+            text-transform: capitalize;
+        }
+    }
+    .calendar-wrapper {
+        padding-inline: $size-large;
+    }
+}
+
+.ReactModalPortal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $color_white_100;
+    z-index: 9999;
+    padding: $size-large;
+    width: 30vw;
+    border-radius: $size-small;
+    border: 1px solid $color_black_10;
+    box-shadow: 0px 0px $size-large $color_black_5;
+    .ReactModal__Content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+        p {
+            font-weight: 500;
+            color: $color_black_75;
+        }
+        button {
+            border: 1px solid;
+            padding: 4px 8px;
+            background-color: $color_black_100;
+            color: $color_white_100;
+            border-radius: $size-extra-small;
+            cursor: pointer;
+            transition: all 0.3s;
+            &:hover {
+                background-color: transparent;
+                border-color: $color_black_100;
+                color: $color_black_100;
+            }
+        }
+    }
+}

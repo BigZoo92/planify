@@ -1,0 +1,173 @@
+@import "../../assets/styles/Variables.scss";
+
+.header-container {
+    padding: $size-header $size-large 0 $size-large;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+    .menu {
+        position: relative;
+        z-index: 9999;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            width: fit-content;
+            gap: $size-small;
+            cursor: pointer;
+            z-index: 9999;
+
+            span {
+                display: block;
+                width: 1.875rem;
+                height: 2px;
+                border-radius: $size-medium;
+                background-color: $color_black_100;
+                transition: all 0.3s;
+
+                &:nth-child(2) {
+                    width: 0.9375rem;
+                }
+            }
+
+            &.open span {
+                &:first-child {
+                    transform: rotate(45deg);
+                }
+
+                &:nth-child(2) {
+                    transform: translateY(-10px) rotate(-45deg);
+                    width: 30px;
+                }
+            }
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 101%;
+            height: 101%;
+            background-color: $color_black_50;
+            z-index: 9997;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .menu-items {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 2rem;
+            position: fixed;
+            width: 80%;
+            height: 100vh;
+            top: 0;
+            left: -100%;
+            background-color: $color_white_100;
+            list-style: none;
+            padding: 80px $size-large $size-large $size-large;
+            transition: all 0.5s ease-in-out;
+            z-index: 9998;
+
+            &.menu-open {
+                left: 0;
+            }
+
+            .li-wrapper {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                li {
+                    a {
+                        font-weight: 500;
+                        position: relative;
+                        display: flex;
+                        align-items: center;
+                        gap: $size-small;
+                        padding: $size-medium $size-small;
+                    }
+                    .active {
+                        font-weight: 600;
+                        background-color: $color_blue_10;
+                        border-radius: $size-extra-small;
+                        color: $color_blue_100;
+                    }
+                }
+            }
+            .logo-wrapper {
+                margin: 0 0 0 auto;
+                justify-content: space-between;
+            }
+            .menu-content {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                gap: $size-large;
+            }
+            .menu-footer {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+                span {
+                    color: $color_black_25;
+                }
+                .user-wrapper {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    padding-top: 1rem;
+                    border-top: 1px solid $color_black_10;
+                    .user-info-wrapper {
+                        display: flex;
+                        align-items: center;
+                        gap: $size-small;
+                        img {
+                            width: 50px;
+                            height: 50px;
+                            object-fit: contain;
+                            aspect-ratio: 1/1;
+                            border-radius: $br-50;
+                            border: 1px solid $color_black_10;
+                        }
+                        .user-info {
+                            display: flex;
+                            flex-direction: column;
+                            gap: $size-extra-small;
+                            .user-info-name,
+                            .user-info-email {
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                width: 90%;
+                                white-space: nowrap;
+                            }
+                            .user-info-name {
+                                font-weight: 600;
+                            }
+                            .user-info-email {
+                                color: $color_black_50;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                    .user-logout {
+                        display: flex;
+                        padding: $size-small;
+                        border-radius: $size-medium;
+                        background-color: $color_white_100;
+                        border: 0.5px solid $color_black_10;
+                        svg {
+                            color: $color_black_75;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

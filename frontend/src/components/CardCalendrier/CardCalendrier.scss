@@ -1,0 +1,124 @@
+@import "../../assets/styles/Variables.scss";
+
+.calendar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $size-medium;
+    width: 100%;
+    .card-wrapper-element {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        align-self: stretch;
+        .card-date {
+            color: $color_black_100;
+            font-family: $font;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .card-cours {
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            align-self: stretch;
+            border-radius: $size-medium-large;
+            position: relative;
+            overflow: hidden;
+            .element {
+                top: 0;
+                right: 0;
+                position: absolute;
+            }
+            .card-temps {
+                display: flex;
+                padding: $size-medium;
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+                gap: $size-medium;
+                height: 100%;
+                border-right: 0.5px solid;
+                color: $color_white_100;
+                hr {
+                    height: 60px;
+                    margin: 0;
+                    border: 0.5px solid $color_white_25;
+                }
+            }
+            .card-description {
+                display: flex;
+                padding: $size-medium;
+                gap: $size-medium;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-start;
+                flex: 1 0 0;
+                align-self: stretch;
+                z-index: 1;
+                text-wrap: balance;
+                color: $color_white_100;
+                .card-header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    width: 100%;
+                    .card-titre {
+                        font-family: $font;
+                        font-size: 0.875rem;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                    }
+                    span {
+                        background-color: $color_white_100;
+                        color: $color_black_100;
+                        font-size: $size-medium;
+                        padding: $size-extra-small $size-small;
+                        border-radius: $size-small;
+                        font-weight: 500;
+                        text-wrap: nowrap;
+                        opacity: 0.5;
+                    }
+                    .active {
+                        opacity: 1;
+                    }
+                }
+                .notes {
+                    font-size: 12px;
+                }
+                .card-texte-wrapper {
+                    display: flex;
+                    align-items: center;
+                    gap: $size-extra-small;
+                    svg {
+                        color: inherit;
+                    }
+                    p {
+                        font-size: 12px;
+                        font-weight: 500;
+                    }
+                }
+                .card-bottom-texte {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    align-self: stretch;
+                }
+                .card-bottom {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    gap: 10px;
+                    align-self: stretch;
+                    hr {
+                        width: 100%;
+                        margin: 0;
+                        border: 0.5px solid $color_white_25;
+                    }
+                }
+            }
+        }
+    }
+}

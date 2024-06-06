@@ -1,0 +1,17 @@
+@import "../../../assets/styles/Variables.scss";
+
+.signupWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    padding: $size-large;
+    gap: $size-extra-large;
+    background-color: $color_white_100;
+    h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: $color_blue_100;
+    }
+}
