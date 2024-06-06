@@ -51,21 +51,29 @@ export const scrapeAndCompare = async () => {
           });
         }
 
-        // Supprimer les enregistrements dans EventAgenda pour cet agenda
-        await prisma.eventAgenda.deleteMany({
-          where: {
-            agendaId: agenda.id,
-          },
-        });
-
-        // Ensuite, supprimer tous les événements existants pour cet agenda
-        await prisma.event.deleteMany({
+        // Récupérer tous les événements existants pour cet agenda
+        const existingEventIds = await prisma.event.findMany({
           where: {
             agendas: {
               some: {
                 agendaId: agenda.id,
               },
             },
+          },
+          select: { id: true },
+        }).then(events => events.map(event => event.id));
+
+        // Supprimer les enregistrements dans EventAgenda pour ces événements
+        await prisma.eventAgenda.deleteMany({
+          where: {
+            eventId: { in: existingEventIds },
+          },
+        });
+
+        // Ensuite, supprimer tous les événements existants pour cet agenda
+        await prisma.event.deleteMany({
+          where: {
+            id: { in: existingEventIds },
           },
         });
 
