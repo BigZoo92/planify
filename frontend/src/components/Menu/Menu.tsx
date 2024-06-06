@@ -226,6 +226,30 @@ const Menu: React.FC = () => {
                                     Paramètres
                                 </NavLink>
                             </li>
+                            <li>
+                                <NavLink
+                                    to="/logout"
+                                    onClick={fermetureMenu}
+                                    className={
+                                        styleNavLink({
+                                            isActive:
+                                                location.pathname === "/logout",
+                                        }).className
+                                    }
+                                >
+                                    <SignOut
+                                        size={20}
+                                        weight={
+                                            styleNavLink({
+                                                isActive:
+                                                    location.pathname ===
+                                                    "/logout",
+                                            }).iconWeight
+                                        }
+                                    />
+                                    Se déconnecter
+                                </NavLink>
+                            </li>
                         </div>
                         <div className="user-wrapper">
                             <Link to="/profile" onClick={fermetureMenu}>
@@ -241,9 +265,6 @@ const Menu: React.FC = () => {
                                     </div>
                                 </div>
                             </Link>
-                            <div className="user-logout">
-                                <SignOut size={20} />
-                            </div>
                         </div>
                     </div>
                 </ul>
