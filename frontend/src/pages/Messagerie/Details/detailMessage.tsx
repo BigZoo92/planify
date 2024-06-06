@@ -24,7 +24,7 @@ const DetailMessage = () => {
   const handleSendMessage = (message, files) => {
     const newMessages = [];
 
-    if (message) {
+    if (message && files.length === 0) {
       newMessages.push({
         position: 'right',
         type: 'text',
@@ -38,7 +38,8 @@ const DetailMessage = () => {
       if (isImageFile(file)) {
         newMessages.push({
           position: 'right',
-          type: 'photo',
+          type: 'photo-with-text',
+          text: message,
           data: {
             uri: URL.createObjectURL(file),
             status: { click: false, loading: 0 },
@@ -68,7 +69,7 @@ const DetailMessage = () => {
 
   return (
     <div id="detail-message">
-      <MessageHead />
+      <MessageHead/>
       <MessageList messages={messages} />
       <ChatInput onSendMessage={handleSendMessage} />
     </div>
