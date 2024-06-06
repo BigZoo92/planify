@@ -1,0 +1,31 @@
+@import "../../assets/styles/Variables.scss";
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: $size-medium;
+    padding: $size-medium;
+    align-self: stretch;
+    border-radius: $size-small;
+    border: 1px solid;
+    font-weight: bold;
+    font-family: $font;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05rem;
+    &.main {
+        background-color: $color_blue_100;
+        color: $color_white_100;
+        border-color: $color_white_100;
+    }
+
+    &.secondary {
+        background-color: $color_white_100;
+        color: $color_black_25;
+        border-color: $color_black_10;
+    }
+    &.full {
+        width: 100%;
+    }
+}

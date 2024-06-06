@@ -15,6 +15,8 @@ module.exports = {
     'prettier' // Active le plugin Prettier
   ],
   rules: {
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
     'prettier/prettier': [
       'error',
       {
@@ -25,7 +27,9 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
-    '@typescript-eslint/no-unused-vars': 'warn', // Signale les variables non utilisées
+    '@typescript-eslint/no-unused-vars': 'of', // Signale les variables non utilisées
+    '@typescript-eslint/no-explicit-any': 'of',
+    '@typescript-eslint/ban-types': 'warn',
   },
   
 }

@@ -1,0 +1,68 @@
+@import "../../../assets/styles/Variables.scss";
+
+.modal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: $size-medium;
+    background-color: $color_white_100;
+    padding: $size-medium;
+    border-radius: $size-medium;
+    border: 1px solid $color_black_25;
+    z-index: 9999;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    // backdrop-filter: blur(5px);
+    // -webkit-backdrop-filter: blur(5px);
+    .closeIcon {
+        position: absolute;
+        top: $size-medium;
+        right: $size-medium;
+        cursor: pointer;
+    }
+    .modalContent {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: $size-medium;
+        position: relative;
+
+        .buttonRow {
+            display: flex;
+            align-items: center;
+            gap: $size-small;
+            width: 100%;
+
+            button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 30px;
+                height: 30px;
+                border-radius: $size-extra-small;
+                border: 1px solid $color_black_10;
+                background-color: $color_black_5;
+                cursor: pointer;
+            }
+
+            &.deleteButton {
+                color: $color_pink_100;
+                padding-top: $size-medium;
+                border-top: 1px solid $color_black_25;
+                button {
+                    color: inherit;
+                }
+            }
+
+            .buttonLabel {
+                flex-grow: 1;
+                text-align: left;
+            }
+        }
+    }
+}

@@ -1,0 +1,81 @@
+@import "../../../assets/styles/Variables.scss";
+
+.profileWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: $size-large;
+    padding: $size-large $size-large 0 $size-large;
+    .oval {
+        width: 100%;
+        height: 12.5rem;
+        background-color: $color_blue_100;
+        border-radius: 50%;
+        position: absolute;
+        top: -100px;
+        left: 50%;
+        transform: translate(-50%);
+        img {
+            width: 5.625rem;
+            height: 5.625rem;
+            position: absolute;
+            left: 50%;
+            bottom: -45px;
+            transform: translateX(-50%);
+        }
+    }
+    .profileHeader {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: $size-small;
+        margin-top: 9.0625rem;
+        h1 {
+            color: $color_blue_100;
+        }
+        span {
+            color: $color_black_25;
+            font-weight: bold;
+        }
+    }
+    .profileContent {
+        display: flex;
+        flex-direction: column;
+        gap: $size-medium-large;
+        width: 100%;
+        h2 {
+            font-size: 1rem;
+            margin-top: $size-medium;
+        }
+        .profileItems {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            background-color: $color_white_100;
+            border: 1px solid $color_black_10;
+            border-radius: $size-small;
+            padding: $size-medium;
+            .profileItemsContent {
+                display: flex;
+                align-items: center;
+                gap: $size-small;
+                color: $color_black_75;
+                span {
+                    font-family: $font-title;
+                }
+                svg {
+                    color: inherit;
+                }
+            }
+            svg {
+                color: $color_black_25;
+            }
+        }
+        hr {
+            width: 100%;
+            border-radius: $size-small;
+            border: 1px solid $color_black_10;
+        }
+    }
+}

@@ -1,0 +1,142 @@
+@import "../../assets/styles/Variables.scss";
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: $size-large;
+
+    .form-wrapper {
+        display: grid;
+        align-items: center;
+        grid-template-columns: repeat(2, 1fr);
+        gap: $size-medium;
+        width: 100%;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: $size-small;
+        width: 100%;
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            background-color: $color_white_5;
+            border-radius: $size-small;
+            padding: 0.625rem $size-medium;
+            border: 0.5px solid $color_black_10;
+        }
+
+        select {
+            padding: $size-medium $size-medium-large;
+        }
+
+        input[type="checkbox"] {
+            width: fit-content;
+        }
+
+        label {
+            font-family: $font-title;
+
+            span {
+                font-family: $font;
+                color: $color_pink_100;
+            }
+        }
+
+        .hide-label {
+            display: none;
+        }
+
+        .type-selector {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            gap: $size-extra-large;
+
+            .type-option {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                gap: $size-small;
+                transition: all 0.3s ease-in-out;
+                cursor: pointer;
+
+                .type-image-wrapper {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-direction: column;
+                    width: 50px;
+                    height: 50px;
+                    border: 1px solid $color_black_10;
+                    border-radius: $br-50;
+                    object-fit: contain;
+                    transition:
+                        background-color 0.3s ease-in-out,
+                        border-color 0.3s ease-in-out;
+
+                    svg {
+                        color: $color_black_10;
+                    }
+
+                    &.selected {
+                        border-color: transparent;
+                        background-color: $color_blue_100;
+
+                        svg {
+                            color: $color_white_100;
+                        }
+                    }
+                }
+
+                span {
+                    font-family: $font-title;
+                    font-size: 0.75rem;
+                    font-weight: bold;
+                    color: $color_black_10;
+                    transition: color 0.3s ease-in-out;
+
+                    &.selected {
+                        color: $color_black_100;
+                    }
+                }
+            }
+        }
+
+        .event-location-list {
+            display: flex;
+            flex-direction: column;
+            border-radius: $size-small;
+            border: 0.5px solid $color_black_10;
+
+            .event-location-item {
+                padding: 0.625rem $size-medium-large;
+                line-height: 1.25;
+
+                &:not(:last-child) {
+                    border-bottom: 1px solid $color_black_10;
+                }
+
+                .primary {
+                    font-weight: 500;
+                }
+
+                .secondary {
+                    color: $color_black_50;
+                }
+            }
+        }
+    }
+    .button-group {
+        display: flex;
+        gap: $size-medium;
+        position: absolute;
+        bottom: 20px;
+        width: calc(100% - 40px);
+    }
+}

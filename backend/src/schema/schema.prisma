@@ -1,0 +1,152 @@
+datasource db {
+    provider  = "postgresql"
+    url       = env("POSTGRES_PRISMA_URL")
+    directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+generator zod {
+    provider                 = "zod-prisma-types"
+    output                   = "../../../schema/"
+    createModelTypes         = true
+    writeBarrelFiles         = false
+    createInputTypes         = false
+    addInputTypeValidation   = false
+    addIncludeType           = false
+    addSelectType            = false
+    validateWhereUniqueInput = false
+    useDefaultValidators     = false
+    coerceDate               = false
+}
+
+enum AgendaType {
+    UNIVERSITAIRE
+    PERSONNEL
+}
+
+enum UniversityEventType {
+    TD
+    TP
+    CM
+    REUNION
+    SOUTENANCE
+    AUTRE
+}
+
+model User {
+    id               Int          @id @default(autoincrement())
+    email            String       @unique
+    password         String?
+    firstName        String?
+    lastName         String?
+    urls             String[]     @default([])
+    createdAt        DateTime     @default(now())
+    updatedAt        DateTime     @updatedAt
+    agendas          AgendaUser[]
+    darkMode         Boolean      @default(false)
+    language         String?      @default("fr")
+    messagesSent     Message[]    @relation("MessageSender")
+    messagesReceived Message[]    @relation("MessageReceiver")
+    EventUser        EventUser[]
+    pushToken        String?
+    urlHashes        UrlHash[]
+}
+
+model UrlHash {
+    id        Int      @id @default(autoincrement())
+    userId    Int
+    url       String
+    hash      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+    user      User     @relation(fields: [userId], references: [id])
+
+    @@unique([userId, url])
+}
+
+model Agenda {
+    id        Int           @id @default(autoincrement())
+    type      AgendaType    @default(PERSONNEL)
+    users     AgendaUser[]
+    events    EventAgenda[]
+    name      String
+    private   Boolean       @default(true)
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
+    EventUser EventUser[]
+}
+
+model AgendaUser {
+    agenda    Agenda   @relation(fields: [agendaId], references: [id])
+    agendaId  Int
+    user      User     @relation(fields: [userId], references: [id])
+    userId    Int
+    role      String
+    active    Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@id([agendaId, userId])
+}
+
+model Event {
+    id               Int                  @id @default(autoincrement())
+    summary          String
+    location         String
+    start            String
+    end              String
+    data             Json
+    universityData   UniversityEventData? @relation(fields: [universityDataId], references: [id])
+    universityDataId Int?
+    createdAt        DateTime             @default(now())
+    updatedAt        DateTime             @updatedAt
+    agendas          EventAgenda[]
+    EventUser        EventUser[]
+}
+
+model UniversityEventData {
+    id     Int                 @id @default(autoincrement())
+    group  String[]
+    type   UniversityEventType
+    staff  String[]
+    note   String
+    course String
+    Event  Event[]
+}
+
+model EventAgenda {
+    event     Event    @relation(fields: [eventId], references: [id])
+    eventId   Int
+    agenda    Agenda   @relation(fields: [agendaId], references: [id])
+    agendaId  Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@id([eventId, agendaId])
+}
+
+model EventUser {
+    event     Event    @relation(fields: [eventId], references: [id])
+    eventId   Int
+    user      User     @relation(fields: [userId], references: [id])
+    userId    Int
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    Agenda    Agenda?  @relation(fields: [agendaId], references: [id])
+    agendaId  Int?
+
+    @@id([eventId, userId])
+}
+
+model Message {
+    id         Int      @id @default(autoincrement())
+    content    String
+    senderId   Int
+    receiverId Int
+    sender     User     @relation("MessageSender", fields: [senderId], references: [id])
+    receiver   User     @relation("MessageReceiver", fields: [receiverId], references: [id])
+    createdAt  DateTime @default(now())
+}

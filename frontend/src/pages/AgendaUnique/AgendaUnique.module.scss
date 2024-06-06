@@ -1,0 +1,99 @@
+@import "../../assets/styles/Variables.scss";
+
+.agendaUnique {
+    width: 100%;
+    padding: $size-large $size-large 0 $size-large;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: $size-large;
+    .agendaUniqueHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        .agendaUniqueHeaderLeft {
+            display: flex;
+            align-items: center;
+            gap: $size-medium;
+            h1 {
+                font-size: 1.625rem;
+            }
+        }
+        .agendaNavigation,
+        .agendaActions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            border: none;
+            background-color: transparent;
+        }
+    }
+    .eventWrapper {
+        display: flex;
+        flex-direction: column;
+        gap: $size-medium;
+        width: 100%;
+        span {
+            color: $color_black_50;
+            font-style: italic;
+            font-family: $font-title;
+        }
+        .eventCard {
+            display: flex;
+            flex-direction: column;
+            gap: $size-medium;
+            width: 100%;
+            background-color: $color_white_100;
+            border: 1px solid $color_black_25;
+            border-radius: $size-small;
+            padding: $size-medium;
+            .eventDateWrapper {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: $size-medium;
+                .eventDate {
+                    display: flex;
+                    flex-direction: column;
+                    gap: $size-small;
+                    padding: $size-small $size-medium;
+                    border: 1px solid $color_black_10;
+                    border-radius: $size-small;
+                    width: 100%;
+                }
+            }
+            .eventLocation {
+                display: flex;
+                flex-direction: column;
+                gap: $size-small;
+                padding: $size-small $size-medium;
+                border: 1px solid $color_black_10;
+                border-radius: $size-small;
+                width: 100%;
+                p {
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    overflow: hidden;
+                }
+            }
+            h3 {
+                font-size: 1rem;
+            }
+        }
+    }
+    .noEvents {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: $size-small;
+        p {
+            text-align: center;
+            font-size: 1.25rem;
+            font-family: $font-title;
+            color: $color_blue_100;
+        }
+    }
+}
