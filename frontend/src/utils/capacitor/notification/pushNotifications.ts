@@ -1,15 +1,10 @@
-// src/utils/capacitor/notification.ts
-
 import { Capacitor } from "@capacitor/core";
 import { PushNotifications } from "@capacitor/push-notifications";
 import axios from "axios";
 import { requestForToken } from "../../../firebaseConfig";
 
-export const registerPushNotifications = async (
-    userId: number
-): Promise<string | null> => {
-    const isPushNotificationsAvailable =
-        Capacitor.isPluginAvailable("PushNotifications");
+export const registerPushNotifications = async (userId: number): Promise<string | null> => {
+    const isPushNotificationsAvailable = Capacitor.isPluginAvailable("PushNotifications");
 
     if (!isPushNotificationsAvailable) {
         console.error("PushNotifications plugin is not available");
@@ -51,20 +46,14 @@ export const registerPushNotifications = async (
             reject(null);
         });
 
-        PushNotifications.addListener(
-            "pushNotificationReceived",
-            (notification) => {
-                console.log("Push received: ", notification);
-                alert("Notification: " + notification.body);
-            }
-        );
+        PushNotifications.addListener("pushNotificationReceived", (notification) => {
+            console.log("Push received: ", notification);
+            alert("Notification: " + notification.body);
+        });
 
-        PushNotifications.addListener(
-            "pushNotificationActionPerformed",
-            (notification) => {
-                console.log("Push action performed: " + notification);
-            }
-        );
+        PushNotifications.addListener("pushNotificationActionPerformed", (notification) => {
+            console.log("Push action performed: " + notification);
+        });
 
         // Request the Firebase token for web notifications
         requestForToken()

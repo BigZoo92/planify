@@ -1,21 +1,37 @@
 import axios from 'axios';
 
 export async function sendPushNotification(token: string, message: string) {
-  console.info(process.env.FCM_SERVER_KEY);
+  const accessToken = process.env.ACCESS_TOKEN;
+  if(!accessToken){
+    console.error('accessToken is undefined')
+    return
+  }
   await axios.post(
-    'https://fcm.googleapis.com/fcm/send',
+    'https://fcm.googleapis.com/v1/projects/planify-93233/messages:send',
     {
-      to: token,
-      notification: {
-        title: 'Event Updated',
-        body: message,
-      },
+      message: {
+        token: token,
+        notification: {
+          title: 'Event Updated',
+          body: message,
+        },
+        webpush: {
+          notification: {
+            title: 'Event Updated',
+            body: message,
+          }
+        }
+      }
     },
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `key=${process.env.FCM_SERVER_KEY}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     }
-  );
+  ).then(response => {
+    console.log('Notification sent successfully:', response.data);
+  }).catch(error => {
+    console.error('Error sending notification:', error.response ? error.response.data : error.message);
+  });
 }

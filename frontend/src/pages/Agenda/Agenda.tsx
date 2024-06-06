@@ -85,7 +85,7 @@ const Agenda: React.FC = () => {
     const handleTypeChange = (type: string) => {
         setSelectedType(type);
     };
-
+  
     const handleEdit = (agenda: AgendaBackend) => {
         setEditAgenda(agenda);
     };

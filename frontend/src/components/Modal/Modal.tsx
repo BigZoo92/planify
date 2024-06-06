@@ -123,7 +123,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 </div> */}
                 <div className="modal-content">
                     {isAgendaPage ? (
-                        <CreateAgenda onClose={onClose} />
+                        <CreateAgenda onClose={onClose} /
                     ) : isEventPage ? (
                         <CreateEvent
                             agendaId={parseInt(agendaId!)}

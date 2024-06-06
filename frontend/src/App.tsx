@@ -1,3 +1,4 @@
+// Dependencies
 import { useState, useEffect, useRef } from "react";
 import {
     BrowserRouter as Router,
@@ -63,7 +64,7 @@ const MainContentWrapper: React.FC = () => {
 const MainContent: React.FC = () => {
     const location = useLocation();
     const [openModal, setModalOpen] = useState(false);
-
+  
     const toggleModal = () => {
         setModalOpen(!openModal);
     };

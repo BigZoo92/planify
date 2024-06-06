@@ -1,5 +1,3 @@
-// src/providers/UserProvider.tsx
-
 import {
     createContext,
     useContext,
@@ -34,7 +32,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     const fetchUser = useCallback(async () => {
         const newUser = await isAuth();
         if (!newUser) {
-            navigate("/");
+            // navigate("/");
             setLoading(false);
         } else {
             const currentPath = location.pathname;
@@ -42,7 +40,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             setUser(newUser);
             setLoading(false);
             if (restrictedPaths.includes(currentPath)) {
-                navigate("/accueil");
+                // navigate("/accueil");
             }
 
             // Enregistrer le push token si l'utilisateur est authentifié
