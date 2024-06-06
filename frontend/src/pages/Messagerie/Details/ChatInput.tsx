@@ -1,5 +1,4 @@
-import React, { useState, useRef } from 'react';
-import { Input } from 'react-chat-elements';
+import React, { useState, useRef, useEffect } from 'react';
 import { PaperPlaneTilt, PlusCircle, File, X } from '@phosphor-icons/react';
 
 interface ChatInputProps {
@@ -11,13 +10,26 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   const [files, setFiles] = useState<File[]>([]);
   const [filePreviews, setFilePreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null); // Create a ref for the textarea
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = message; // Sync the ref value with message state
+    }
+  }, [message]);
 
   const handleSend = () => {
-    if (message.trim() || files.length) {
-      onSendMessage(message, files);
-      setMessage('');
+    const trimmedMessage = message.trim();
+    console.log('Sending message:', trimmedMessage, 'Files:', files);
+    if (trimmedMessage || files.length) {
+      onSendMessage(trimmedMessage, files);
+      setMessage(''); // Clear the message state
       setFiles([]);
       setFilePreviews([]);
+      if (inputRef.current) {
+        inputRef.current.value = ''; // Clear the textarea manually
+      }
+      console.log('Message and files cleared');
     }
   };
 
@@ -34,6 +46,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
     });
 
     setFilePreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+    console.log('Files added:', newFiles);
   };
 
   const handleFileRemove = (indexToRemove: number) => {
@@ -46,7 +59,10 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
     if (files[indexToRemove]?.type.startsWith('image/')) {
       URL.revokeObjectURL(filePreviews[indexToRemove]);
     }
+    console.log('File removed at index:', indexToRemove);
   };
+
+  console.log('Current message:', message); // Move this outside of the JSX return
 
   return (
     <div className="chat-bar">
@@ -70,11 +86,16 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
           </div>
         ))}
       </div>
-      <Input
-        placeholder="Type here..."
-        multiline={true}
-        maxHeight={200}
-        leftButtons={
+      <div className="rce-container-input">
+        <textarea
+          placeholder="Type here..."
+          className="rce-input rce-input-textarea"
+          style={{ height: '31px' }}
+          ref={inputRef}
+          onChange={(e) => setMessage(e.target.value)}
+          value={message}
+        />
+        <div className="rce-input-buttons">
           <div>
             <input
               type="file"
@@ -90,17 +111,16 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
               <PlusCircle size={20} />
             </button>
           </div>
-        }
-        rightButtons={
           <div>
-            <button onClick={handleSend}>
+            <button
+              onClick={handleSend}
+              disabled={!message.trim() && files.length === 0}
+            >
               <PaperPlaneTilt size={20} />
             </button>
           </div>
-        }
-        onChange={(e) => setMessage(e.target.value)}
-        value={message}
-      />
+        </div>
+      </div>
     </div>
   );
 };
