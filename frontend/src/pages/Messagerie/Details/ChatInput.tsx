@@ -1,24 +1,24 @@
 import React, { useState, useRef } from 'react';
 import { Input } from 'react-chat-elements';
-import {
-  PaperPlaneTilt,
-  PlusCircle,
-  File,
-  X,
-} from '@phosphor-icons/react';
+import { PaperPlaneTilt, PlusCircle, File, X } from '@phosphor-icons/react';
 
-const ChatInput = () => {
+interface ChatInputProps {
+  onSendMessage: (message: string, files: File[]) => void;
+}
+
+const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   const [message, setMessage] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [filePreviews, setFilePreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleSend = () => {
-    console.log('Send message:', message);
-    console.log('Send files:', files);
-    setMessage('');
-    setFiles([]);
-    setFilePreviews([]);
+    if (message.trim() || files.length) {
+      onSendMessage(message, files);
+      setMessage('');
+      setFiles([]);
+      setFilePreviews([]);
+    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
