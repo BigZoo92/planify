@@ -1,15 +1,27 @@
-import axios from 'axios';
 import { GoogleAuth } from 'google-auth-library';
+import * as path from 'path';
+import * as dotenv from 'dotenv';
+import axios from 'axios';
 
-const auth = new GoogleAuth({
-  scopes: ['https://www.googleapis.com/auth/cloud-platform']
-});
+dotenv.config();
 
-export async function sendPushNotification(token: string, message: string) {
+const keyFilePath = path.join(__dirname, 'src/assets/planify-93233-30db112190ce.json');
+
+async function getAccessToken() {
+  const auth = new GoogleAuth({
+    keyFile: keyFilePath,
+    scopes: 'https://www.googleapis.com/auth/cloud-platform'
+  });
+
   const client = await auth.getClient();
-  const accessToken = await client.getAccessToken();
+  const tokenResponse = await client.getAccessToken();
+  return tokenResponse.token;
+}
 
-  if (!accessToken.token) {
+async function sendPushNotification(token: string, message: string) {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
     console.error('Failed to obtain access token');
     return;
   }
@@ -34,7 +46,7 @@ export async function sendPushNotification(token: string, message: string) {
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken.token}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     }
   ).then(response => {
@@ -43,3 +55,4 @@ export async function sendPushNotification(token: string, message: string) {
     console.error('Error sending notification:', error.response ? error.response.data : error.message);
   });
 }
+
