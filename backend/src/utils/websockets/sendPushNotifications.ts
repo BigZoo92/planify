@@ -5,7 +5,7 @@ import axios from 'axios';
 
 dotenv.config();
 
-const keyFilePath = path.join(__dirname, 'src/assets/planify-93233-30db112190ce.json');
+const keyFilePath = path.join(__dirname, '../../assets/planify-93233-30db112190ce.json');
 
 async function getAccessToken() {
   const auth = new GoogleAuth({
