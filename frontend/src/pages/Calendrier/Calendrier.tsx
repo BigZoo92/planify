@@ -22,6 +22,7 @@ const Calendrier: React.FC = () => {
     const cardsRef = useRef<HTMLDivElement[]>([]);
     const deactivatedRef = useRef<HTMLParagraphElement>(null);
     const mainRef = useRef<HTMLElement>(null);
+    const hrActionsRef = useRef<HTMLDivElement>(null);
 
     const onChangeDate = (date: Date) => {
         setDateSelectionnee(date);
@@ -80,7 +81,13 @@ const Calendrier: React.FC = () => {
 
     const bind = useGesture({
         onDrag: ({ direction: [dx, dy], event }) => {
-            // Prevent vertical scrolling on drag
+            if (
+                hrActionsRef.current &&
+                !hrActionsRef.current.contains(event.target as Node)
+            ) {
+                return;
+            }
+
             event.preventDefault();
             if (dy > 0 && view !== "month") {
                 gsap.to(calendarRef.current, {
@@ -208,7 +215,7 @@ const Calendrier: React.FC = () => {
                         ))}
                     </div>
                 )}
-                <div className="hr-actions"></div>
+                <div className="hr-actions" ref={hrActionsRef}></div>
             </div>
             {filtreCours.length > 0 && (
                 <div className="date-display">
