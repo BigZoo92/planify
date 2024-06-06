@@ -140,6 +140,13 @@
                             display: flex;
                             flex-direction: column;
                             gap: $size-extra-small;
+                            .user-info-name,
+                            .user-info-email {
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                width: 90%;
+                                white-space: nowrap;
+                            }
                             .user-info-name {
                                 font-weight: 600;
                             }
