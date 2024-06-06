@@ -104,6 +104,33 @@ const ModalEdit: React.FC<ModalEditProps> = ({ agenda, onClose, onSave }) => {
                     </div>
                 </div>
             )}
+            <div className={styles.modalContent}>
+                <h2>Modifier l'Agenda</h2>
+                <label>
+                    Nom:
+                    <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </label>
+                <label>
+                    Type:
+                    <select
+                        value={type}
+                        onChange={(e) =>
+                            setType(
+                                e.target.value as "UNIVERSITAIRE" | "PERSONNEL"
+                            )
+                        }
+                    >
+                        <option value="UNIVERSITAIRE">Universitaire</option>
+                        <option value="PERSONNEL">Personnel</option>
+                    </select>
+                </label>
+                <button onClick={handleSave}>Sauvegarder</button>
+                <button onClick={onClose}>Annuler</button>
+            </div>
         </div>
     );
 };

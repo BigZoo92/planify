@@ -125,7 +125,7 @@ const CreateAgenda: React.FC<CreateAgendaProps> = ({ onClose }) => {
                     placeholder="Entrez le nom de l'agenda"
                 />
                 {errors.name && (
-                    <p className="error-message" style={{ color: "red" }}>
+                    <p className="error-message">
                         <Warning size={20} weight="bold" />
                         {errors.name.message}
                     </p>
