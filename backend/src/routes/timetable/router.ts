@@ -1,5 +1,4 @@
 import express from 'express';
-import { getDataFromCelcat } from './getDataFromCelcat';
 import { getDataFromTimetableWithAi } from './getDataFromTimetableWithAi';
 // import parseIcs from "./parseIcs";
 
