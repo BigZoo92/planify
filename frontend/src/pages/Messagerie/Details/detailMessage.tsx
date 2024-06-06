@@ -7,46 +7,34 @@ const DetailMessage = () => {
   const [messages, setMessages] = useState([]);
 
   const handleSendMessage = (message, files) => {
-    const newMessages = [
-      ...messages,
-      {
-        position: 'right',
-        type: 'text',
-        text: message,
-        date: new Date(),
-        status: 'sent',
-      },
-    ];
+    if (!message && files.length === 0) {
+      return; // Do not send empty messages
+    }
 
-    // Handle file messages if any
-    files.forEach((file) => {
-      if (file.type.startsWith('image/')) {
-        newMessages.push({
-          position: 'right',
-          type: 'photo',
-          data: {
-            uri: URL.createObjectURL(file),
-            status: { click: false, loading: 0 },
-          },
-          date: new Date(),
-          status: 'sent',
-        });
-      } else {
-        newMessages.push({
-          position: 'right',
-          type: 'file',
-          text: 'Please find the attached file.',
-          data: {
-            uri: URL.createObjectURL(file),
-            status: { click: false, loading: 0 },
-            size: `${Math.round(file.size / 1024)}KB`,
-            extension: file.name.split('.').pop(),
-          },
-          date: new Date(),
-          status: 'sent',
-        });
-      }
-    });
+    const newMessages = [...messages];
+
+    const newMessage = {
+      position: 'right',
+      type:
+        files.length > 0 && message
+          ? 'custom'
+          : files.length > 0
+            ? 'photo'
+            : 'text',
+      text: message,
+      files: files.map((file) => ({
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        uri: URL.createObjectURL(file),
+        status: { click: false, loading: 0 },
+        extension: file.name.split('.').pop(),
+      })),
+      date: new Date(),
+      status: 'sent',
+    };
+
+    newMessages.push(newMessage);
 
     setMessages(newMessages);
   };

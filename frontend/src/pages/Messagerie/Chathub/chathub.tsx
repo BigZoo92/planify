@@ -32,13 +32,13 @@ const contacts = [
 const HubMessage = () => {
   const navigate = useNavigate();
 
-    const handleChatItemClick = (id) => {
-      navigate(`/detailmessage/${id}`);
-    };
+  const handleChatItemClick = (id) => {
+    navigate(`/detailmessage/${id}`);
+  };
   return (
     <div id="hub-message">
       <h1>Messages</h1>
-      {contacts.map(contact => (
+      {contacts.map((contact) => (
         <ChatItem
           key={contact.id}
           id={contact.id}

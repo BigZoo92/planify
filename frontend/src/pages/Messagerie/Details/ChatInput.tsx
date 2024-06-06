@@ -20,17 +20,19 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
 
   const handleSend = () => {
     const trimmedMessage = message.trim();
-    console.log('Sending message:', trimmedMessage, 'Files:', files);
-    if (trimmedMessage || files.length) {
-      onSendMessage(trimmedMessage, files);
-      setMessage(''); // Clear the message state
-      setFiles([]);
-      setFilePreviews([]);
-      if (inputRef.current) {
-        inputRef.current.value = ''; // Clear the textarea manually
-      }
-      console.log('Message and files cleared');
+    if (!trimmedMessage && files.length === 0) {
+      return; // Do not send if both message and files are empty
     }
+
+    console.log('Sending message:', trimmedMessage, 'Files:', files);
+    onSendMessage(trimmedMessage, files);
+    setMessage(''); // Clear the message state
+    setFiles([]);
+    setFilePreviews([]);
+    if (inputRef.current) {
+      inputRef.current.value = ''; // Clear the textarea manually
+    }
+    console.log('Message and files cleared');
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +72,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         {filePreviews.map((preview, index) => (
           <div key={index} className="file-preview-item">
             {files[index].type.startsWith('image/') ? (
-              <img src={preview} alt="Image preview" />
+              <img src={preview} alt={files[index].name} />
             ) : (
               <div className="file-preview-file">
                 <File size={16} />
@@ -87,14 +89,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
         ))}
       </div>
       <div className="rce-container-input">
-        <textarea
-          placeholder="Type here..."
-          className="rce-input rce-input-textarea"
-          style={{ height: '31px' }}
-          ref={inputRef}
-          onChange={(e) => setMessage(e.target.value)}
-          value={message}
-        />
         <div className="rce-input-buttons">
           <div>
             <input
@@ -111,6 +105,15 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
               <PlusCircle size={20} />
             </button>
           </div>
+        </div>
+        <textarea
+          placeholder="Type here..."
+          className="rce-input rce-input-textarea"
+          ref={inputRef}
+          onChange={(e) => setMessage(e.target.value)}
+          value={message}
+        />
+        <div className="rce-input-buttons">
           <div>
             <button
               onClick={handleSend}
