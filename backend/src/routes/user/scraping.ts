@@ -51,7 +51,14 @@ export const scrapeAndCompare = async () => {
           });
         }
 
-        // Supprimer tous les événements existants pour cet agenda
+        // Supprimer les enregistrements dans EventAgenda pour cet agenda
+        await prisma.eventAgenda.deleteMany({
+          where: {
+            agendaId: agenda.id,
+          },
+        });
+
+        // Ensuite, supprimer tous les événements existants pour cet agenda
         await prisma.event.deleteMany({
           where: {
             agendas: {
