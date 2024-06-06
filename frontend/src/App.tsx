@@ -1,5 +1,8 @@
+
 // Dependencies
 import { useState, useEffect, useRef } from "react";
+import HubMessage from './pages/Messagerie/Chathub/chathub.tsx';
+import DetailMessage from './pages/Messagerie/Details/detailMessage.tsx';
 import {
     BrowserRouter as Router,
     Routes,
@@ -56,6 +59,8 @@ const MainContentWrapper: React.FC = () => {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/*" element={<MainContent />} />
+                <Route path="/messages" Component={HubMessage} />
+        <Route path="/detailmessage/:id" Component={DetailMessage} />
             </Routes>
         </div>
     );
