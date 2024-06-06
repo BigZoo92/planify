@@ -17,7 +17,7 @@ const DetailMessage = () => {
       position: 'right',
       type:
         files.length > 0 && message
-          ? 'custom'
+          ? 'text'
           : files.length > 0
             ? 'photo'
             : 'text',

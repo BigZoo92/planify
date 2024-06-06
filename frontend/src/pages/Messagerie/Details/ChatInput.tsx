@@ -64,7 +64,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
     console.log('File removed at index:', indexToRemove);
   };
 
-  console.log('Current message:', message); // Move this outside of the JSX return
+  console.log('Current message:', message);
 
   return (
     <div className="chat-bar">

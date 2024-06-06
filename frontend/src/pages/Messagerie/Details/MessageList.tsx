@@ -37,6 +37,7 @@ const MessageList = ({ messages }) => {
               position={message.position}
               title={formatDate(message.date)}
               type="photo"
+              text=""
               date={message.date}
               replyButton={false}
               forwarded={false}
