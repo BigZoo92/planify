@@ -94,13 +94,13 @@
                     align-items: flex-end;
                     justify-content: center;
                     flex-direction: column;
-                    gap: $size-small;
+                    width: 10rem;
                     position: absolute;
-                    top: -$size-medium;
+                    top: 0;
                     right: -$size-medium;
                     background-color: $color_white_100;
                     border: 1px solid $color_black_10;
-                    box-shadow: 0px 0px $size-large $color_black_5;
+                    box-shadow: 0px 0px $size-large $color_black_10;
                     padding: $size-small;
                     border-radius: $size-medium;
                     opacity: 0;
@@ -111,10 +111,14 @@
                         animation: fadeOut 0.3s forwards;
                     }
 
+                    hr {
+                        width: 100%;
+                    }
+
                     button {
                         display: flex;
                         align-items: center;
-                        justify-content: flex-end;
+                        justify-content: space-between;
                         gap: $size-small;
                         width: 100%;
                         border: none;
@@ -122,6 +126,9 @@
                         text-align: left;
                         cursor: pointer;
                         padding: 0;
+                    }
+                    .actionModalDelete {
+                        color: $color_pink_100;
                     }
                 }
             }
