@@ -6,6 +6,8 @@ export const TransactionIsolationLevelSchema = z.enum(['ReadUncommitted','ReadCo
 
 export const UserScalarFieldEnumSchema = z.enum(['id','email','password','firstName','lastName','urls','createdAt','updatedAt','darkMode','language','pushToken']);
 
+export const UrlHashScalarFieldEnumSchema = z.enum(['id','userId','url','hash','createdAt','updatedAt']);
+
 export const AgendaScalarFieldEnumSchema = z.enum(['id','type','name','private','createdAt','updatedAt']);
 
 export const AgendaUserScalarFieldEnumSchema = z.enum(['agendaId','userId','role','active','createdAt','updatedAt']);
@@ -19,8 +21,6 @@ export const EventAgendaScalarFieldEnumSchema = z.enum(['eventId','agendaId','cr
 export const EventUserScalarFieldEnumSchema = z.enum(['eventId','userId','createdAt','updatedAt','agendaId']);
 
 export const MessageScalarFieldEnumSchema = z.enum(['id','content','senderId','receiverId','createdAt']);
-
-export const UrlHashScalarFieldEnumSchema = z.enum(['id','userId','url','hash','createdAt','updatedAt']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
@@ -61,6 +61,21 @@ export const UserSchema = z.object({
 })
 
 export type User = z.infer<typeof UserSchema>
+
+/////////////////////////////////////////
+// URL HASH SCHEMA
+/////////////////////////////////////////
+
+export const UrlHashSchema = z.object({
+  id: z.number(),
+  userId: z.number(),
+  url: z.string(),
+  hash: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+})
+
+export type UrlHash = z.infer<typeof UrlHashSchema>
 
 /////////////////////////////////////////
 // AGENDA SCHEMA
@@ -165,18 +180,3 @@ export const MessageSchema = z.object({
 })
 
 export type Message = z.infer<typeof MessageSchema>
-
-/////////////////////////////////////////
-// URL HASH SCHEMA
-/////////////////////////////////////////
-
-export const UrlHashSchema = z.object({
-  id: z.number(),
-  userId: z.number(),
-  url: z.string(),
-  hash: z.string(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-})
-
-export type UrlHash = z.infer<typeof UrlHashSchema>

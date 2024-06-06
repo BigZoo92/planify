@@ -88,9 +88,10 @@ export const scrapeAndCompare = async () => {
               userId: user.id,
             },
           });
+
+          await detectEventChanges(createdEvent, 'created');
         }
 
-        await detectEventChanges(agenda);
         await prisma.urlHash.upsert({
           where: {
             userId_url: {

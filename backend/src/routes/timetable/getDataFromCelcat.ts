@@ -59,3 +59,4 @@ export function parseEvents(dataPage: string) {
 
   return events;
 }
+
