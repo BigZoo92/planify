@@ -18,7 +18,7 @@ async function getAccessToken() {
   return tokenResponse.token;
 }
 
-async function sendPushNotification(token: string, message: string) {
+export async function sendPushNotification(token: string, message: string) {
   const accessToken = await getAccessToken();
 
   if (!accessToken) {
