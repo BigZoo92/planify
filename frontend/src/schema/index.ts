@@ -20,6 +20,8 @@ export const EventUserScalarFieldEnumSchema = z.enum(['eventId','userId','create
 
 export const MessageScalarFieldEnumSchema = z.enum(['id','content','senderId','receiverId','createdAt']);
 
+export const UrlHashScalarFieldEnumSchema = z.enum(['id','userId','url','hash','createdAt','updatedAt']);
+
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 
@@ -163,3 +165,18 @@ export const MessageSchema = z.object({
 })
 
 export type Message = z.infer<typeof MessageSchema>
+
+/////////////////////////////////////////
+// URL HASH SCHEMA
+/////////////////////////////////////////
+
+export const UrlHashSchema = z.object({
+  id: z.number(),
+  userId: z.number(),
+  url: z.string(),
+  hash: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+})
+
+export type UrlHash = z.infer<typeof UrlHashSchema>
