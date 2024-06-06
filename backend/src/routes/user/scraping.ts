@@ -63,6 +63,13 @@ export const scrapeAndCompare = async () => {
           select: { id: true },
         }).then(events => events.map(event => event.id));
 
+        // Supprimer les enregistrements dans EventUser pour ces événements
+        await prisma.eventUser.deleteMany({
+          where: {
+            eventId: { in: existingEventIds },
+          },
+        });
+
         // Supprimer les enregistrements dans EventAgenda pour ces événements
         await prisma.eventAgenda.deleteMany({
           where: {
