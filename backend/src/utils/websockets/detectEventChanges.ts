@@ -1,14 +1,26 @@
-import { Event, Agenda } from '../../schema/';
+import { Event } from '../../schema/';
 import { prisma } from '../../schema/prismaClient';
 import { sendPushNotification } from './sendPushNotifications';
 
-export const detectEventChanges = async (agenda: Agenda) => {
+export const detectEventChanges = async (event: Event, changeType: 'created' | 'updated' = 'updated') => {
+  const eventUsers = await prisma.eventUser.findMany({
+    where: { eventId: event.id },
+    select: { userId: true },
+  });
+
+  const eventAgendas = await prisma.eventAgenda.findMany({
+    where: { eventId: event.id },
+    select: { agendaId: true },
+  });
+
+  const agendaIds = eventAgendas.map(({ agendaId }) => agendaId);
   const agendaUsers = await prisma.agendaUser.findMany({
-    where: { agendaId: agenda.id },
+    where: { agendaId: { in: agendaIds } },
     select: { userId: true },
   });
 
   const userIdsSet = new Set<number>();
+  eventUsers.forEach(({ userId }) => userIdsSet.add(userId));
   agendaUsers.forEach(({ userId }) => userIdsSet.add(userId));
   const userIds = Array.from(userIdsSet);
 
@@ -19,7 +31,9 @@ export const detectEventChanges = async (agenda: Agenda) => {
     });
 
     if (user?.pushToken) {
-      const message = `L'agenda a été mis à jour. Veuillez vérifier les nouveaux événements.`;
+      const message = changeType === 'created'
+        ? `New event created: ${event.summary}`
+        : `Event updated: ${event.summary}`;
 
       return sendPushNotification(user.pushToken, message);
     }
