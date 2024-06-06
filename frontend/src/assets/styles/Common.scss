@@ -100,21 +100,13 @@ body.no-scroll {
     align-items: center;
     justify-content: center;
     gap: $size-small;
-    padding: $size-medium;
-    border-radius: $size-medium;
+    padding: $size-small $size-medium;
+    border-radius: $size-small;
     border: 1px solid $color_pink_25;
     background-color: $color_pink_10;
     font-weight: bold;
     font-size: 0.875rem;
     color: $color_pink_50;
-    width: 100%;
-}
-
-.error-message {
-    background-color: transparent;
-    padding: 0;
-    border: none;
-    border-radius: $size-small;
     width: fit-content;
 }
 

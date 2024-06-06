@@ -64,6 +64,7 @@ const MainContentWrapper: React.FC = () => {
 const MainContent: React.FC = () => {
     const location = useLocation();
     const [openModal, setModalOpen] = useState(false);
+  
     const toggleModal = () => {
         setModalOpen(!openModal);
     };
@@ -136,7 +137,7 @@ const MainContent: React.FC = () => {
                     }
                 />
             </Routes>
-            {!hideMenu && <Modal isOpen={openModal} onClose={toggleModal} />}
+            <Modal isOpen={openModal} onClose={toggleModal} />
             {!hideNavbar && <Navbar onNewEvent={toggleModal} />}
         </>
     );

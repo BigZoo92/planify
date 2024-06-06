@@ -61,7 +61,10 @@ const CreateAgenda: React.FC<CreateAgendaProps> = ({ onClose }) => {
         }
     };
 
-    const onInvalid = (errors) => console.error(errors);
+    const onInvalid = (errors) => {
+        console.error(errors);
+        alert("Veuillez corriger les erreurs avant de soumettre le formulaire");
+    };
 
     const handleTypeSelect = (type: keyof typeof AgendaTypeSchema.enum) => {
         setSelectedType(type);
@@ -112,7 +115,9 @@ const CreateAgenda: React.FC<CreateAgendaProps> = ({ onClose }) => {
                 )}
             </div>
             <div className="form-group">
-                <label htmlFor="name">Nom de l'agenda</label>
+                <label htmlFor="name">
+                    Nom de l'agenda <span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                     type="text"
                     id="name"
@@ -129,6 +134,18 @@ const CreateAgenda: React.FC<CreateAgendaProps> = ({ onClose }) => {
             <div className="form-group">
                 <label htmlFor="private">Privé</label>
                 <input type="checkbox" id="private" {...register("private")} />
+            </div>
+            <div className="button-group">
+                <button
+                    type="button"
+                    className="btn secondary full"
+                    onClick={onClose}
+                >
+                    Annuler
+                </button>
+                <button type="submit" className="btn main full">
+                    Créer
+                </button>
             </div>
         </form>
     );

@@ -132,11 +132,6 @@ const AgendaUnique: React.FC = () => {
                     <p>Vous n'avez pas encore d'événements</p>
                 </div>
             )}
-            <CreateEvent
-                agendaId={parseInt(agendaId)}
-                onCancel={() => {}}
-                onClose={() => {}}
-            />
         </main>
     );
 };

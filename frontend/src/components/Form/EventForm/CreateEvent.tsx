@@ -8,10 +8,10 @@ import { getAdress } from "../../../utils/queries/events/geopify";
 import { gsap } from "gsap";
 
 export const EventSchemaForm = z.object({
-    summary: z.string().nonempty("Le titre est requis"),
-    location: z.string().nonempty("Le lieu est requis"),
-    start: z.string().nonempty("La date de début est requise"),
-    end: z.string().nonempty("La date de fin est requise"),
+    summary: z.string().min(1, "Le titre est requis"),
+    location: z.string().min(1, "Le lieu est requis"),
+    start: z.string().min(1, "La date de début est requise"),
+    end: z.string().min(1, "La date de fin est requise"),
     data: z.any().optional(),
 });
 
@@ -90,17 +90,23 @@ const CreateEvent: React.FC<CreateEventProps> = ({
     return (
         <form onSubmit={handleSubmit(onSubmit, onInvalid)}>
             <div className="form-group">
-                <label htmlFor="summary">Titre de l'évènement</label>
+                <label htmlFor="summary">
+                    Titre de l'évènement <span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                     id="summary"
                     placeholder="Entrez le titre de l'évènement"
                     {...register("summary")}
                 />
-                {errors.summary && <p>{errors.summary.message}</p>}
+                {errors.summary && (
+                    <p className="error-message">{errors.summary.message}</p>
+                )}
             </div>
 
             <div className="form-group">
-                <label htmlFor="location">Lieu</label>
+                <label htmlFor="location">
+                    Lieu <span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                     id="location"
                     placeholder="Entrez le lieu de l'évènement"
@@ -108,7 +114,9 @@ const CreateEvent: React.FC<CreateEventProps> = ({
                     value={locationInput}
                     onChange={(e) => setLocationInput(e.target.value)}
                 />
-                {errors.location && <p>{errors.location.message}</p>}
+                {errors.location && (
+                    <p className="error-message">{errors.location.message}</p>
+                )}
                 {suggestions.length > 0 && (
                     <ul className="event-location-list" ref={listRef}>
                         {suggestions.map((suggestion, index) => {
@@ -139,19 +147,27 @@ const CreateEvent: React.FC<CreateEventProps> = ({
             </div>
 
             <div className="form-group">
-                <label htmlFor="start">Début</label>
+                <label htmlFor="start">
+                    Début <span style={{ color: "red" }}>*</span>
+                </label>
                 <input
                     type="datetime-local"
                     id="start"
                     {...register("start")}
                 />
-                {errors.start && <p>{errors.start.message}</p>}
+                {errors.start && (
+                    <p className="error-message">{errors.start.message}</p>
+                )}
             </div>
 
             <div className="form-group">
-                <label htmlFor="end">Fin</label>
+                <label htmlFor="end">
+                    Fin <span style={{ color: "red" }}>*</span>
+                </label>
                 <input type="datetime-local" id="end" {...register("end")} />
-                {errors.end && <p>{errors.end.message}</p>}
+                {errors.end && (
+                    <p className="error-message">{errors.end.message}</p>
+                )}
             </div>
 
             <div className="form-group">
@@ -161,7 +177,11 @@ const CreateEvent: React.FC<CreateEventProps> = ({
                     placeholder="Entrez les données supplémentaires"
                     {...register("data")}
                 />
-                {errors.data && <p>{errors.data.message as string}</p>}
+                {errors.data && (
+                    <p className="error-message">
+                        {errors.data.message as string}
+                    </p>
+                )}
             </div>
 
             <div className="button-group">

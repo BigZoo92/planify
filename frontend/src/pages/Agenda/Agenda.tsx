@@ -1,8 +1,10 @@
 import { useEffect, useState, useRef } from "react";
 import { Agenda as AgendaBackend } from "../../schema";
-import { listAgendasAdmin } from "../../utils/queries/agenda";
-import { removeAgenda } from "../../utils/queries/agenda/delete";
-import { updateAgenda } from "../../utils/queries/agenda/update";
+import {
+    listAgendasAdmin,
+    removeAgenda,
+    updateAgenda,
+} from "../../utils/queries/agenda";
 import { useUser } from "../../providers";
 import { Link } from "react-router-dom";
 import { ModalEdit } from "../../components/Agenda/ModalEdit";
@@ -10,8 +12,6 @@ import styles from "./Agenda.module.scss";
 import {
     Calendar,
     DotsThree,
-    Pen,
-    TrashSimple,
     User,
     WarningCircle,
 } from "@phosphor-icons/react";
@@ -20,11 +20,8 @@ import gsap from "gsap";
 const Agenda: React.FC = () => {
     const [agendas, setAgendas] = useState<AgendaBackend[]>([]);
     const [selectedType, setSelectedType] = useState<string>("Tous");
-    const [showActions, setShowActions] = useState<number | null>(null);
-    const [isFadingOut, setIsFadingOut] = useState<number | null>(null);
     const [editAgenda, setEditAgenda] = useState<AgendaBackend | null>(null);
     const { user } = useUser();
-    const actionsRef = useRef<HTMLDivElement | null>(null);
     const agendaListRef = useRef<HTMLDivElement | null>(null);
     const deactivatedRef = useRef<HTMLParagraphElement | null>(null);
 
@@ -68,28 +65,6 @@ const Agenda: React.FC = () => {
         }
     }, [selectedType]);
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (
-                actionsRef.current &&
-                !actionsRef.current.contains(event.target as Node)
-            ) {
-                if (showActions !== null) {
-                    setIsFadingOut(showActions);
-                    setTimeout(() => {
-                        setShowActions(null);
-                        setIsFadingOut(null);
-                    }, 300);
-                }
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, [showActions]);
-
     const formatDate = (dateString: string) => {
         const options: Intl.DateTimeFormatOptions = {
             day: "2-digit",
@@ -110,20 +85,7 @@ const Agenda: React.FC = () => {
     const handleTypeChange = (type: string) => {
         setSelectedType(type);
     };
-
-    const toggleActions = (agendaId: number) => {
-        if (showActions === agendaId) {
-            setIsFadingOut(agendaId);
-            setTimeout(() => {
-                setShowActions(null);
-                setIsFadingOut(null);
-            }, 300);
-        } else {
-            setShowActions(agendaId);
-            setIsFadingOut(null);
-        }
-    };
-
+  
     const handleEdit = (agenda: AgendaBackend) => {
         setEditAgenda(agenda);
     };
@@ -189,36 +151,10 @@ const Agenda: React.FC = () => {
                                 <h2>{agenda.name}</h2>
                                 <button
                                     className={styles.agendaActions}
-                                    onClick={() => toggleActions(agenda.id)}
+                                    onClick={() => handleEdit(agenda)}
                                 >
                                     <DotsThree size={30} weight="bold" />
                                 </button>
-                                {(showActions === agenda.id ||
-                                    isFadingOut === agenda.id) && (
-                                    <div
-                                        ref={actionsRef}
-                                        className={`${styles.actionModal} ${
-                                            isFadingOut === agenda.id
-                                                ? styles.fadeOut
-                                                : ""
-                                        }`}
-                                    >
-                                        <button
-                                            onClick={() => handleEdit(agenda)}
-                                        >
-                                            Modifier
-                                            <Pen size={15} />
-                                        </button>
-                                        <button
-                                            onClick={() =>
-                                                handleDelete(agenda.id)
-                                            }
-                                        >
-                                            Supprimer
-                                            <TrashSimple size={15} />
-                                        </button>
-                                    </div>
-                                )}
                             </div>
                             <Link to={`/agenda/${agenda.id}`} key={agenda.id}>
                                 <div className={styles.agendaContent}>
