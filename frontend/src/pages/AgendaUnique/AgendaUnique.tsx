@@ -16,7 +16,7 @@ import { listEvents } from "../../utils/queries";
 import NoEvents from "../../assets/images/element/no-events.svg";
 
 // Icons
-import { CaretLeft, DotsThreeVertical } from "@phosphor-icons/react";
+import { CaretLeft } from "@phosphor-icons/react";
 
 // Styles
 import styles from "./AgendaUnique.module.scss";
@@ -81,9 +81,6 @@ const AgendaUnique: React.FC = () => {
                     </button>
                     <h1>{agenda.name}</h1>
                 </div>
-                <button className={styles.agendaActions}>
-                    <DotsThreeVertical size={25} weight="bold" />
-                </button>
             </div>
             {events.length > 0 ? (
                 <div className={styles.eventWrapper} ref={eventsRef}>
