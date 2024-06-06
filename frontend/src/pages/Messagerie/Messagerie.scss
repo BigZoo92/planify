@@ -1,0 +1,104 @@
+@import "../../assets/styles/Variables";
+.messagerieWrapper {
+    padding: $size-large;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: $size-large;
+    h1 {
+        margin: 0 0 $size-large 0;
+    }
+    .messagerieItems {
+        width: 100%;
+        position: relative;
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            height: 1px;
+            width: 100%;
+            left: 0;
+            bottom: 0;
+            background-color: $color_black_10;
+        }
+        &::after {
+            content: "";
+            width: 21px;
+            height: 21px;
+            display: block;
+            position: absolute;
+            right: 0;
+            top: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="%23000000" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg>');
+            background-size: contain;
+            opacity: 0.4;
+        }
+        .rce-citem {
+            display: flex;
+            gap: 12px;
+            padding-bottom: $size-medium;
+            .rce-citem-avatar {
+                .rce-avatar-container {
+                    img {
+                        width: 52px;
+                        height: 52px;
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+                }
+            }
+            .rce-citem-body {
+                max-width: 65%;
+                .rce-citem-body--top {
+                    max-width: 85%;
+                    .rce-citem-body--top-title {
+                        font-weight: 600;
+                        font-size: 18px;
+                        margin: 0 0 8px 0;
+                    }
+                    .rce-citem-body--top-time {
+                        position: absolute;
+                        right: 21px;
+                        font-size: 12px;
+                        top: 5px;
+                        max-width: 30%;
+                        color: $color_black_40;
+                        font-weight: 500;
+                        text-transform: uppercase;
+                    }
+                }
+                .rce-citem-body--bottom {
+                    .rce-citem-body--bottom-title {
+                        font-size: 14px;
+                        color: $color_black_40;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 2;
+                        -webkit-box-orient: vertical;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-height: 3em;
+                        line-height: normal;
+                    }
+                    .rce-citem-body--bottom-status {
+                        span {
+                            position: absolute;
+                            top: -5px;
+                            left: -3px;
+                            height: 21px;
+                            color: #fff;
+                            display: flex;
+                            width: 21px;
+                            background: $color_blue_100;
+                            border-radius: 50%;
+                            line-height: normal;
+                            font-size: 10px;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

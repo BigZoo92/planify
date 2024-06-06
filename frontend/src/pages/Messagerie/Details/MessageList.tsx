@@ -10,7 +10,7 @@ const MessageList = ({ messages }) => {
   }
 
   return (
-    <div>
+    <div className='MessageList'>
       {messages.map((message, index) => (
         <div key={index}>
           {message.type === 'text' && (
