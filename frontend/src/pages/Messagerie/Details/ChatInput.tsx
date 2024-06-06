@@ -102,7 +102,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
                 fileInputRef.current && fileInputRef.current.click()
               }
             >
-              <PlusCircle size={20} />
+              <PlusCircle size={30} />
             </button>
           </div>
         </div>
@@ -119,7 +119,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
               onClick={handleSend}
               disabled={!message.trim() && files.length === 0}
             >
-              <PaperPlaneTilt size={20} />
+              <PaperPlaneTilt size={30} />
             </button>
           </div>
         </div>

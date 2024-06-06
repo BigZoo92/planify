@@ -4,6 +4,7 @@ import MessageHead from './MessageHead';
 import MessageList from './MessageList';
 import ChatInput from './ChatInput';
 import chatData from './../chatData.json';
+import './messagerieDetail.scss';
 
 const DetailMessage = () => {
   const { id } = useParams();
@@ -69,9 +70,11 @@ const DetailMessage = () => {
 
   return (
     <div id="detail-message">
-      <MessageHead/>
-      <MessageList messages={messages} />
-      <ChatInput onSendMessage={handleSendMessage} />
+      <main className="messagerieWrapper">
+        <MessageHead/>
+        <MessageList messages={messages} />
+        <ChatInput onSendMessage={handleSendMessage} />
+      </main>
     </div>
   );
 };
