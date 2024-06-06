@@ -1,11 +1,19 @@
 import axios from 'axios';
+import { GoogleAuth } from 'google-auth-library';
+
+const auth = new GoogleAuth({
+  scopes: ['https://www.googleapis.com/auth/cloud-platform']
+});
 
 export async function sendPushNotification(token: string, message: string) {
-  const accessToken = process.env.ACCESS_TOKEN;
-  if(!accessToken){
-    console.error('accessToken is undefined')
-    return
+  const client = await auth.getClient();
+  const accessToken = await client.getAccessToken();
+
+  if (!accessToken.token) {
+    console.error('Failed to obtain access token');
+    return;
   }
+
   await axios.post(
     'https://fcm.googleapis.com/v1/projects/planify-93233/messages:send',
     {
@@ -26,7 +34,7 @@ export async function sendPushNotification(token: string, message: string) {
     {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${accessToken.token}`,
       },
     }
   ).then(response => {
