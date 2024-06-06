@@ -24,15 +24,17 @@
         }
         &::after {
             content: "";
-            width: 21px;
-            height: 21px;
+            width: 12px;
+            height: 12px;
             display: block;
             position: absolute;
             right: 0;
-            top: 0;
+            top: 5px;
             background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="%23000000" viewBox="0 0 256 256"><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"/></svg>');
             background-size: contain;
             opacity: 0.4;
+            background-repeat: no-repeat;
+            background-position: center;
         }
         .rce-citem {
             display: flex;
@@ -41,8 +43,8 @@
             .rce-citem-avatar {
                 .rce-avatar-container {
                     img {
-                        width: 52px;
-                        height: 52px;
+                        width: 42px;
+                        height: 42px;
                         border-radius: 50%;
                         object-fit: cover;
                     }
@@ -54,12 +56,12 @@
                     max-width: 85%;
                     .rce-citem-body--top-title {
                         font-weight: 600;
-                        font-size: 18px;
-                        margin: 0 0 8px 0;
+                        font-size: 16px;
+                        margin: 0 0 4px 0;
                     }
                     .rce-citem-body--top-time {
                         position: absolute;
-                        right: 21px;
+                        right: 20px;
                         font-size: 12px;
                         top: 5px;
                         max-width: 30%;
