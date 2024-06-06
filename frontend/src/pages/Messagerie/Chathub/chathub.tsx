@@ -28,7 +28,6 @@ const HubMessage = () => {
 
   return (
     <div id="hub-message">
-      <h1>Messages</h1>
       {chatData.contacts.map((contact) => (
         <ChatItem
           key={contact.id}
