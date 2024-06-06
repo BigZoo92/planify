@@ -61,11 +61,11 @@ const Menu: React.FC = () => {
                     <span></span>
                     <span></span>
                 </div>
-                <Link to="/notifications">
+                {/* <Link to="/notifications">
                     <div className="notifications">
                         <BellRinging size={30} />
                     </div>
-                </Link>
+                </Link> */}
                 {isOpen && (
                     <div className="overlay" onClick={fermetureMenu}></div>
                 )}
@@ -199,55 +199,6 @@ const Menu: React.FC = () => {
                                         }
                                     />
                                     Support
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    to="/parametres"
-                                    onClick={fermetureMenu}
-                                    className={
-                                        styleNavLink({
-                                            isActive:
-                                                location.pathname ===
-                                                "/parametres",
-                                        }).className
-                                    }
-                                >
-                                    <Gear
-                                        size={20}
-                                        weight={
-                                            styleNavLink({
-                                                isActive:
-                                                    location.pathname ===
-                                                    "/parametres",
-                                            }).iconWeight
-                                        }
-                                    />
-                                    Paramètres
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    to="/logout"
-                                    onClick={fermetureMenu}
-                                    className={
-                                        styleNavLink({
-                                            isActive:
-                                                location.pathname === "/logout",
-                                        }).className
-                                    }
-                                >
-                                    <SignOut
-                                        size={20}
-                                        weight={
-                                            styleNavLink({
-                                                isActive:
-                                                    location.pathname ===
-                                                    "/logout",
-                                            }).iconWeight
-                                        }
-                                    />
-                                    Se déconnecter
                                 </NavLink>
                             </li>
                         </div>
