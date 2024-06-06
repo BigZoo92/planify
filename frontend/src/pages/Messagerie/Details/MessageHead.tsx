@@ -19,7 +19,7 @@ const MessageHead = () => {
   return (
     <section className="message-head">
       <CaretLeft
-        size={38}
+        size={22}
         onClick={handleBackClick}
         style={{ cursor: 'pointer' }}
       />

@@ -1,7 +1,7 @@
 
 // Dependencies
 import { useState, useEffect, useRef } from "react";
-import HubMessage from './pages/Messagerie/Chathub/chathub.tsx';
+import HubMessage from './pages/Messagerie/Messagerie.tsx';
 import DetailMessage from './pages/Messagerie/Details/detailMessage.tsx';
 import {
     BrowserRouter as Router,
