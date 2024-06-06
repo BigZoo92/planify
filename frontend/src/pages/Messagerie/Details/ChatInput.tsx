@@ -10,27 +10,27 @@ const ChatInput: React.FC<ChatInputProps> = ({ onSendMessage }) => {
   const [files, setFiles] = useState<File[]>([]);
   const [filePreviews, setFilePreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null); // Create a ref for the textarea
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.value = message; // Sync the ref value with message state
+      inputRef.current.value = message;
     }
   }, [message]);
 
   const handleSend = () => {
     const trimmedMessage = message.trim();
     if (!trimmedMessage && files.length === 0) {
-      return; // Do not send if both message and files are empty
+      return;
     }
 
     console.log('Sending message:', trimmedMessage, 'Files:', files);
     onSendMessage(trimmedMessage, files);
-    setMessage(''); // Clear the message state
+    setMessage('');
     setFiles([]);
     setFilePreviews([]);
     if (inputRef.current) {
-      inputRef.current.value = ''; // Clear the textarea manually
+      inputRef.current.value = '';
     }
     console.log('Message and files cleared');
   };

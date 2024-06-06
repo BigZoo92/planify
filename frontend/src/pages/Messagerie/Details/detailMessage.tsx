@@ -15,35 +15,55 @@ const DetailMessage = () => {
 
   const [messages, setMessages] = useState([]);
 
+  const isImageFile = (file) => {
+    const imageExtensions = ['png', 'jpg', 'jpeg', 'webp'];
+    const fileExtension = file.name.split('.').pop().toLowerCase();
+    return imageExtensions.includes(fileExtension);
+  };
+
   const handleSendMessage = (message, files) => {
-    const newMessages = [
-      ...messages,
-      {
+    const newMessages = [];
+
+    if (message) {
+      newMessages.push({
         position: 'right',
         type: 'text',
         text: message,
         date: new Date(),
         status: 'sent',
-      },
-    ];
+      });
+    }
 
     files.forEach((file) => {
-      newMessages.push({
-        position: 'right',
-        type: 'file',
-        text: file.name,
-        data: {
-          uri: URL.createObjectURL(file),
-          status: { click: false, loading: 0 },
-          size: `${Math.round(file.size / 1024)} KB`,
-          extension: file.name.split('.').pop(),
-        },
-        date: new Date(),
-        status: 'sent',
-      });
+      if (isImageFile(file)) {
+        newMessages.push({
+          position: 'right',
+          type: 'photo',
+          data: {
+            uri: URL.createObjectURL(file),
+            status: { click: false, loading: 0 },
+          },
+          date: new Date(),
+          status: 'sent',
+        });
+      } else {
+        newMessages.push({
+          position: 'right',
+          type: 'file',
+          text: file.name,
+          data: {
+            uri: URL.createObjectURL(file),
+            status: { click: false, loading: 0 },
+            size: `${Math.round(file.size / 1024)} KB`,
+            extension: file.name.split('.').pop(),
+          },
+          date: new Date(),
+          status: 'sent',
+        });
+      }
     });
 
-    setMessages(newMessages);
+    setMessages((prevMessages) => [...prevMessages, ...newMessages]);
   };
 
   return (
