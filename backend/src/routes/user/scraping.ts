@@ -1,5 +1,5 @@
 import { prisma } from '../../schema/prismaClient';
-import { getDataFromCelcat } from '../timetable/getDataFromCelcat';
+import { scrapePage, parseEvents } from '../timetable/getDataFromCelcat';
 import { detectEventChanges } from '../../utils/websockets';
 
 export const scrapeAndCompare = async () => {
@@ -8,47 +8,52 @@ export const scrapeAndCompare = async () => {
   });
 
   for (const user of users) {
-    const urlsToScrape = user.urls;
-
-    for (const url of urlsToScrape) {
-      // Vérifier si un agenda existe déjà pour cette URL
-      let agenda = await prisma.agenda.findFirst({
+    for (const url of user.urls) {
+      const existingHash = await prisma.urlHash.findUnique({
         where: {
-          name: `Agenda for URL: ${url}`,
-          users: {
-            some: {
-              userId: user.id,
-            },
+          userId_url: {
+            userId: user.id,
+            url: url,
           },
         },
       });
 
-      // Créer un agenda seulement s'il n'existe pas déjà
-      if (!agenda) {
-        agenda = await prisma.agenda.create({
-          data: {
+      const scrapedPage = await scrapePage(url);
+      if (!scrapedPage) continue;
+
+      const { dataPage, hash } = scrapedPage;
+
+      if (!existingHash || existingHash.hash !== hash) {
+        let agenda = await prisma.agenda.findFirst({
+          where: {
             name: `Agenda for URL: ${url}`,
-            type: 'PERSONNEL',
-            private: true,
             users: {
-              create: {
+              some: {
                 userId: user.id,
-                role: 'owner',
               },
             },
           },
         });
-      }
 
-      const newEvents = await getDataFromCelcat(url);
-      if (!newEvents) continue;
+        if (!agenda) {
+          agenda = await prisma.agenda.create({
+            data: {
+              name: `Agenda for URL: ${url}`,
+              type: 'PERSONNEL',
+              private: true,
+              users: {
+                create: {
+                  userId: user.id,
+                  role: 'owner',
+                },
+              },
+            },
+          });
+        }
 
-      for (const newEvent of newEvents) {
-        const existingEvent = await prisma.event.findFirst({
+        // Supprimer tous les événements existants pour cet agenda
+        await prisma.event.deleteMany({
           where: {
-            summary: newEvent.summary,
-            location: newEvent.location,
-            start: newEvent.start,
             agendas: {
               some: {
                 agendaId: agenda.id,
@@ -57,7 +62,9 @@ export const scrapeAndCompare = async () => {
           },
         });
 
-        if (!existingEvent) {
+        const newEvents = parseEvents(dataPage);
+
+        for (const newEvent of newEvents) {
           const createdEvent = await prisma.event.create({
             data: {
               summary: newEvent.summary,
@@ -68,7 +75,6 @@ export const scrapeAndCompare = async () => {
             },
           });
 
-          // Associer l'événement à l'agenda créé
           await prisma.eventAgenda.create({
             data: {
               eventId: createdEvent.id,
@@ -76,65 +82,31 @@ export const scrapeAndCompare = async () => {
             },
           });
 
-          // Associer l'événement à l'utilisateur
           await prisma.eventUser.create({
             data: {
               eventId: createdEvent.id,
               userId: user.id,
             },
           });
-
-          await detectEventChanges(createdEvent);
-        } else if (
-          existingEvent.summary !== newEvent.summary ||
-          existingEvent.location !== newEvent.location ||
-          existingEvent.start !== newEvent.start ||
-          existingEvent.end !== newEvent.end ||
-          JSON.stringify(existingEvent.data) !== JSON.stringify(newEvent.data)
-        ) {
-          const updatedEvent = await prisma.event.update({
-            where: { id: existingEvent.id },
-            data: {
-              summary: newEvent.summary,
-              location: newEvent.location,
-              start: newEvent.start,
-              end: newEvent.end,
-              data: newEvent.data as any,
-            },
-          });
-
-          // Associer l'événement mis à jour à l'agenda
-          await prisma.eventAgenda.upsert({
-            where: {
-              eventId_agendaId: {
-                eventId: updatedEvent.id,
-                agendaId: agenda.id,
-              },
-            },
-            update: {},
-            create: {
-              eventId: updatedEvent.id,
-              agendaId: agenda.id,
-            },
-          });
-
-          // Associer l'événement mis à jour à l'utilisateur
-          await prisma.eventUser.upsert({
-            where: {
-              eventId_userId: {
-                eventId: updatedEvent.id,
-                userId: user.id,
-              },
-            },
-            update: {},
-            create: {
-              eventId: updatedEvent.id,
-              userId: user.id,
-            },
-          });
-
-          await detectEventChanges(updatedEvent);
         }
+
+        await detectEventChanges(agenda);
+        await prisma.urlHash.upsert({
+          where: {
+            userId_url: {
+              userId: user.id,
+              url: url,
+            },
+          },
+          update: {
+            hash: hash,
+          },
+          create: {
+            userId: user.id,
+            url: url,
+            hash: hash,
+          },
+        });
       }
     }
   }

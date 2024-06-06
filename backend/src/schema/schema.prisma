@@ -52,6 +52,7 @@ model User {
     messagesReceived Message[]    @relation("MessageReceiver")
     EventUser        EventUser[]
     pushToken        String?
+    urlHashes        UrlHash[]
 }
 
 model Agenda {
@@ -74,7 +75,7 @@ model AgendaUser {
     role      String
     active    Boolean  @default(true)
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    updatedAt DateTime @default(now())
 
     @@id([agendaId, userId])
 }
@@ -89,7 +90,7 @@ model Event {
     universityData   UniversityEventData? @relation(fields: [universityDataId], references: [id])
     universityDataId Int?
     createdAt        DateTime             @default(now())
-    updatedAt        DateTime             @updatedAt
+    updatedAt        DateTime             @default(now())
     agendas          EventAgenda[]
     EventUser        EventUser[]
 }
@@ -110,7 +111,7 @@ model EventAgenda {
     agenda    Agenda   @relation(fields: [agendaId], references: [id])
     agendaId  Int
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    updatedAt DateTime @default(now())
 
     @@id([eventId, agendaId])
 }
@@ -121,7 +122,7 @@ model EventUser {
     user      User     @relation(fields: [userId], references: [id])
     userId    Int
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    updatedAt DateTime @default(now())
     Agenda    Agenda?  @relation(fields: [agendaId], references: [id])
     agendaId  Int?
 
@@ -136,4 +137,16 @@ model Message {
     sender     User     @relation("MessageSender", fields: [senderId], references: [id])
     receiver   User     @relation("MessageReceiver", fields: [receiverId], references: [id])
     createdAt  DateTime @default(now())
+}
+
+model UrlHash {
+    id        Int      @id @default(autoincrement())
+    userId    Int
+    url       String
+    hash      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @default(now())
+    user      User     @relation(fields: [userId], references: [id])
+
+    @@unique([userId, url])
 }
