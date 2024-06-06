@@ -29,8 +29,10 @@ try {
 export const requestForToken = async (): Promise<string | null> => {
     try {
         const currentToken = await getToken(messaging, {
-            vapidKey: "your-public-vapid-key",
+            vapidKey:
+                "BC6kuE1IIZ9odyNjz-jLcbOAoIIOVXE3ExgoXL3d632WmUqamqqKn7jC1PwSWJ3LVH6Ro9CufHpy61lHWYJnsKs",
         });
+        console.log(currentToken);
         if (currentToken) {
             console.log("current token for client: ", currentToken);
             return currentToken;
