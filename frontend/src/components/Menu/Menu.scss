@@ -1,7 +1,7 @@
 @import "../../assets/styles/Variables.scss";
 
 .header-container {
-    padding: $size-large $size-large 0 $size-large;
+    padding: $size-header $size-large 0 $size-large;
     display: flex;
     flex-direction: column;
     gap: 2rem;
@@ -71,10 +71,9 @@
             left: -100%;
             background-color: $color_white_100;
             list-style: none;
-            padding: $size-large;
+            padding: 80px $size-large $size-large $size-large;
             transition: all 0.5s ease-in-out;
             z-index: 9998;
-            padding-top: 60px;
 
             &.menu-open {
                 left: 0;

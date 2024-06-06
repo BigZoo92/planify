@@ -20,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const location = useLocation();
     const { agendaId } = useParams<{ agendaId: string }>();
     const isAgendaPage = location.pathname === "/agenda";
-    const isEventPage = !!agendaId;
+    const isEventPage = /^\/agenda\/\d+$/.test(location.pathname);
 
     const modalRef = useRef<HTMLDivElement | null>(null);
     const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -104,7 +104,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             ></div>
             <div className="modal visible" ref={modalRef}>
                 <div className="hr-actions"></div>
-                <div className="modal-header">
+                {/* <div className="modal-header">
                     <button
                         className="cancel"
                         type="button"
@@ -112,17 +112,18 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     >
                         Annuler
                     </button>
-                    <h2>Créer un agenda</h2>
+                    <h2>
+                        {isAgendaPage
+                            ? "Créer un agenda"
+                            : "Créer un événement"}
+                    </h2>
                     <button className="submit" type="submit">
                         Créer
                     </button>
-                </div>
+                </div> */}
                 <div className="modal-content">
                     {isAgendaPage ? (
-                        <CreateAgenda
-                            // onCancel={handleCancel}
-                            onClose={onClose}
-                        />
+                        <CreateAgenda onClose={onClose} />
                     ) : isEventPage ? (
                         <CreateEvent
                             agendaId={parseInt(agendaId!)}
