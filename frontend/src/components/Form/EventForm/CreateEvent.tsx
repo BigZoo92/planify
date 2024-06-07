@@ -6,6 +6,7 @@ import { Event } from "../../../schema";
 import { z } from "zod";
 import { getAdress } from "../../../utils/queries/events/geopify";
 import { gsap } from "gsap";
+import { useUser } from "../../../providers";
 
 export const EventSchemaForm = z.object({
     summary: z.string().min(1, "Le titre est requis"),
@@ -17,14 +18,12 @@ export const EventSchemaForm = z.object({
 
 interface CreateEventProps {
     agendaId?: number;
-    userId?: number;
     onCancel: () => void;
     onClose: () => void;
 }
 
 const CreateEvent: React.FC<CreateEventProps> = ({
     agendaId,
-    userId,
     onCancel,
     onClose,
 }) => {
@@ -35,6 +34,8 @@ const CreateEvent: React.FC<CreateEventProps> = ({
     } = useForm<Event>({
         resolver: zodResolver(EventSchemaForm),
     });
+
+    const {user} = useUser()
 
     const [locationInput, setLocationInput] = useState("");
     const [suggestions, setSuggestions] = useState<any[]>([]);
@@ -66,7 +67,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({
         const result = await createEvent({
             ...data,
             agendaId,
-            userId,
+            userId: user?.id,
         });
         if (result) {
             alert("L'événement a été créé avec succès");

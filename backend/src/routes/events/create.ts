@@ -15,6 +15,8 @@ export const create = async (
   try {
     const { agendaId, userId, summary, location, start, end, data } = req.body;
 
+    console.info({ agendaId, userId, summary, location, start, end, data })
+
     const newEvent = await prisma.event.create({
       data: {
         summary,
