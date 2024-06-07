@@ -8,6 +8,7 @@ import { Request } from 'express';
 import { ParsedQs } from 'qs';
 import { listAdmin } from './listAdmin';
 import { listPublicAgendas } from './listAll';
+import { subscribeToAgenda } from './subscribe';
 
 const agendaRouter = express.Router();
 
@@ -27,5 +28,6 @@ agendaRouter.post('/update', (req: Req, res) => update(req, res));
 agendaRouter.post('/list', (req: ReqUserId, res) => list(req, res));
 agendaRouter.post('/listAdmin', (req: ReqUserId, res) => listAdmin(req, res));
 agendaRouter.get('/public', (req: Request, res) => listPublicAgendas(req, res));
+agendaRouter.get('/subscribe', (req: Request, res) => subscribeToAgenda(req, res));
 
 export default agendaRouter;

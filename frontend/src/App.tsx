@@ -55,7 +55,8 @@ const MainContentWrapper: React.FC = () => {
     return (
         <div className={!mbContent ? "mb" : "main-content"}>
             <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<Auth />} />
+                <Route path="/" element={<Accueil />} />
+                <Route path="/auth" element={<Auth />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/*" element={<MainContent />} />

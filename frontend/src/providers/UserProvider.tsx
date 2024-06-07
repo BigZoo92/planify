@@ -31,19 +31,19 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
     const fetchUser = useCallback(async () => {
         const newUser = await isAuth();
-        if (!newUser) {
-            // navigate("/");
+        const currentPath = location.pathname;
+        const restrictedPaths = ["/auth", "/login", "/signup"];
+        if (!newUser) {            
+            if (!restrictedPaths.includes(currentPath)) {
+                navigate("/auth");
+            }
             setLoading(false);
         } else {
-            const currentPath = location.pathname;
-            const restrictedPaths = ["/", "/login", "/signup"];
             setUser(newUser);
             setLoading(false);
             if (restrictedPaths.includes(currentPath)) {
-                // navigate("/accueil");
+                navigate("/");
             }
-
-            // Enregistrer le push token si l'utilisateur est authentifié
             const pushToken = await registerPushNotifications(newUser.id);
             console.log(pushToken);
             if (pushToken) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { gsap } from "gsap";
 import styles from "./SearchBar.module.scss";
-import { listAgendas } from "../../utils/queries/agenda/list";
+import { listAgendas, listPublicAgendas, subscribeToAgenda } from "../../utils/queries/agenda";
 import { listEvents } from "../../utils/queries/events/list";
 import { useUser } from "../../providers/UserProvider";
 import { Agenda, Event } from "../../schema";
@@ -25,7 +25,17 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
         agendas: Agenda[];
         events: Event[];
     }>({ agendas: [], events: [] });
+    const [publicAgendas, setPublicAgendas] = useState<Agenda[]>([]);
     const resultWrapperRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const fetchPublicAgendas = async () => {
+            const agendas = await listPublicAgendas();
+            setPublicAgendas(agendas);
+        };
+
+        fetchPublicAgendas();
+    }, []);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
@@ -40,14 +50,15 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
             }
 
             const userId = user.id;
-            const agendas = await listAgendas(userId);
+            const userAgendas = await listAgendas(userId);
+            const allAgendas = [...userAgendas, ...publicAgendas];
             const events: Event[] = [];
-            for (const agenda of agendas) {
+            for (const agenda of allAgendas) {
                 const agendaEvents = await listEvents(agenda.id);
                 events.push(...agendaEvents);
             }
 
-            const filteredAgendas = agendas.filter(
+            const filteredAgendas = allAgendas.filter(
                 (agenda) => agenda.name && agenda.name.includes(term)
             );
             const filteredEvents = events.filter(
@@ -60,16 +71,17 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
             });
             onSearch(filteredAgendas, filteredEvents);
         },
-        [user.id, onSearch]
+        [user.id, publicAgendas, onSearch]
     );
 
-    const debouncedFetchSearchResults = useCallback(() => {
-        debounce(fetchSearchResults, 300);
-    }, [fetchSearchResults]);
+    const debouncedFetchSearchResults = useCallback(
+        debounce(fetchSearchResults, 300),
+        [fetchSearchResults]
+    );
 
     useEffect(() => {
         if (searchTerm) {
-            debouncedFetchSearchResults();
+            debouncedFetchSearchResults(searchTerm);
         }
     }, [searchTerm, debouncedFetchSearchResults]);
 
@@ -85,6 +97,18 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
             );
         }
     }, [searchResults]);
+
+    const handleSubscribe = async (agendaId: number) => {
+        try {
+            const response = await subscribeToAgenda(user.id, agendaId);
+            if (response) {
+                alert("Vous êtes maintenant abonné à cet agenda.");
+            }
+        } catch (error) {
+            console.error("Erreur lors de l'abonnement à l'agenda:", error);
+            alert("Échec de l'abonnement à l'agenda. Veuillez réessayer.");
+        }
+    };
 
     return (
         <div className={styles.searchWrapper}>
@@ -107,7 +131,15 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
                             <h3>Agendas</h3>
                             <ul>
                                 {searchResults.agendas.map((agenda) => (
-                                    <li key={agenda.id}>{agenda.name}</li>
+                                    <li key={agenda.id}>
+                                        {agenda.name}
+                                        <button
+                                            onClick={() => handleSubscribe(agenda.id)}
+                                            className={styles.subscribeButton}
+                                        >
+                                            S'abonner
+                                        </button>
+                                    </li>
                                 ))}
                             </ul>
                             <h3>Événements</h3>

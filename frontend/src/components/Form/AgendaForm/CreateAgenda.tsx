@@ -5,9 +5,11 @@ import {
     RoleAgendaAcademic,
     createAgenda,
 } from "../../../utils/queries/agenda";
-import { AgendaTypeSchema } from "../../../schema";
+import { Agenda, AgendaTypeSchema } from "../../../schema";
 import { z } from "zod";
-import { Warning, Student, User } from "@phosphor-icons/react";
+import { Warning, Student, User, Link } from "@phosphor-icons/react";
+import { addUrl } from "../../../utils/queries/user";
+import { useUser } from "../../../providers";
 
 export const AgendaSchema = z.object({
     type: z.enum(
@@ -17,6 +19,7 @@ export const AgendaSchema = z.object({
     ),
     name: z.string().min(1, "Le nom est requis"),
     private: z.boolean().optional(),
+    url: z.string().optional(),
 });
 
 type AgendaFormData = z.infer<typeof AgendaSchema>;
@@ -28,6 +31,8 @@ interface CreateAgendaProps {
 const CreateAgenda: React.FC<CreateAgendaProps> = ({ onClose }) => {
     const [selectedType, setSelectedType] =
         useState<keyof typeof AgendaTypeSchema.enum>("UNIVERSITAIRE");
+    
+    const {user} = useUser()
 
     const {
         register,
@@ -45,13 +50,17 @@ const CreateAgenda: React.FC<CreateAgendaProps> = ({ onClose }) => {
 
     const onSubmit = async (data: AgendaFormData) => {
         try {
-            const response = await createAgenda({
-                agendaData: {
-                    ...data,
-                },
-                role: RoleAgendaAcademic.ADMIN,
-            });
-            console.log("Agenda créé avec succès!", response);
+            if (data.url) {
+                await addUrl(user.id, data.url as string);
+            } else {
+                const response = await createAgenda({
+                    agendaData: {
+                        ...data as Agenda,
+                    },
+                    role: RoleAgendaAcademic.ADMIN,
+                });
+                console.log("Agenda créé avec succès!", response);
+            }
             reset();
             onClose();
             window.location.reload();
@@ -134,6 +143,26 @@ const CreateAgenda: React.FC<CreateAgendaProps> = ({ onClose }) => {
             <div className="form-group">
                 <label htmlFor="private">Privé</label>
                 <input type="checkbox" id="private" {...register("private")} />
+            </div>
+            <div className="form-group">
+                <label htmlFor="url">
+                    URL de CELCAT (optionnel)
+                </label>
+                <input
+                    type="url"
+                    id="url"
+                    {...register("url")}
+                    placeholder="Entrez l'URL de CELCAT"
+                />
+                {errors.url && (
+                    <p className="error-message">
+                        <Warning size={20} weight="bold" />
+                        {errors.url.message}
+                    </p>
+                )}
+                <small>
+                    Si vous fournissez une URL, un agenda sera créé à partir de cette URL.
+                </small>
             </div>
             <div className="button-group">
                 <button
