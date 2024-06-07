@@ -38,6 +38,10 @@
         border-radius: $size-small;
         padding: $size-medium-large;
         color: $color_white_100;
+        h2, .nb-cours{
+            font-size: clamp(1.25rem, 1.875vw, 2.25rem);
+
+        }
         .recap-infos {
             margin: 0 0 0 auto;
             font-size: 1.5rem;

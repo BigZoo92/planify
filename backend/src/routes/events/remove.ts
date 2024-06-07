@@ -16,7 +16,7 @@ export const remove = async (req: Request<{ id: number }>, res: Response) => {
         .json({ message: 'Event with provided ID not found.' });
     }
 
-    await detectEventChanges(deletedEvent);
+    await detectEventChanges([deletedEvent]);
 
     res.status(200).json({ message: 'Event deleted successfully.' });
   } catch (error: any) {

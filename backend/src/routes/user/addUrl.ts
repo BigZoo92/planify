@@ -54,6 +54,7 @@ export const addUrl = async (req: Request, res: Response) => {
     }
 
     const newEvents = parseEvents(dataPage);
+    const createdEvents = [];
 
     for (const newEvent of newEvents) {
       const createdEvent = await prisma.event.create({
@@ -80,8 +81,10 @@ export const addUrl = async (req: Request, res: Response) => {
         },
       });
 
-      await detectEventChanges(createdEvent, 'created');
+      createdEvents.push(createdEvent);
     }
+
+    await detectEventChanges(createdEvents, 'created');
 
     await prisma.urlHash.upsert({
       where: {

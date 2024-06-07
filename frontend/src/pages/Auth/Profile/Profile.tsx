@@ -15,6 +15,7 @@ import {
 import { Switch } from "../../../components/Switch";
 import ProfileItem from "./ProfileItem";
 import styles from "./Profile.module.scss";
+import { Preferences } from "@capacitor/preferences";
 
 const Profile: React.FC = memo(function Profile() {
     const { user } = useUser();
@@ -26,6 +27,10 @@ const Profile: React.FC = memo(function Profile() {
 
     if (!user) {
         return null;
+    }
+
+    const onClick = async(e: Event) => {
+        await Preferences.remove({ key: "jwtToken" })
     }
 
     return (
@@ -82,6 +87,7 @@ const Profile: React.FC = memo(function Profile() {
                 <ProfileItem
                     icon={<SignOut size={16} weight="bold" />}
                     text="Déconnexion"
+                    onClick={onClick}
                 />
             </div>
         </main>

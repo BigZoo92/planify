@@ -7,11 +7,13 @@ interface ProfileItemProps {
     icon: React.ReactNode;
     text: string;
     action?: React.ReactNode;
+    onClick?: (event: Event) => Promise<void>
 }
 
-const ProfileItem: React.FC<ProfileItemProps> = ({ icon, text, action }) => {
+const ProfileItem: React.FC<ProfileItemProps> = ({ icon, text, action, onClick }) => {
     return (
-        <div className={styles.profileItems}>
+        //@ts-ignore
+        <div className={styles.profileItems} onClick={onClick && onClick}>
             <div className={styles.profileItemsContent}>
                 {icon}
                 <span>{text}</span>

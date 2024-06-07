@@ -51,5 +51,10 @@
         h3 {
             font-size: 0.875rem;
         }
+        ul{
+            display: flex;
+            flex-direction: column;
+            gap: $size-small;
+        }
     }
 }

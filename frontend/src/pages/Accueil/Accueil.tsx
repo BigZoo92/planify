@@ -73,7 +73,6 @@ const Accueil: React.FC = () => {
 
             return allCourses.filter((course) => {
                 if (!course.data || !course.data.date) return false;
-
                 const [day, month, year] = course.data.date.split("/");
                 const courseDate = new Date(`${year}-${month}-${day}`);
                 const courseEndTime = new Date(
@@ -95,7 +94,6 @@ const Accueil: React.FC = () => {
         const currentDate = new Date().toISOString().split("T")[0];
         return allCourses.filter((course) => {
             if (!course.data || !course.data.date) return false;
-
             const [day, month, year] = course.data.date.split("/");
             const courseDate = new Date(`${year}-${month}-${day}`)
                 .toISOString()

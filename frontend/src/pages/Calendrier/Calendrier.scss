@@ -143,6 +143,7 @@
     }
     .calendar-wrapper {
         padding-inline: $size-large;
+        overflow-y: auto;
     }
 }
 

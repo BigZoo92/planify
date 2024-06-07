@@ -18,12 +18,25 @@ interface ModalProps {
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const location = useLocation();
-    const { agendaId } = useParams<{ agendaId: string }>();
+    const agendaUrl = location.pathname.split('/')
+    const agendaId = agendaUrl[agendaUrl.length - 1]
     const isAgendaPage = location.pathname === "/agenda";
     const isEventPage = /^\/agenda\/\d+$/.test(location.pathname);
 
     const modalRef = useRef<HTMLDivElement | null>(null);
     const overlayRef = useRef<HTMLDivElement | null>(null);
+
+    useEffect(() => {
+        console.log("location", location.pathname)
+        console.info("location", location.pathname)
+        console.error("location", location.pathname)
+    }, [location])
+
+    useEffect(() => {
+        console.log("agendaId", agendaId)
+        console.info("agendaId", agendaId)
+        console.error("agendaId", agendaId)
+    }, [agendaId])
 
     useEffect(() => {
         if (isOpen) {

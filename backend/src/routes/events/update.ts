@@ -35,7 +35,7 @@ export const update = async (
       },
     });
 
-    await detectEventChanges(updatedEvent);
+    await detectEventChanges([updatedEvent]);
 
     res.status(200).json({ event: updatedEvent });
   } catch (error: any) {

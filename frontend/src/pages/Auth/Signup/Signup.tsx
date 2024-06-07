@@ -13,9 +13,11 @@ import ElementGraphique from "../../../assets/images/login/login-element--princi
 
 // Styles
 import styles from "./Signup.module.scss";
+import { useUser } from "../../../providers";
 
 const Signup: React.FC = () => {
     const navigate = useNavigate();
+    const {fetchUser} = useUser()
 
     const handleSignup = async (formData: {
         email: string;
@@ -25,7 +27,8 @@ const Signup: React.FC = () => {
     }) => {
         try {
             await signup(formData);
-            navigate("/accueil");
+            await fetchUser()
+            navigate("/");
         } catch (error) {
             console.error("Erreur lors de l'inscription : ", error);
         }

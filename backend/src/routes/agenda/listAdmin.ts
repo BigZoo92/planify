@@ -11,7 +11,6 @@ export const listAdmin = async (
     const adminAgendasUser = await prisma.agendaUser.findMany({
       where: {
         userId,
-        role: 'ADMIN',
       },
       select: {
         agendaId: true,

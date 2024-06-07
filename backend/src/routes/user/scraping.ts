@@ -85,7 +85,7 @@ export const scrapeAndCompare = async () => {
         });
 
         const newEvents = parseEvents(dataPage);
-        const notifications = [];
+        const createdEvents = [];
 
         for (const newEvent of newEvents) {
           const createdEvent = await prisma.event.create({
@@ -112,14 +112,11 @@ export const scrapeAndCompare = async () => {
             },
           });
 
-          notifications.push({
-            event: createdEvent,
-            changeType: 'created' as const
-          });
+          createdEvents.push(createdEvent);
         }
 
-        for (const notification of notifications) {
-          await detectEventChanges(notification.event, notification.changeType);
+        if (createdEvents.length > 0) {
+          await detectEventChanges(createdEvents, 'created');
         }
 
         await prisma.urlHash.upsert({

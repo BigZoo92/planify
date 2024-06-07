@@ -58,7 +58,6 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
     const courseStatus = () => {
         const now = new Date();
         now.setSeconds(0, 0);
-
         const [day, month, year] = date.split("/").map(Number);
         const [startHour, startMinute] = starttime.split(":").map(Number);
         const [endHour, endMinute] = endtime.split(":").map(Number);
@@ -107,11 +106,11 @@ const CardCalendrier: React.FC<CalendarCardProps> = ({
     };
 
     const status = courseStatus();
-
-    const formattedStaff = staff
+    console.log("staff", staff)
+    const formattedStaff = staff && staff.includes(',') ? staff
         .split(",")
         .map((name) => name.trim())
-        .join(", ");
+        .join(", ") : staff;
 
     return (
         <div className="card-wrapper-element">

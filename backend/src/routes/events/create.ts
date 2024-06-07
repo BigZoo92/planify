@@ -15,8 +15,6 @@ export const create = async (
   try {
     const { agendaId, userId, summary, location, start, end, data } = req.body;
 
-    console.info({ agendaId, userId, summary, location, start, end, data })
-
     const newEvent = await prisma.event.create({
       data: {
         summary,
@@ -30,7 +28,7 @@ export const create = async (
     const eventId = newEvent.id;
 
     if (userId) {
-      const newEventUser = await prisma.eventUser.create({
+      await prisma.eventUser.create({
         data: {
           eventId,
           userId,
@@ -39,7 +37,7 @@ export const create = async (
     }
 
     if (agendaId) {
-      const newEventAgenda = await prisma.eventAgenda.create({
+      await prisma.eventAgenda.create({
         data: {
           eventId,
           agendaId,
@@ -47,7 +45,7 @@ export const create = async (
       });
     }
 
-    await detectEventChanges(newEvent);
+    await detectEventChanges([newEvent]);
 
     res.status(201).json({ event: newEvent });
   } catch (error: any) {

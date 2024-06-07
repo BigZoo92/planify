@@ -2,14 +2,14 @@ import { Event } from '../../schema/';
 import { prisma } from '../../schema/prismaClient';
 import { sendPushNotification } from './sendPushNotifications';
 
-export const detectEventChanges = async (event: Event, changeType: 'created' | 'updated' = 'updated') => {
+export const detectEventChanges = async (events: Event[], changeType: 'created' | 'updated' = 'updated') => {
   const eventUsers = await prisma.eventUser.findMany({
-    where: { eventId: event.id },
+    where: { eventId: { in: events.map(event => event.id) } },
     select: { userId: true },
   });
 
   const eventAgendas = await prisma.eventAgenda.findMany({
-    where: { eventId: event.id },
+    where: { eventId: { in: events.map(event => event.id) } },
     select: { agendaId: true },
   });
 
@@ -32,8 +32,8 @@ export const detectEventChanges = async (event: Event, changeType: 'created' | '
 
     if (user?.pushToken) {
       const message = changeType === 'created'
-        ? `New event created: ${event.summary}`
-        : `Event updated: ${event.summary}`;
+        ? `New events created: ${events.length} events`
+        : `Events updated: ${events.length} events`;
 
       return sendPushNotification(user.pushToken, message);
     }

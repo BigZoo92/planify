@@ -30,7 +30,6 @@ const Calendrier: React.FC = () => {
 
     const filtreCours = events.filter((course) => {
         if (!course.data || !course.data.date) return false;
-
         const dateParts = course.data.date.split("/");
         if (dateParts.length !== 3) return false;
 
@@ -231,7 +230,7 @@ const Calendrier: React.FC = () => {
                     </span>
                 </div>
             )}
-            <div className="calendar-wrapper">
+            <div className="calendar-wrapper" style={{height: view === "month" ? '300px' : "625px" }}>
                 {filtreCours.length === 0 ? (
                     <p className="deactivated" ref={deactivatedRef}>
                         <WarningCircle size={20} weight="bold" />

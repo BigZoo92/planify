@@ -4,7 +4,7 @@
       "id": "1",
       "avatar": "https://via.placeholder.com/150",
       "title": "John Doe",
-      "subtitle": "Hello! How are you?",
+      "subtitle": "Bonjour ! Comment ça va ?",
       "date": "2024-06-05T10:00:00Z",
       "unread": 3
     },
@@ -12,7 +12,7 @@
       "id": "2",
       "avatar": "https://via.placeholder.com/150",
       "title": "Jane Smith",
-      "subtitle": "Are you coming to the party?",
+      "subtitle": "Tu viens à la fête ?",
       "date": "2024-05-25T11:00:00Z",
       "unread": 1
     },
@@ -20,7 +20,7 @@
       "id": "3",
       "avatar": "https://via.placeholder.com/150",
       "title": "Alice Johnson",
-      "subtitle": "Don't forget the meeting tomorrow.",
+      "subtitle": "N'oublie pas la réunion demain.",
       "date": "2024-05-15T12:00:00Z",
       "unread": 2
     },
@@ -28,7 +28,7 @@
       "id": "4",
       "avatar": "https://via.placeholder.com/150",
       "title": "Michael Brown",
-      "subtitle": "Can you call me back?",
+      "subtitle": "Peux-tu me rappeler ?",
       "date": "2024-05-01T13:00:00Z",
       "unread": 5
     },
@@ -36,7 +36,7 @@
       "id": "5",
       "avatar": "https://via.placeholder.com/150",
       "title": "Patricia Davis",
-      "subtitle": "Thank you!",
+      "subtitle": "Merci !",
       "date": "2024-04-20T14:00:00Z",
       "unread": 0
     },
@@ -44,7 +44,7 @@
       "id": "6",
       "avatar": "https://via.placeholder.com/150",
       "title": "Robert Wilson",
-      "subtitle": "See you tomorrow.",
+      "subtitle": "À demain.",
       "date": "2024-04-10T15:00:00Z",
       "unread": 4
     },
@@ -52,7 +52,7 @@
       "id": "7",
       "avatar": "https://via.placeholder.com/150",
       "title": "Barbara Martinez",
-      "subtitle": "I'll be there.",
+      "subtitle": "J'y serai.",
       "date": "2024-03-30T16:00:00Z",
       "unread": 6
     },
@@ -60,7 +60,7 @@
       "id": "8",
       "avatar": "https://via.placeholder.com/150",
       "title": "James Anderson",
-      "subtitle": "What's up?",
+      "subtitle": "Quoi de neuf ?",
       "date": "2024-03-20T17:00:00Z",
       "unread": 2
     },
@@ -68,7 +68,7 @@
       "id": "9",
       "avatar": "https://via.placeholder.com/150",
       "title": "Elizabeth Taylor",
-      "subtitle": "Good morning!",
+      "subtitle": "Bonjour !",
       "date": "2024-03-10T18:00:00Z",
       "unread": 1
     },
@@ -76,7 +76,7 @@
       "id": "10",
       "avatar": "https://via.placeholder.com/150",
       "title": "David Thomas",
-      "subtitle": "Let's meet up.",
+      "subtitle": "On se voit ?",
       "date": "2024-02-28T19:00:00Z",
       "unread": 3
     },
@@ -84,7 +84,7 @@
       "id": "11",
       "avatar": "https://via.placeholder.com/150",
       "title": "Jennifer White",
-      "subtitle": "Sure, no problem.",
+      "subtitle": "Bien sûr, pas de problème.",
       "date": "2024-02-18T20:00:00Z",
       "unread": 0
     },
@@ -92,7 +92,7 @@
       "id": "12",
       "avatar": "https://via.placeholder.com/150",
       "title": "William Harris",
-      "subtitle": "I'll check it out.",
+      "subtitle": "Je vais vérifier.",
       "date": "2024-02-08T21:00:00Z",
       "unread": 5
     },
@@ -100,7 +100,7 @@
       "id": "13",
       "avatar": "https://via.placeholder.com/150",
       "title": "Susan Clark",
-      "subtitle": "Thank you very much!",
+      "subtitle": "Merci beaucoup !",
       "date": "2024-01-29T22:00:00Z",
       "unread": 4
     },
@@ -108,7 +108,7 @@
       "id": "14",
       "avatar": "https://via.placeholder.com/150",
       "title": "Joseph Lewis",
-      "subtitle": "Got it.",
+      "subtitle": "Compris.",
       "date": "2024-01-19T23:00:00Z",
       "unread": 1
     },
@@ -116,7 +116,7 @@
       "id": "15",
       "avatar": "https://via.placeholder.com/150",
       "title": "Karen Robinson",
-      "subtitle": "Sounds good.",
+      "subtitle": "Ça marche.",
       "date": "2024-01-09T00:00:00Z",
       "unread": 3
     },
@@ -124,7 +124,7 @@
       "id": "16",
       "avatar": "https://via.placeholder.com/150",
       "title": "Charles Walker",
-      "subtitle": "I'll get back to you.",
+      "subtitle": "Je te recontacte.",
       "date": "2023-12-30T01:00:00Z",
       "unread": 2
     },
@@ -132,7 +132,7 @@
       "id": "17",
       "avatar": "https://via.placeholder.com/150",
       "title": "Jessica Hall",
-      "subtitle": "Looking forward to it.",
+      "subtitle": "J'ai hâte.",
       "date": "2023-12-20T02:00:00Z",
       "unread": 4
     },
@@ -140,7 +140,7 @@
       "id": "18",
       "avatar": "https://via.placeholder.com/150",
       "title": "Thomas Young",
-      "subtitle": "Happy birthday!",
+      "subtitle": "Bon anniversaire !",
       "date": "2023-12-10T03:00:00Z",
       "unread": 1
     },
@@ -148,7 +148,7 @@
       "id": "19",
       "avatar": "https://via.placeholder.com/150",
       "title": "Sarah King",
-      "subtitle": "No worries.",
+      "subtitle": "Pas de souci.",
       "date": "2023-11-30T04:00:00Z",
       "unread": 0
     },
@@ -156,7 +156,7 @@
       "id": "20",
       "avatar": "https://via.placeholder.com/150",
       "title": "Daniel Wright",
-      "subtitle": "Let's do it.",
+      "subtitle": "Allons-y.",
       "date": "2023-11-20T05:00:00Z",
       "unread": 5
     }
