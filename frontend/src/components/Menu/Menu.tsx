@@ -71,7 +71,7 @@ const Menu: React.FC = () => {
                 )}
                 <ul className={`menu-items ${isOpen ? "menu-open" : ""}`}>
                     <div className="menu-content">
-                        <Searchbar onSearch={() => {}} />
+                        <Searchbar />
                         <div className="li-wrapper">
                             <li>
                                 <NavLink

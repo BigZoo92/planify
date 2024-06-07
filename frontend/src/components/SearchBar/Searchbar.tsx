@@ -1,31 +1,16 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { gsap } from "gsap";
 import styles from "./SearchBar.module.scss";
-import { listAgendas, listPublicAgendas, subscribeToAgenda } from "../../utils/queries/agenda";
-import { listEvents } from "../../utils/queries/events/list";
+import { listPublicAgendas, subscribeToAgenda } from "../../utils/queries/agenda";
 import { useUser } from "../../providers/UserProvider";
-import { Agenda, Event } from "../../schema";
+import { Agenda } from "../../schema";
 
-function debounce<T extends (...args: any[]) => void>(fn: T, delay: number): T {
-    let timeoutId: NodeJS.Timeout;
-    return ((...args: Parameters<T>) => {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => fn(...args), delay);
-    }) as T;
-}
-
-interface SearchBarProps {
-    onSearch: (agendas: Agenda[], events: Event[]) => void;
-}
-
-const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
+const Searchbar: React.FC = () => {
     const { user } = useUser();
     const [searchTerm, setSearchTerm] = useState("");
-    const [searchResults, setSearchResults] = useState<{
-        agendas: Agenda[];
-        events: Event[];
-    }>({ agendas: [], events: [] });
+    const [searchResults, setSearchResults] = useState<Agenda[]>([]);
     const [publicAgendas, setPublicAgendas] = useState<Agenda[]>([]);
+    const [subscribedAgendas, setSubscribedAgendas] = useState<number[]>([]);
     const resultWrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -33,7 +18,6 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
             const agendas = await listPublicAgendas();
             setPublicAgendas(agendas);
         };
-
         fetchPublicAgendas();
     }, []);
 
@@ -41,60 +25,30 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
         setSearchTerm(event.target.value);
     };
 
-    const fetchSearchResults = useCallback(
-        async (term: string) => {
-            if (term.trim() === "") {
-                setSearchResults({ agendas: [], events: [] });
-                onSearch([], []);
-                return;
-            }
-
-            const userId = user.id;
-            const userAgendas = await listAgendas(userId);
-            const allAgendas = [...userAgendas, ...publicAgendas];
-            const events: Event[] = [];
-            for (const agenda of allAgendas) {
-                const agendaEvents = await listEvents(agenda.id);
-                events.push(...agendaEvents);
-            }
-
-            const filteredAgendas = allAgendas.filter(
-                (agenda) => agenda.name && agenda.name.includes(term)
-            );
-            const filteredEvents = events.filter(
-                (event) => event.summary && event.summary.includes(term)
-            );
-
-            setSearchResults({
-                agendas: filteredAgendas,
-                events: filteredEvents,
-            });
-            onSearch(filteredAgendas, filteredEvents);
-        },
-        [user.id, publicAgendas, onSearch]
-    );
-
-    const debouncedFetchSearchResults = useCallback(
-        debounce(fetchSearchResults, 300),
-        [fetchSearchResults]
-    );
-
-    useEffect(() => {
-        if (searchTerm) {
-            debouncedFetchSearchResults(searchTerm);
+    const fetchSearchResults = useCallback(() => {
+        if (searchTerm.trim() === "") {
+            setSearchResults([]);
+            return;
         }
-    }, [searchTerm, debouncedFetchSearchResults]);
+
+        const filteredAgendas = publicAgendas.filter(agenda =>
+            agenda.name.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+
+        setSearchResults(filteredAgendas);
+    }, [searchTerm, publicAgendas]);
 
     useEffect(() => {
-        if (
-            resultWrapperRef.current &&
-            searchResults.agendas.length + searchResults.events.length > 0
-        ) {
-            gsap.fromTo(
-                resultWrapperRef.current,
-                { opacity: 0, y: -20 },
-                { opacity: 1, y: 0, duration: 0.5 }
-            );
+        const debounceFetch = setTimeout(() => {
+            fetchSearchResults();
+        }, 300);
+
+        return () => clearTimeout(debounceFetch);
+    }, [searchTerm, fetchSearchResults]);
+
+    useEffect(() => {
+        if (resultWrapperRef.current && searchResults.length > 0) {
+            gsap.fromTo(resultWrapperRef.current, { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.5 });
         }
     }, [searchResults]);
 
@@ -102,7 +56,8 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
         try {
             const response = await subscribeToAgenda(user.id, agendaId);
             if (response) {
-                alert("Vous êtes maintenant abonné à cet agenda.");
+                setSubscribedAgendas([...subscribedAgendas, agendaId]);
+                gsap.fromTo(`#agenda-${agendaId}`, { scale: 0.8 }, { scale: 1.2, duration: 0.2, yoyo: true, repeat: 1 });
             }
         } catch (error) {
             console.error("Erreur lors de l'abonnement à l'agenda:", error);
@@ -123,29 +78,29 @@ const Searchbar: React.FC<SearchBarProps> = ({ onSearch }) => {
             {searchTerm && (
                 <div ref={resultWrapperRef} className={styles.resultWrapper}>
                     <h2>Résultats de recherche</h2>
-                    {searchResults.agendas.length === 0 &&
-                    searchResults.events.length === 0 ? (
+                    {searchResults.length === 0 ? (
                         <p>Aucun résultat trouvé</p>
                     ) : (
                         <>
                             <h3>Agendas</h3>
                             <ul>
-                                {searchResults.agendas.map((agenda) => (
-                                    <li key={agenda.id}>
+                                {searchResults.map((agenda) => (
+                                    <li key={agenda.id} id={`agenda-${agenda.id}`}>
                                         {agenda.name}
                                         <button
                                             onClick={() => handleSubscribe(agenda.id)}
-                                            className={styles.subscribeButton}
+                                            className={
+                                                subscribedAgendas.includes(agenda.id)
+                                                    ? styles.subscribedButton
+                                                    : styles.subscribeButton
+                                            }
+                                            style={{ marginLeft: '8px' }}
                                         >
-                                            S'abonner
+                                            {subscribedAgendas.includes(agenda.id)
+                                                ? "Abonné"
+                                                : "S'abonner"}
                                         </button>
                                     </li>
-                                ))}
-                            </ul>
-                            <h3>Événements</h3>
-                            <ul>
-                                {searchResults.events.map((event) => (
-                                    <li key={event.id}>{event.summary}</li>
                                 ))}
                             </ul>
                         </>

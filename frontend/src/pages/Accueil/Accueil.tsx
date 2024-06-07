@@ -34,14 +34,6 @@ const Accueil: React.FC = () => {
     const deactivatedThisWeekRef = useRef<HTMLParagraphElement>(null);
     const deactivatedNextWeekRef = useRef<HTMLParagraphElement>(null);
 
-    const [agendas, setAgendas] = useState<Agenda[]>([]);
-    const [searchEvents, setSearchEvents] = useState<Event[]>([]);
-
-    const handleSearch = (foundAgendas: Agenda[], foundEvents: Event[]) => {
-        setAgendas(foundAgendas);
-        setSearchEvents(foundEvents);
-    };
-
     useEffect(() => {
         const fetchWeatherData = async () => {
             try {
@@ -187,7 +179,7 @@ const Accueil: React.FC = () => {
                     </div>
                 </div>
             </section>
-            <Searchbar onSearch={handleSearch} />
+            <Searchbar />
             <section className="recap-wrapper">
                 <h2>{recapText}</h2>
                 <div className="recap-infos">

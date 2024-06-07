@@ -55,7 +55,6 @@ const MainContentWrapper: React.FC = () => {
     return (
         <div className={!mbContent ? "mb" : "main-content"}>
             <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<Accueil />} />
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
@@ -76,18 +75,26 @@ const MainContent: React.FC = () => {
     };
 
     const hideMenu =
-        ["/", "/login", "/signup", "/calendrier", "/profile"].includes(
+        ["/auth", "/login", "/signup", "/calendrier", "/profile"].includes(
             location.pathname
         ) || /\/agenda\/\d+/.test(location.pathname);
 
-    const hideNavbar = ["/", "/login", "/signup"].includes(location.pathname);
+    const hideNavbar = ["/auth", "/login", "/signup"].includes(location.pathname);
 
     return (
         <>
             {!hideMenu && <Menu />}
             <Routes location={location} key={location.pathname}>
                 <Route
-                    path="accueil"
+                    path="/accueil"
+                    element={
+                        <PageWrapper>
+                            <Accueil />
+                        </PageWrapper>
+                    }
+                />
+                <Route
+                    path="/"
                     element={
                         <PageWrapper>
                             <Accueil />
