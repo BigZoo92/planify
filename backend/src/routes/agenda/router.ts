@@ -9,6 +9,7 @@ import { ParsedQs } from 'qs';
 import { listAdmin } from './listAdmin';
 import { listPublicAgendas } from './listAll';
 import { subscribeToAgenda } from './subscribe';
+import { listUserSubscribedAgendas } from './listUserSubscribedAgendas';
 
 const agendaRouter = express.Router();
 
@@ -29,5 +30,6 @@ agendaRouter.post('/list', (req: ReqUserId, res) => list(req, res));
 agendaRouter.post('/listAdmin', (req: ReqUserId, res) => listAdmin(req, res));
 agendaRouter.get('/public', (req: Request, res) => listPublicAgendas(req, res));
 agendaRouter.post('/subscribe', (req: Request, res) => subscribeToAgenda(req, res));
+agendaRouter.post('/user-subscribed', (req: Request, res) => listUserSubscribedAgendas(req, res));
 
 export default agendaRouter;

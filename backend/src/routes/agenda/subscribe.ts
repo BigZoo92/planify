@@ -21,6 +21,19 @@ export const subscribeToAgenda = async (req: Request, res: Response) => {
       return res.status(404).json({ message: 'Public agenda not found.' });
     }
 
+    const existingSubscription = await prisma.agendaUser.findUnique({
+      where: {
+        agendaId_userId: {
+          agendaId: agenda.id,
+          userId: user.id,
+        },
+      },
+    });
+
+    if (existingSubscription) {
+      return res.status(409).json({ message: 'User is already subscribed to this agenda.' });
+    }
+
     await prisma.agendaUser.create({
       data: {
         agendaId: agenda.id,

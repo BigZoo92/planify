@@ -6,4 +6,5 @@ export * from "./list";
 export * from "./listAdmin";
 export * from "./listAll";
 export * from "./subscribe";
+export * from "./listUserSubscribedAgendas";
 

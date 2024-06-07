@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { gsap } from "gsap";
 import styles from "./SearchBar.module.scss";
-import { listPublicAgendas, subscribeToAgenda } from "../../utils/queries/agenda";
+import { listPublicAgendas, subscribeToAgenda, listUserSubscribedAgendas } from "../../utils/queries/agenda";
 import { useUser } from "../../providers/UserProvider";
 import { Agenda } from "../../schema";
 
@@ -14,12 +14,16 @@ const Searchbar: React.FC = () => {
     const resultWrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const fetchPublicAgendas = async () => {
-            const agendas = await listPublicAgendas();
+        const fetchAgendas = async () => {
+            const [agendas, subscribed] = await Promise.all([
+                listPublicAgendas(),
+                listUserSubscribedAgendas(user.id),
+            ]);
             setPublicAgendas(agendas);
+            setSubscribedAgendas(subscribed.map((agenda: Agenda) => agenda.id));
         };
-        fetchPublicAgendas();
-    }, []);
+        fetchAgendas();
+    }, [user.id]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(event.target.value);
@@ -95,6 +99,7 @@ const Searchbar: React.FC = () => {
                                                     : styles.subscribeButton
                                             }
                                             style={{ marginLeft: '8px' }}
+                                            disabled={subscribedAgendas.includes(agenda.id)}
                                         >
                                             {subscribedAgendas.includes(agenda.id)
                                                 ? "Abonné"

@@ -50,7 +50,7 @@ const App: React.FC = () => {
 
 const MainContentWrapper: React.FC = () => {
     const location = useLocation();
-    const mbContent = ["/login", "/signup"].includes(location.pathname);
+    const mbContent = ["/login", "/signup", "/auth"].includes(location.pathname);
 
     return (
         <div className={!mbContent ? "mb" : "main-content"}>
